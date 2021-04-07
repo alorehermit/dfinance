@@ -1,0 +1,7 @@
+[submodule "src/dtoken"]
+	path = src/dtoken
+	url = https://github.com/dfinance-tech/dtoken
+[submodule "src/dswap"]
+	path = src/dswap
+	url = https://github.com/dfinance-tech/dswap
+	branch = dev
