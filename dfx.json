@@ -14,8 +14,7 @@
         "entrypoint": "src/frontend/www/index.tsx"
       },
       "source": [
-        "src/frontend/www",
-        "dist/frontend"
+        "src/frontend/www"
       ],
       "type": "assets"
     }
