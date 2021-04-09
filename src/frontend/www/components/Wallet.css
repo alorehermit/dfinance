@@ -1,0 +1,47 @@
+.Wallet {
+  width: 100%;
+  padding-top: 11.5rem;
+}
+.Wallet .balance {
+  margin-left: 34rem;
+  margin-bottom: 12rem;
+}
+.Wallet .balance label {
+  display: block;
+  font-size: 3.2rem;
+  font-family: "Roboto blod";
+  color: #595959;
+  padding-bottom: 1.9rem;
+}
+.Wallet .balance p {
+  margin: 0;
+}
+.Wallet .balance p svg{
+  display: inline-block;
+  width: 1.4rem;
+  height: 2.8rem;
+  vertical-align: top;
+  margin-top: 1.2rem;
+}
+.Wallet .balance p span {
+  padding-left: 1rem;
+  font-size: 6.4rem;
+  font-family: "Roboto bold";
+  color: #001414;
+}
+.Wallet .tokens {
+  width: 100%;
+  padding: 0 17.6rem;
+}
+.Wallet .tokens label.tokens-label {
+  display: block;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  color: #595959;
+  padding-bottom: 6rem;
+}
+.Wallet .tokens .tokens-list {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+}

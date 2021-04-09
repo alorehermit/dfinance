@@ -1,0 +1,31 @@
+{
+    "canisters": {
+      "dtoken": {
+        "main": "./dfinance/registry.mo"
+      },
+      "dswap": {
+        "main": "./dfinance/DSwap.mo"
+      },
+      "frontend": {
+        "dependencies": [
+          "dtoken", "dswap"
+        ],
+        "frontend": {
+          "entrypoint": "./www/index.tsx"
+        },
+        "type": "assets"
+      }
+    },
+    "defaults": {
+      "build": {
+        "packtool": ""
+      }
+    },
+    "networks": {
+      "local": {
+        "bind": "127.0.0.1:8000",
+        "type": "ephemeral"
+      }
+    },
+    "version": 1
+  }

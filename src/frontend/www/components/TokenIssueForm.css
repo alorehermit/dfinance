@@ -1,0 +1,208 @@
+.TokenIssueForm {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #E8E8E8;
+  overflow-y: auto;
+}
+.TokenIssueForm .Header {
+  background-color: #FFF;
+}
+.TokenIssueForm .form-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 130rem;
+  min-height: 78rem;
+  margin: 16.6rem auto 0 auto;
+  padding-left: 7rem;
+}
+.TokenIssueForm .form-wrap .form label {
+  display: block;
+  font-size: 3.2rem;
+  color: #001414;
+  margin-top: 5.5rem;
+  margin-bottom: 2rem;
+}
+.TokenIssueForm .form-wrap .form label:first-child {
+  margin-top: 0;
+}
+.TokenIssueForm .form-wrap .form label svg {
+  width: 1.8rem;
+  height: 1.8rem;
+  vertical-align: top;
+  margin-right: 1.5rem;
+  margin-top: 0.2rem;
+}
+.TokenIssueForm .form-wrap .form .input-group {
+  display: flex;
+  align-items: center;
+  width: 56rem;
+  height: 5.8rem;
+  margin-bottom: 1.8rem;
+  margin-left: 4.5rem;
+}
+.TokenIssueForm .form-wrap .form .input-group .input {
+  position: relative;
+  display: flex;
+  width: 50.3rem;
+  height: 100%;
+  border-radius: 1.2rem;
+  background-color: #DBDBDB;
+}
+.TokenIssueForm .form-wrap .form .input-group .input input {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  padding: 0 3rem;
+  font-size: 3.2rem;
+  color: #141414;
+}
+.TokenIssueForm .form-wrap .form .input-group .input input::placeholder {
+  color: rgba(31, 31, 31, 0.2);
+}
+.TokenIssueForm .form-wrap .form .input-group .input .number-modifier {
+  display: flex;
+  width: 2.8rem;
+  height: 100%;
+  flex-direction: column;
+  padding: 0.6rem 0;
+  margin-right: 0.7rem;
+}
+.TokenIssueForm .form-wrap .form .input-group .input .number-modifier button {
+  flex: 1;
+  width: 2.8rem;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: #595959;
+}
+.TokenIssueForm .form-wrap .form .input-group .input .number-modifier button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.TokenIssueForm .form-wrap .form .input-group .input .number-modifier button svg {
+  width: 1.4rem;
+  height: 1.2rem;
+}
+.TokenIssueForm .form-wrap .form .input-group .status {
+  padding-left: 2.5rem;
+}
+.TokenIssueForm .form-wrap .form .input-group .status svg {
+  width: 3.2rem;
+  height: 3.2rem;
+}
+.TokenIssueForm .form-wrap .form .input-group .status span {
+
+}
+.TokenIssueForm .form-wrap .card {
+  position: relative;
+  width: 37.4rem;
+  text-align: center;
+}
+.TokenIssueForm .form-wrap .card .brand {
+  text-align: center;
+  padding: 3.4rem 0;
+}
+.TokenIssueForm .form-wrap .card .brand svg {
+  width: 10rem;
+  height: 11.5rem;
+}
+.TokenIssueForm .form-wrap .card .accessory-1 {
+  width: 6.7rem;
+  height: 6.7rem;
+  margin: 0 auto;
+  border-radius: 3.4rem;
+  background-color: #EEE;
+  box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.16);
+  text-align: center;
+  line-height: 6.7rem;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  color: #141414;
+  transition: width 200ms ease-out;
+}
+.TokenIssueForm .form-wrap .card.ac .accessory-1 {
+  width: 37.4rem;
+  padding: 0 10%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.TokenIssueForm .form-wrap .card .accessory-2 {
+  position: absolute;
+  width: 37.4rem;
+  height: 37.4rem;
+  margin-top: -6.7rem;
+  border-radius: 3.2rem;
+  background-color: #DFDFDF;
+  padding: 8.9rem 10% 0 10%;
+  text-align: center;
+  z-index: -100;
+  transform: scale(0);
+  transform-origin: top;
+  transition: transform 200ms ease-out;
+}
+.TokenIssueForm .form-wrap .card .accessory-2 .wrap {
+  opacity: 0;
+  transition: opacity 200ms ease-out;
+  transition-delay: 200ms;
+}
+.TokenIssueForm .form-wrap .card.ac .accessory-2 {
+  transform: scale(1);
+}
+.TokenIssueForm .form-wrap .card.ac .accessory-2 .wrap {
+  opacity: 1;
+}
+.TokenIssueForm .form-wrap .card .accessory-2 span.name {
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+}
+.TokenIssueForm .form-wrap .card .accessory-2 label.supply {
+  color: #308ECA;
+  margin-top: 3.3rem;
+}
+.TokenIssueForm .form-wrap .card .accessory-2 label.decimal {
+  color: #A34BD6;
+  margin-top: 2rem;
+}
+.TokenIssueForm .form-wrap .card .accessory-2 label {
+  display: block;
+  font-size: 2rem;
+}
+.TokenIssueForm .form-wrap .card .accessory-2 span {
+  display: block;
+  font-size: 3.2rem;
+  color: #1F1F1F;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.TokenIssueForm .form-wrap .card .accessory-2 span.muted {
+  color: rgba(31, 31, 31, 0.2);
+}
+.TokenIssueForm .form-wrap .card button.submit {
+  width: 33.7rem;
+  height: 5.8rem;
+  margin-top: 36rem;
+  border: none;
+  border-radius: 3rem;
+  background-image: linear-gradient(115deg, #2976BA, #2AA8CE);
+  color: #FFF;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  cursor: pointer;
+}
+.TokenIssueForm .form-wrap .card button.submit svg {
+  width: 2rem;
+  height: 1.9rem;
+  margin-left: 1rem;
+}
+.TokenIssueForm .form-wrap .card button.submit:disabled {
+  background-color: #BEBEBE;
+  background-image: none;
+  cursor: not-allowed;
+}

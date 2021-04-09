@@ -1,0 +1,83 @@
+.TokenIssue {
+  position: relative;
+  width: 100%;
+  padding: 4.5rem 17.6rem 0 17.6rem;
+}
+.TokenIssue .more {
+  position: absolute;
+  width: 40.5rem;
+  height: 9rem;
+  top: 4rem;
+  right: 13rem;
+}
+.TokenIssue .more a.more-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+.TokenIssue .more div {
+  position: absolute;
+  pointer-events: none;
+  transition: all 180ms ease-in;
+}
+.TokenIssue .more .accessory-1 {
+  width: 33.8rem;
+  height: 5.8rem;
+  top: 1.7rem;
+  right: 0.5rem;
+  border-radius: 1rem;
+  background-image: linear-gradient(90deg, #3DC4ED, #2976BA);
+  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.3);
+}
+.TokenIssue .more:hover .accessory-1 {
+  top: 1.3rem;
+  right: 1.8rem;
+}
+.TokenIssue .more .accessory-2 {
+  width: 4.6rem;
+  height: 4.6rem;
+  top: 0;
+  right: 26.8rem;
+  border-radius: 50%;
+  background-image: linear-gradient(135deg, #E12B7C, #323A8D);
+  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.3);
+}
+.TokenIssue .more:hover .accessory-2 {
+  top: 2.9rem;
+  right: 34.8rem;
+}
+.TokenIssue .more .accessory-3 {
+  width: 33.8rem;
+  height: 5.8rem;
+  top: 2.2rem;
+  right: 0;
+  border-radius: 1rem;
+  background-color: #EFEFEF;
+  color: #001414;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  line-height: 5.8rem;
+  text-align: center;
+  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.3);
+}
+.TokenIssue .more:hover .accessory-3 {
+  top: 3.3rem;
+  right: -1rem;
+}
+.TokenIssue .tokens {
+  width: 100%;
+}
+.TokenIssue .tokens label.tokens-label {
+  display: block;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  color: #595959;
+  padding-bottom: 6rem;
+}
+.TokenIssue .tokens .tokens-list {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+}

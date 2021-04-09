@@ -1,23 +1,21 @@
 {
   "canisters": {
     "dtoken": {
-      "main": "src/dtoken/src/registry.mo",
-      "type": "motoko"
+      "main": "src/dtoken/src/registry.mo"
     },
-	"dswap": {
-	  "main": "src/dswap/src/DSwap.mo",
-	  "type": "motoko"
-	},
+    "dswap": {
+      "main": "src/dswap/src/DSwap.mo"
+    },
     "frontend": {
       "dependencies": [
         "dtoken", "dswap"
       ],
       "frontend": {
-        "entrypoint": "src/frontend/index.jsx"
+        "entrypoint": "src/frontend/www/index.tsx"
       },
       "source": [
-        "src/frontend/",
-        "dist/frontend/"
+        "src/frontend/www",
+        "dist/frontend"
       ],
       "type": "assets"
     }

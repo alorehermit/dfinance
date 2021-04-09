@@ -1,0 +1,82 @@
+.Token {
+  position: relative;
+  width: 33.8rem;
+  height: 17.5rem;
+  padding: 2rem 0;
+  margin-bottom: 6rem;
+}
+.Token .bg {
+  position: absolute;
+  width: 30.8rem;
+  height: 17.5rem;
+  top: 0;
+  right: 0;
+  border-radius: 3rem;
+  background-image: linear-gradient(90deg, #3DC4ED, #2976BA);
+  box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.3);
+  z-index: -100;
+}
+.Token .bg.owned {
+  background-image: linear-gradient(90deg, #323A8D, #E12B7C);
+}
+.Token .wrap {
+  position: relative;
+  width: 31.7rem;
+  height: 13.5rem;
+  border-radius: 2rem;
+  background-color: #E5E5E5;
+  box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.3);
+  padding: 2.5rem 3rem;
+}
+.Token .wrap span.owned {
+  position: absolute;
+  top: 1.3rem;
+  right: 1.5rem;
+  font-size: 1.6rem;
+  font-family: "Roboto bold";
+  color: #595959;
+}
+.Token .wrap p {
+  margin: 0;
+  cursor: default;
+}
+.Token .wrap p.token-name {
+  display: flex;
+  align-items: baseline;
+  padding-bottom: 1.4rem;
+}
+.Token .wrap p.token-name .symbol {
+  display: inline-block;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  color: #001414;
+}
+.Token .wrap p.token-name .name {
+  display: inline-block;
+  flex: 1;
+  padding-left: 0.3rem;
+  font-size: 1.6rem;
+  color: #595959;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.Token .wrap p.token-amount {
+  display: flex;
+  align-items: baseline;
+}
+.Token .wrap p.token-amount label {
+  display: inline-block;
+  font-size: 1.6rem;
+  color: #595959;
+}
+.Token .wrap p.token-amount span {
+  display: inline-block;
+  flex: 1;
+  margin-left: 1.4rem;
+  font-size: 2.4rem;
+  color: #001414;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
