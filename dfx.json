@@ -11,10 +11,10 @@
         "dtoken", "dswap"
       ],
       "frontend": {
-        "entrypoint": "src/frontend/www/index.tsx"
+        "entrypoint": "src/frontend/index.tsx"
       },
       "source": [
-        "src/frontend/www"
+        "src/frontend/"
       ],
       "type": "assets"
     }
