@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { createToken } from "../APIs/Token";
+import { createToken, getAllTokens } from "../APIs/Token";
 
 // const Test = () => {
   
@@ -14,15 +14,43 @@ import { createToken } from "../APIs/Token";
 //   )
 // };
 class Test extends Component {
+  constructor() {
+    super();
+    this.state = {
+      tokens: []
+    }
+  }
 
   componentDidMount() {
-    createToken("Name", "Symbol", "10", "1000000000")
-      .then(res => console.log("res: ", res))
-      .catch(err => console.log("err: ", err))
+    this.initial();
   }
+  
+  initial = () => {
+    getAllTokens()
+      .then(res => this.setState({ token: res }, () => console.log(res)))
+      .catch(err => console.log("initial failed: ", err));
+  };
+  add = async () => {
+    try {
+      let val = await createToken("Name", "Symbol", 10, 1000)
+      console.log(val);
+    } catch (err) {
+      console.log("err: ", err.message);
+    }
+  }
+  newAgent = () => {
+
+  };
+
   render() {
     return (
-      <div></div>
+      <div>
+        <button onClick={this.add}>add</button>
+        <button onClick={this.newAgent}>Create Agent</button>
+        {this.state.tokens.map((i, index) => (
+          <div key={index}>{JSON.stringify(i)}</div>
+        ))}
+      </div>
     )
   }
 }

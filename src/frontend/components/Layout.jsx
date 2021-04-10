@@ -41,7 +41,7 @@ class Layout extends Component{
         <Route path="/3" exact render={() => <Wallet />} />
         <Route path="/4" exact render={() => <Wallet />} /> */}
         <Route path="/newtoken" exact render={() => <TokenIssueForm />} />
-        {/* <Route path="/test" exact render={() => <Test />} /> */}
+        <Route path="/test" exact render={() => <Test />} />
       </div>
     )
   }

@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import React, { Component } from "react";
+import { createToken } from "../APIs/Token.js";
 import Header from "./Header.jsx";
 import "./TokenIssueForm.css";
 
@@ -8,17 +9,26 @@ class TokenIssueForm extends Component {
     super();
     this.state = {
       name: "",
-      nameStatus: { code: -1, msg: "" },
+      nameStatus: { code: 0, msg: "" },
       symbol: "",
-      symbolStatus: { code: -1, msg: "" },
+      symbolStatus: { code: 0, msg: "" },
       supply: "",
-      supplyStatus: { code: -1, msg: "" },
-      decimal: "",
-      decimalStatus: { code: -1, msg: "" },
-      showCard: false
+      supplyStatus: { code: 0, msg: "" },
+      decimals: "",
+      decimalsStatus: { code: 0, msg: "" },
+      showCard: false,
+      loading: false
     };
   }
 
+  _isMounted = false;
+  componentDidMount() {
+    this._isMounted = true;
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  
   nameOnChange = e => {
     this.setState({
       name: e.target.value,
@@ -43,15 +53,30 @@ class TokenIssueForm extends Component {
       showCard: true
     });
   };
-  decimalOnChange = e => {
+  decimalsOnChange = e => {
     const val = e.target.value;
     const reg = new RegExp("^[0-9]*$");
     if (val && !reg.test(val)) return;
     this.setState({
-      decimal: val,
-      decimalStatus: val && parseInt(val) <= 18 ? { code: 1, msg: "" } : { code: 0, msg: "18 at most" },
+      decimals: val,
+      decimalsStatus: val && parseInt(val) <= 18 ? { code: 1, msg: "" } : { code: 0, msg: "" },
       showCard: true
     });
+  };
+  submit = () => {
+    const { name, symbol, decimals, supply } = this.state;
+    if (!name || !symbol || !decimals || !supply) {
+      return alert("Invalid input.");
+    }
+    this.setState({ loading: true });
+    createToken(
+      name, symbol, parseInt(decimals), parseInt(supply)
+    )
+      .then(res => console.log("res: ", res))
+      .catch(err => console.log("err: ", err))
+      .finally(() => {
+        if (this._isMounted) this.setState({ loading: false });
+      });
   };
 
   render() {
@@ -121,13 +146,13 @@ class TokenIssueForm extends Component {
               Token Decimals
             </label>
             <Input 
-              placeholder="18"
-              value={this.state.decimal} 
-              onChange={this.decimalOnChange} 
-              status={this.state.decimalStatus}
+              placeholder="0 ~ 18"
+              value={this.state.decimals} 
+              onChange={this.decimalsOnChange} 
+              status={this.state.decimalsStatus}
               withNumberModifier={true}
-              plus={() => this.setState({ decimal: (parseInt(this.state.decimal || "0") + 1).toString() })}
-              minus={() => this.setState({ decimal: (parseInt(this.state.decimal || "0") - 1).toString() })}
+              plus={() => this.setState({ decimals: (parseInt(this.state.decimals || "0") + 1).toString() })}
+              minus={() => this.setState({ decimals: (parseInt(this.state.decimals || "0") - 1).toString() })}
               min="0"
               max="18"
             />
@@ -170,18 +195,20 @@ class TokenIssueForm extends Component {
                 <span className={classNames("name", {muted: !this.state.name})}>{this.state.name || "---"}</span>
                 <label className="supply">Total Issued</label>
                 <span className={classNames("supply", {muted: !this.state.supply})}>{this.state.supply || "---"}</span>
-                <label className="decimal">Token Decimals</label>
-                <span className={classNames("demical", {muted: !this.state.decimal})}>{this.state.decimal || "---"}</span>
+                <label className="decimals">Token Decimals</label>
+                <span className={classNames("demical", {muted: !this.state.decimals})}>{this.state.decimals || "---"}</span>
               </div>
             </div>
-            <button className="submit" disabled={
-              this.state.nameStatus.code + this.state.symbolStatus.code + this.state.supplyStatus.code + this.state.decimalStatus.code !== 4
-            }>
-              <span>Next Step</span>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 19.493">
-                <path id="Icon_awesome-arrow-right" data-name="Icon awesome-arrow-right" d="M8.5,3.953l.991-.991a1.067,1.067,0,0,1,1.513,0l8.678,8.673a1.067,1.067,0,0,1,0,1.513l-8.678,8.678a1.067,1.067,0,0,1-1.513,0L8.5,20.835A1.073,1.073,0,0,1,8.521,19.3L13.9,14.179H1.071A1.069,1.069,0,0,1,0,13.108V11.68a1.069,1.069,0,0,1,1.071-1.071H13.9L8.521,5.484A1.065,1.065,0,0,1,8.5,3.953Z" transform="translate(0 -2.647)" fill="#fff"/>
-              </svg>
-            </button>
+            {this.state.loading ? 
+              <button className="submit" disabled>Submitting...</button> :
+              <button className="submit" onClick={this.submit} disabled={this.state.nameStatus.code + this.state.symbolStatus.code + this.state.supplyStatus.code + this.state.decimalsStatus.code !== 4
+              }>
+                <span>Next Step</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 19.493">
+                  <path id="Icon_awesome-arrow-right" data-name="Icon awesome-arrow-right" d="M8.5,3.953l.991-.991a1.067,1.067,0,0,1,1.513,0l8.678,8.673a1.067,1.067,0,0,1,0,1.513l-8.678,8.678a1.067,1.067,0,0,1-1.513,0L8.5,20.835A1.073,1.073,0,0,1,8.521,19.3L13.9,14.179H1.071A1.069,1.069,0,0,1,0,13.108V11.68a1.069,1.069,0,0,1,1.071-1.071H13.9L8.521,5.484A1.065,1.065,0,0,1,8.5,3.953Z" transform="translate(0 -2.647)" fill="#fff"/>
+                </svg>
+              </button>
+            }
           </div>
         </div>
       </div>
@@ -227,16 +254,8 @@ class Input extends Component {
               </g>
             </svg>
           : null}
-          {status.code === 0 ?
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-              <circle id="椭圆_14" data-name="椭圆 14" cx="16" cy="16" r="16" fill="#3cad87"/>
-              <g id="组_63" data-name="组 63" transform="translate(6 10)">
-                <path id="路径_70" data-name="路径 70" d="M2440.064,3214.457h0a1.415,1.415,0,0,1-1-.416l-6.64-6.64a1.416,1.416,0,0,1,2-2l5.639,5.639,9.927-9.926a1.416,1.416,0,0,1,2,2l-10.928,10.928A1.415,1.415,0,0,1,2440.064,3214.457Z" transform="translate(-2432.009 -3200.697)" fill="#efefef"/>
-              </g>
-            </svg>
-          : null}
           {status.code === 0 && status.msg ? 
-            <span>{status.msg}</span>
+            <span className="err">{status.msg}</span>
           : null}
         </div>
       </div>

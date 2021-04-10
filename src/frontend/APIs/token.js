@@ -3,12 +3,12 @@ import dtoken from "ic:canisters/dtoken";
 export const createToken = (
   name, 
   symbol, 
-  decimal, 
+  decimals, 
   totalSupply
 ) => {
   const promise = new Promise((resolve, reject) => {
     dtoken.createToken(
-      name, symbol, decimal, totalSupply
+      name, symbol, decimals, totalSupply
     )
       .then(res => resolve(res))
       .catch(err => reject(err));
@@ -19,7 +19,19 @@ export const createToken = (
 export const getAllTokens = () => {
   const promise = new Promise((resolve, reject) => {
     dtoken.getTokenList()
-      .then(res => resolve(res))
+      .then(res => {
+        const list = res.map(i => {
+          return {
+            id: i.id.toString(),
+            decimals: i.decimals.toString(),
+            totalSupply: i.totalSupply.toString(),
+            owner: i.owner.toString(),
+            canisterId: i.canisterId.toString()
+          };
+        });
+        resolve(list);
+        // resolve(res);
+      })
       .catch(err => reject(err));
   });
   return promise;
@@ -30,7 +42,18 @@ export const getTokensByUser = (
 ) => {
   const promise = new Promise((resolve, reject) => {
     dtoken.getUserTokenList(user)
-      .then(res => resolve(res))
+      .then(res => {
+        const list = res.map(i => {
+          return {
+            id: i.id.toString(),
+            decimals: i.decimals.toString(),
+            totalSupply: i.totalSupply.toString(),
+            owner: i.owner.toString(),
+            canisterId: i.canisterId.toString()
+          };
+        });
+        resolve(list);
+      })
       .catch(err => reject(err));
   });
   return promise;

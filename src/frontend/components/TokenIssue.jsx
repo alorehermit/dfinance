@@ -1,32 +1,15 @@
 import React, { Component } from "react";
 import TokenItem from "./TokenItem.jsx";
 import { Link } from "react-router-dom";
+import Icon from "../stuff/Icon.jsx";
+import { getTokensByUser } from "../APIs/Token.js";
 import "./TokenIssue.css";
-
-const dtoken = {
-  getTokenList: () => {
-    let promise = new Promise((resolve, reject) => {
-      resolve(Array(12).fill(        {
-        name: "Hoho Coin",
-        symbol: "HHC",
-        owner: "",
-        amount: "123123123123"
-      }));
-    });
-    return promise;
-  },
-  getBalance: () => {
-    let promise = new Promise((resolve, reject) => {
-      resolve("");
-    });
-    return promise;
-  }
-}
 
 class TokenIssue extends Component {
   constructor() {
     super();
     this.state = {
+      user: "",
       tokens: [],
       loading: true
     };
@@ -42,13 +25,17 @@ class TokenIssue extends Component {
   }
 
   initial = () => {
-    dtoken.getTokenList()
-      .then(res => {
-        if (!this._isMounted) return;
-        this.setState({ tokens: res, loading: false });
+    const user = localStorage.getItem("dfinance_current_user");
+    if (!user) return this.setState({ loading: false });
+    getTokensByUser(user)
+      .then(tokens => {
+        if (this._isMounted) this.setState({ tokens });
       })
       .catch(err => {
         console.log(err);
+      })
+      .finally(() => {
+        if (this._isMounted) this.setState({ loading: false, user });
       });
   };
 
@@ -64,9 +51,18 @@ class TokenIssue extends Component {
         <div className="tokens">
           <label className="tokens-label">Your tokens</label>
           <div className="tokens-list">
+            {this.state.loading ? 
+              <Icon name="spinner" spin />
+            : null}
             {this.state.tokens.map((i, index) => (
               <TokenItem key={index} {...i} owned={i.owner === ""} />
             ))}
+            {!this.state.loading && !this.state.user ? 
+              <p className="zero">No Account Found</p>
+            : null}
+            {!this.state.loading && !this.state.tokens.length && this.state.user ?
+              <p className="zero">No Token Yet</p>
+            : null}
           </div>
         </div>
       </div>
