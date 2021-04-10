@@ -1,3 +1,4 @@
+// import dtoken from "ic:canisters/registry";
 import React, { Component } from "react";
 import { Token } from "./interfaces";
 import TokenItem from "./TokenItem";

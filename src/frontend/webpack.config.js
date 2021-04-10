@@ -42,6 +42,18 @@ const generate = (name, info) => {
           test: /\.(ts|tsx|jsx)$/,
         },
         { test: /\.(css)$/, use: ['style-loader','css-loader'] },
+        {
+          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: '[name].[ext]',
+                outputPath: 'fonts/'
+              }
+            }
+          ]
+        }
       ],
     },
     output: {
@@ -50,7 +62,7 @@ const generate = (name, info) => {
     },
     resolve: {
       alias: aliases,
-      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json']
+      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.ttf', '.svg', '.png']
     },
   };
 };
