@@ -68,16 +68,16 @@ class Nav extends Component {
           <NavLink exact to="/" onClick={() => this.moveAccessory(0)}>Wallet</NavLink>
         </div>
         <div className="nav" ref={this.nav1}>
-          <NavLink exact to="/1" onClick={() => this.moveAccessory(1)}>Token Issue</NavLink>
+          <NavLink exact to="/1" onClick={() => this.moveAccessory(1)}>DToken</NavLink>
         </div>
         <div className="nav" ref={this.nav2}>
-          <NavLink exact to="/2" onClick={() => this.moveAccessory(2)}>Swap</NavLink>
+          <NavLink exact to="/2" onClick={() => this.moveAccessory(2)}>DSwap</NavLink>
         </div>
         <div className="nav" ref={this.nav3}>
-          <NavLink exact to="/3" onClick={() => this.moveAccessory(3)}>Stablecoin</NavLink>
+          <NavLink exact to="/3" onClick={() => this.moveAccessory(3)}>DUSD</NavLink>
         </div>
         <div className="nav" ref={this.nav4}>
-          <NavLink exact to="/4" onClick={() => this.moveAccessory(4)}>Lend</NavLink>
+          <NavLink exact to="/4" onClick={() => this.moveAccessory(4)}>DLend</NavLink>
         </div>
         <div className="accessory" style={{ left: `${this.state.left}px`, width: `${this.state.width}px`}}></div>
       </div>

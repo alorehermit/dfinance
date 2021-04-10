@@ -70,10 +70,10 @@ class TokenIssueForm extends Component {
                 </defs>
                 <path id="减去_5" data-name="减去 5" d="M-1981,18a9.01,9.01,0,0,1-9-9,9.01,9.01,0,0,1,9-9,9.01,9.01,0,0,1,9,9A9.01,9.01,0,0,1-1981,18Zm0-14a5.006,5.006,0,0,0-5,5,5.006,5.006,0,0,0,5,5,5.006,5.006,0,0,0,5-5A5.006,5.006,0,0,0-1981,4Z" transform="translate(1990)" fill="url(#linear-gradient)"/>
               </svg>
-              Token Basic Info
+              Basic Info
             </label>
             <Input 
-              placeholder="Coin Name"
+              placeholder="Name"
               value={this.state.name} 
               onChange={this.nameOnChange} 
               status={this.state.nameStatus}
@@ -96,7 +96,7 @@ class TokenIssueForm extends Component {
                 </defs>
                 <path id="减去_5" data-name="减去 5" d="M-1981,18a9.01,9.01,0,0,1-9-9,9.01,9.01,0,0,1,9-9,9.01,9.01,0,0,1,9,9A9.01,9.01,0,0,1-1981,18Zm0-14a5.006,5.006,0,0,0-5,5,5.006,5.006,0,0,0,5,5,5.006,5.006,0,0,0,5-5A5.006,5.006,0,0,0-1981,4Z" transform="translate(1990)" fill="url(#linear-gradient)"/>
               </svg>
-              Total Issued Token Amount
+              Total Supply
             </label>
             <Input 
               placeholder="500'000'000'000"
@@ -118,7 +118,7 @@ class TokenIssueForm extends Component {
                 </defs>
                 <path id="减去_5" data-name="减去 5" d="M-1981,18a9.01,9.01,0,0,1-9-9,9.01,9.01,0,0,1,9-9,9.01,9.01,0,0,1,9,9A9.01,9.01,0,0,1-1981,18Zm0-14a5.006,5.006,0,0,0-5,5,5.006,5.006,0,0,0,5,5,5.006,5.006,0,0,0,5-5A5.006,5.006,0,0,0-1981,4Z" transform="translate(1990)" fill="url(#linear-gradient)"/>
               </svg>
-              Token Decimals
+              Decimals
             </label>
             <Input 
               placeholder="18"
@@ -168,16 +168,16 @@ class TokenIssueForm extends Component {
             <div className="accessory-2">
               <div className="wrap">
                 <span className={classNames("name", {muted: !this.state.name})}>{this.state.name || "---"}</span>
-                <label className="supply">Total Issued</label>
+                <label className="supply">Total Supply</label>
                 <span className={classNames("supply", {muted: !this.state.supply})}>{this.state.supply || "---"}</span>
-                <label className="decimal">Token Decimals</label>
+                <label className="decimal">Decimals</label>
                 <span className={classNames("demical", {muted: !this.state.decimal})}>{this.state.decimal || "---"}</span>
               </div>
             </div>
             <button className="submit" disabled={
               this.state.nameStatus.code + this.state.symbolStatus.code + this.state.supplyStatus.code + this.state.decimalStatus.code !== 4
             }>
-              <span>Next Step</span>
+              <span>Issue</span>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 19.493">
                 <path id="Icon_awesome-arrow-right" data-name="Icon awesome-arrow-right" d="M8.5,3.953l.991-.991a1.067,1.067,0,0,1,1.513,0l8.678,8.673a1.067,1.067,0,0,1,0,1.513l-8.678,8.678a1.067,1.067,0,0,1-1.513,0L8.5,20.835A1.073,1.073,0,0,1,8.521,19.3L13.9,14.179H1.071A1.069,1.069,0,0,1,0,13.108V11.68a1.069,1.069,0,0,1,1.071-1.071H13.9L8.521,5.484A1.065,1.065,0,0,1,8.5,3.953Z" transform="translate(0 -2.647)" fill="#fff"/>
               </svg>
