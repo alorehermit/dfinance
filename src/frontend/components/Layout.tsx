@@ -6,6 +6,7 @@ import Wallet from "./Wallet";
 import TokenIssue from "./TokenIssue";
 import TokenIssueForm from "./TokenIssueForm";
 import "./Layout.css";
+import Test from "./Test";
 
 interface IProps extends RouteComponentProps {}
 interface IState {
@@ -43,6 +44,7 @@ class Layout extends Component<IProps, IState> {
         <Route path="/3" exact render={() => <Wallet />} />
         <Route path="/4" exact render={() => <Wallet />} /> */}
         <Route path="/newtoken" exact render={() => <TokenIssueForm />} />
+        {/* <Route path="/test" exact render={() => <Test />} /> */}
       </div>
     )
   }

@@ -1,5 +1,6 @@
 const Config = require("./dfx.json");
 const Path = require("path");
+const TerserPlugin = require("terser-webpack-plugin");
 
 // Identify build output directory.
 const output = ["defaults", "build", "output"].reduce((accum, x) => {
@@ -61,14 +62,19 @@ const generate = (name, info) => {
       path: Path.join(outputRoot, "assets"),
     },
     resolve: {
-      alias: aliases,
-      extensions: ['.ts', '.tsx', '.js', '.jsx', '.json', '.ttf', '.svg', '.png']
+      extensions: ['.ts', '.tsx', '.js', '.jsx'],
+      alias: aliases
     },
+    optimization: {
+      minimize: true,
+      minimizer: [new TerserPlugin()],
+    }
   };
 };
 
 module.exports = [
-  ...Object.entries(Config.canisters).map(([name, info]) => {
-    return generate(name, info);
-  }).filter(x => !!x),
+  ...Object.entries(Config.canisters)
+    .map(([name, info]) => {
+      return generate(name, info);
+    }).filter(x => !!x),
 ];

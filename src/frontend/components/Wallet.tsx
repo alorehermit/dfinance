@@ -1,10 +1,9 @@
-// import dtoken from "ic:canisters/registry";
 import React, { Component } from "react";
 import { Token } from "./interfaces";
 import TokenItem from "./TokenItem";
 import "./Wallet.css";
 
-const dtoken = {
+const dtokenMocked = {
   getTokenList: () => {
     let promise = new Promise((resolve, reject) => {
       resolve(Array(12).fill(        {
@@ -51,8 +50,8 @@ class Wallet extends Component<IProps, IState> {
 
   initial = () => {
     let arr = [
-      dtoken.getBalance(),
-      dtoken.getTokenList()
+      dtokenMocked.getBalance(),
+      dtokenMocked.getTokenList()
     ];
     Promise.all(arr)
       .then(([balance, tokens]) => {
