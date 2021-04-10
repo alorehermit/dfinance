@@ -7,6 +7,7 @@ import TokenIssue from "./TokenIssue.jsx";
 import TokenIssueForm from "./TokenIssueForm.jsx";
 import Test from "./Test.jsx";
 import "./Layout.css";
+import KeyPair from "./KeyPair.jsx";
 
 class Layout extends Component{
   constructor() {
@@ -42,6 +43,7 @@ class Layout extends Component{
         <Route path="/4" exact render={() => <Wallet />} /> */}
         <Route path="/newtoken" exact render={() => <TokenIssueForm />} />
         <Route path="/test" exact render={() => <Test />} />
+        <Route path="/connectwallet" exact render={() => <KeyPair />} />
       </div>
     )
   }

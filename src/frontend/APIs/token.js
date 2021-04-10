@@ -20,8 +20,11 @@ export const getAllTokens = () => {
   const promise = new Promise((resolve, reject) => {
     dtoken.getTokenList()
       .then(res => {
+        console.log(res);
         const list = res.map(i => {
           return {
+            name: i.name.toString(),
+            symbol: i.symbol.toString(),
             id: i.id.toString(),
             decimals: i.decimals.toString(),
             totalSupply: i.totalSupply.toString(),
@@ -30,7 +33,6 @@ export const getAllTokens = () => {
           };
         });
         resolve(list);
-        // resolve(res);
       })
       .catch(err => reject(err));
   });
@@ -45,6 +47,8 @@ export const getTokensByUser = (
       .then(res => {
         const list = res.map(i => {
           return {
+            name: i.name.toString(),
+            symbol: i.symbol.toString(),
             id: i.id.toString(),
             decimals: i.decimals.toString(),
             totalSupply: i.totalSupply.toString(),

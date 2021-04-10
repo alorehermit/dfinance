@@ -29,13 +29,15 @@ const generate = (name, info) => {
     module: {
       rules: [
         {
-          exclude: /node_modules/,
           loader: "babel-loader",
           options: {
             presets: [
               "@babel/preset-react",
             ],
-            plugins: ["@babel/plugin-proposal-class-properties"]
+            plugins: [
+              "@babel/plugin-proposal-class-properties", 
+              "@babel/plugin-proposal-export-namespace-from"
+            ]
           },
           test: /\.(js|jsx)$/,
         },
