@@ -1,6 +1,5 @@
 const Config = require("./dfx.json");
 const Path = require("path");
-const TerserPlugin = require("terser-webpack-plugin");
 
 // Identify build output directory.
 const output = ["defaults", "build", "output"].reduce((accum, x) => {
@@ -34,27 +33,13 @@ const generate = (name, info) => {
           loader: "babel-loader",
           options: {
             presets: [
-              "@babel/preset-env",
               "@babel/preset-react",
-              "@babel/preset-typescript"
             ],
             plugins: ["@babel/plugin-proposal-class-properties"]
           },
-          test: /\.(ts|tsx|jsx)$/,
+          test: /\.(js|jsx)$/,
         },
         { test: /\.(css)$/, use: ['style-loader','css-loader'] },
-        {
-          test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
-          use: [
-            {
-              loader: 'file-loader',
-              options: {
-                name: '[name].[ext]',
-                outputPath: 'fonts/'
-              }
-            }
-          ]
-        }
       ],
     },
     output: {
@@ -62,19 +47,13 @@ const generate = (name, info) => {
       path: Path.join(outputRoot, "assets"),
     },
     resolve: {
-      extensions: ['.ts', '.tsx', '.js', '.jsx'],
-      alias: aliases
+      alias: aliases,
     },
-    optimization: {
-      minimize: true,
-      minimizer: [new TerserPlugin()],
-    }
   };
 };
 
 module.exports = [
-  ...Object.entries(Config.canisters)
-    .map(([name, info]) => {
-      return generate(name, info);
-    }).filter(x => !!x),
+  ...Object.entries(Config.canisters).map(([name, info]) => {
+    return generate(name, info);
+  }).filter(x => !!x),
 ];

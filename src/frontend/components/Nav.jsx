@@ -1,25 +1,20 @@
 import React, { Component, createRef } from "react";
-import { NavLink, RouteComponentProps, withRouter } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 
-interface IProps extends RouteComponentProps {}
-interface IState {
-  left: number,
-  width: number
-}
-class Nav extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
+class Nav extends Component {
+  constructor() {
+    super();
     this.state = {
       left: 0,
       width: 0
     };  
   }
 
-  nav0 = createRef<HTMLDivElement>();
-  nav1 = createRef<HTMLDivElement>();
-  nav2 = createRef<HTMLDivElement>();
-  nav3 = createRef<HTMLDivElement>();
-  nav4 = createRef<HTMLDivElement>();
+  nav0 = createRef();
+  nav1 = createRef();
+  nav2 = createRef();
+  nav3 = createRef();
+  nav4 = createRef();
 
   componentDidMount() {
     this.initial();
@@ -55,7 +50,7 @@ class Nav extends Component<IProps, IState> {
       });
     }
   }
-  moveAccessory = (val: number) => {
+  moveAccessory = val => {
     const arr = [this.nav0, this.nav1, this.nav2, this.nav3, this.nav4];
     const dom = arr[val];
     if (dom.current) {

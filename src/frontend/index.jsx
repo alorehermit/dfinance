@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import { HashRouter } from "react-router-dom";
-import Layout from "./components/Layout";
+import dtoken from "ic:canisters/dtoken";
+import Layout from "./components/Layout.jsx";
 import "./index.css";
 
 // declare global {
@@ -19,6 +20,9 @@ import "./index.css";
 // }
 
 class App extends Component {
+	componentDidMount() {
+		console.log(dtoken)
+	}
 	render() {
 		return(
 			<HashRouter>

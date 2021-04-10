@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Token } from "./interfaces";
-import TokenItem from "./TokenItem";
+import TokenItem from "./TokenItem.jsx";
 import { Link } from "react-router-dom";
 import "./TokenIssue.css";
 
@@ -24,14 +23,9 @@ const dtoken = {
   }
 }
 
-interface IProps {}
-interface IState {
-  tokens: Token[],
-  loading: boolean
-}
-class TokenIssue extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
+class TokenIssue extends Component {
+  constructor() {
+    super();
     this.state = {
       tokens: [],
       loading: true
@@ -51,7 +45,7 @@ class TokenIssue extends Component<IProps, IState> {
     dtoken.getTokenList()
       .then(res => {
         if (!this._isMounted) return;
-        this.setState({ tokens: res as Token[], loading: false });
+        this.setState({ tokens: res, loading: false });
       })
       .catch(err => {
         console.log(err);

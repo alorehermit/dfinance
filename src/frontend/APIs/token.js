@@ -1,20 +1,13 @@
-import { dtoken } from "./canisters";
-
-interface DToken {
-  createToken: (name: string, symbol: string, decimal: string, totalSupply: string) => Promise<any>,
-  getTokenList: () => Promise<any>,
-  getUserTokenList: (user: string) => Promise<any>
-}
-let DToken: DToken = dtoken;
+import dtoken from "ic:canisters/dtoken";
 
 export const createToken = (
-  name: string, 
-  symbol: string, 
-  decimal: string, 
-  totalSupply: string
+  name, 
+  symbol, 
+  decimal, 
+  totalSupply
 ) => {
   const promise = new Promise((resolve, reject) => {
-    DToken.createToken(
+    dtoken.createToken(
       name, symbol, decimal, totalSupply
     )
       .then(res => resolve(res))
@@ -25,7 +18,7 @@ export const createToken = (
 
 export const getAllTokens = () => {
   const promise = new Promise((resolve, reject) => {
-    DToken.getTokenList()
+    dtoken.getTokenList()
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -33,10 +26,10 @@ export const getAllTokens = () => {
 };
 
 export const getTokensByUser = (
-  user: string
+  user 
 ) => {
   const promise = new Promise((resolve, reject) => {
-    DToken.getUserTokenList(user)
+    dtoken.getUserTokenList(user)
       .then(res => resolve(res))
       .catch(err => reject(err));
   });

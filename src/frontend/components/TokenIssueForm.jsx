@@ -1,27 +1,11 @@
 import classNames from "classnames";
-import React, { ChangeEvent, Component } from "react";
-import Header from "./Header";
+import React, { Component } from "react";
+import Header from "./Header.jsx";
 import "./TokenIssueForm.css";
 
-interface Status {
-  code: number,
-  msg: string
-}
-interface IProps {}
-interface IState {
-  name: string,
-  nameStatus: Status,
-  symbol: string,
-  symbolStatus: Status,
-  supply: string,
-  supplyStatus: Status,
-  decimal: string,
-  decimalStatus: Status,
-  showCard: boolean
-}
-class TokenIssueForm extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
+class TokenIssueForm extends Component {
+  constructor() {
+    super();
     this.state = {
       name: "",
       nameStatus: { code: -1, msg: "" },
@@ -35,21 +19,21 @@ class TokenIssueForm extends Component<IProps, IState> {
     };
   }
 
-  nameOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  nameOnChange = e => {
     this.setState({
       name: e.target.value,
       nameStatus: e.target.value ? { code: 1, msg: "" } : { code: 0, msg: "" },
       showCard: true
     });
   };
-  symbolOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  symbolOnChange = e => {
     this.setState({
       symbol: e.target.value,
       symbolStatus: e.target.value ? { code: 1, msg: "" } : { code: 0, msg: "" },
       showCard: true
     });
   };
-  supplyOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  supplyOnChange = e => {
     const val = e.target.value;
     const reg = new RegExp("^[0-9]*$");
     if (val && !reg.test(val)) return;
@@ -59,7 +43,7 @@ class TokenIssueForm extends Component<IProps, IState> {
       showCard: true
     });
   };
-  decimalOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  decimalOnChange = e => {
     const val = e.target.value;
     const reg = new RegExp("^[0-9]*$");
     if (val && !reg.test(val)) return;
@@ -207,22 +191,7 @@ class TokenIssueForm extends Component<IProps, IState> {
 
 export default TokenIssueForm;
 
-interface InputProps {
-  placeholder: string,
-  value: string,
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-  status: {
-    code: number,
-    msg: string
-  },
-  withNumberModifier: boolean,
-  plus?: () => void,
-  minus?: () => void,
-  min?: string,
-  max?: string
-}
-interface InputState {}
-class Input extends Component<InputProps, InputState> {
+class Input extends Component {
   render() {
     const { placeholder, value, onChange, status, withNumberModifier, plus, minus, min, max } = this.props;
     return (

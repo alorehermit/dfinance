@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Token } from "./interfaces";
-import TokenItem from "./TokenItem";
+import TokenItem from "./TokenItem.jsx";
 import "./Wallet.css";
 
 const dtokenMocked = {
@@ -23,15 +22,9 @@ const dtokenMocked = {
   }
 }
 
-interface IProps {}
-interface IState {
-  balance: string,
-  tokens: Token[],
-  loading: boolean
-}
-class Wallet extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
+class Wallet extends Component {
+  constructor() {
+    super();
     this.state = {
       balance: "",
       tokens: [],
@@ -58,7 +51,7 @@ class Wallet extends Component<IProps, IState> {
         if (!this._isMounted) return;
         console.log(tokens)
         this.setState({ 
-          balance: balance as string, tokens: tokens as Token[], loading: false
+          balance, tokens, loading: false
         }, () => console.log(this.state.tokens));
       })
       .catch(err => {

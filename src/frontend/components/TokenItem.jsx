@@ -1,13 +1,8 @@
 import classNames from "classnames";
 import React, { Component } from "react";
-import { Token } from "./interfaces";
 import "./TokenItem.css";
 
-interface IProps extends Token{
-  owned: boolean
-}
-interface IState {}
-class TokenItem extends Component<IProps, IState> {
+class TokenItem extends Component {
   render() {
     return (
       <div className="Token">

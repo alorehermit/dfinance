@@ -1,19 +1,16 @@
 import classNames from "classnames";
 import React, { Component } from "react";
-import { Route, RouteComponentProps, withRouter } from "react-router-dom";
-import Header from "./Header";
-import Wallet from "./Wallet";
-import TokenIssue from "./TokenIssue";
-import TokenIssueForm from "./TokenIssueForm";
+import { Route, withRouter } from "react-router-dom";
+import Header from "./Header.jsx";
+import Wallet from "./Wallet.jsx";
+import TokenIssue from "./TokenIssue.jsx";
+import TokenIssueForm from "./TokenIssueForm.jsx";
+import Test from "./Test.jsx";
 import "./Layout.css";
-import Test from "./Test";
 
-interface IProps extends RouteComponentProps {}
-interface IState {
-}
-class Layout extends Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
+class Layout extends Component{
+  constructor() {
+    super();
     this.state = {
 
     };
