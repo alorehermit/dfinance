@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Ed25519KeyIdentity } from "@dfinity/authentication";
-import { getAgent } from "../utils/common";
+import { getUint8ArrayFromHex } from "../utils/common";
 
 const KeyPair = props => {
 
@@ -11,12 +11,14 @@ const KeyPair = props => {
   const [wallet, setWallet] = useState(null);
 
   const importWallet = () => {
-    const keyIdentity = Ed25519KeyIdentity.fromParsedJson([publicKey, privateKey]);
-    const val = keyIdentity.getPrincipal().toString()
+    const secretKey = getUint8ArrayFromHex(privateKey);
+    const keyIdentity = Ed25519KeyIdentity.fromSecretKey(secretKey);
+    const val = keyIdentity.getPrincipal().toString();  // principal
+    const str = keyIdentity.toJSON()[0];  // public key hex string
     localStorage.setItem("dfinance_current_user", val);
-    localStorage.setItem("dfinance_current_user_key", JSON.stringify([publicKey, privateKey]));
+    localStorage.setItem("dfinance_current_user_key", JSON.stringify([str, privateKey]));
     setPrincipal(val);
-    setWallet({ publicKey, privateKey });
+    setWallet({ publicKey: str, privateKey });
     setShowForm(false);
     setPublicKey("");
     setPrivateKey("");

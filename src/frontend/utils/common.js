@@ -10,3 +10,11 @@ export const getAgent = () => {
   agent.addTransform(makeExpiryTransform(5 * 60 * 1000));
   return agent;
 };
+
+export const getUint8ArrayFromHex = str => {
+  return new Uint8Array(str.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
+};
+
+export const getHexFromUint8Array = arr => {
+  return Buffer.from(arr).toString('hex');
+};

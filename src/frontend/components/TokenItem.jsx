@@ -15,7 +15,7 @@ class TokenItem extends Component {
           </p>
           <p className="token-amount">
             <label>Amount</label>
-            <span>{this.props.amount}</span>
+            <span>{this.props.totalSupply}</span>
           </p>
         </div>
       </div>
