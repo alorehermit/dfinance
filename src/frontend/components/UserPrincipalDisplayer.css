@@ -1,0 +1,40 @@
+.UserPrincipalDisplayer {
+  position: relative;
+  display: inline-block;
+  height: 3rem;
+}
+.UserPrincipalDisplayer span.label {
+  display: inline-block;
+  line-height: 3rem;
+  font-size: 2rem;
+  padding-right: 1.2rem;
+  color: #001414;
+}
+.UserPrincipalDisplayer button {
+  vertical-align: top;
+  width: 2.2rem;
+  height: 2.2rem;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  opacity: 0.2;
+  cursor: pointer;
+}
+.UserPrincipalDisplayer button:hover {
+  opacity: 0.5;
+}
+.UserPrincipalDisplayer button svg {
+  width: 100%;
+  height: 100%;
+}
+.UserPrincipalDisplayer span.info {
+  position: absolute;
+  font-size: 1.2rem;
+  top: -2.2rem;
+  right: -1rem;
+  color: #001414;
+}
+.UserPrincipalDisplayer input {
+  opacity: 0;
+  pointer-events: none;
+}

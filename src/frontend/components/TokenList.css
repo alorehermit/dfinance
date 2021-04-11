@@ -1,0 +1,144 @@
+.TokenList {
+  display: flex;
+  justify-content: space-between;
+  flex-flow: row wrap;
+  width: 100%;
+}
+.TokenListModal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+.TokenListModal.ac {
+  pointer-events: all;
+}
+.TokenListModal .bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+.TokenListModal.ac .bg {
+  opacity: 1;
+}
+.TokenListModal .wrap {
+  position: absolute;
+  width: 66rem;
+  height: 58rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 200ms ease-out,
+    opacity 180ms ease;
+  border-radius: 3rem;
+  background-color: #FFF;
+  box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.5);
+  padding: 3.5rem 7rem 3rem 7rem;
+  opacity: 0;
+}
+.TokenListModal.ac .wrap {
+  opacity: 1;
+  transform: translate(-55%, -50%);
+}
+.TokenListModal .wrap button.close {
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.3;
+  transition: opacity 120ms ease;
+}
+.TokenListModal .wrap button.close:hover {
+  opacity: 0.6;
+}
+.TokenListModal .wrap label.label {
+  display: block;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  margin-left: -3.5rem;
+  color: #001414;
+}
+.TokenListModal .wrap label.sub-label {
+  display: block;
+  font-size: 1.8rem;
+  font-family: "Roboto bold";
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
+  color: #001414;
+}
+.TokenListModal .wrap input {
+  width: 100%;
+  height: 5.8rem;
+  border: 0.2rem solid #E3E3E3;
+  border-radius: 1rem;
+  background-color: #F5F5F5;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  padding: 0 2rem;
+}
+.TokenListModal .wrap input::placeholder {
+  color: #B8B8B8;
+}
+.TokenListModal .wrap input.err {
+  background-color: #FFF4FA;
+  border-color: #E9A4C7;
+}
+.TokenListModal .wrap .balance-ctrl {
+  text-align: right;
+  padding-top: 0.5rem;
+}
+.TokenListModal .wrap .balance-ctrl span {
+  font-size: 1.8rem;
+  line-height: 2.6rem;
+  color: #B8B8B8;
+  vertical-align: middle;
+}
+.TokenListModal .wrap .balance-ctrl button {
+  height: 2.6rem;
+  margin-left: 2rem;
+  border: none;
+  color: #B8B8B8;
+  background-color: transparent;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  font-family: "Roboto bold";
+  opacity: 0.6;
+  transition: opacity 120ms ease;
+  cursor: pointer;
+}
+.TokenListModal .wrap .balance-ctrl button:hover {
+  opacity: 1;
+}
+.TokenListModal .wrap button.submit {
+  width: 100%;
+  margin-top: 7rem;
+  height: 7rem;
+  font-size: 4.6rem;
+  font-family: "Roboto bold";
+  color: #FFF;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  background-image: linear-gradient(115deg, #E12B7C, #323A8D);
+}
+.TokenListModal .wrap button.submit:disabled {
+  background-color: #E3E3E3;
+  background-image: none;
+  cursor: not-allowed;
+}
+.TokenListModal .wrap .info {
+  height: 2.5rem;
+  text-align: right;
+  font-size: 1.6rem;
+  font-family: "Roboto bold";
+  color: #001414;
+}

@@ -5,6 +5,7 @@ import Icon from "../stuff/Icon.jsx";
 import { getTokensByUser } from "../APIs/Token.js";
 import "./TokenIssue.css";
 import { Principal } from "@dfinity/agent";
+import TokenList from "./TokenList.jsx";
 
 class TokenIssue extends Component {
   constructor() {
@@ -55,9 +56,10 @@ class TokenIssue extends Component {
             {this.state.loading ? 
               <Icon name="spinner" spin />
             : null}
-            {this.state.tokens.map((i, index) => (
+            {/* {this.state.tokens.map((i, index) => (
               <TokenItem key={index} {...i} owned={i.owner === localStorage.getItem("dfinance_current_user")} />
-            ))}
+            ))} */}
+            <TokenList tokens={this.state.tokens} />
             {!this.state.loading && !this.state.user ? 
               <p className="zero">No Account Found</p>
             : null}

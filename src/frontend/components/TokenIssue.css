@@ -76,11 +76,11 @@
   color: #595959;
   padding-bottom: 6rem;
 }
-.TokenIssue .tokens .tokens-list {
+/* .TokenIssue .tokens .tokens-list {
   display: flex;
   justify-content: space-between;
   flex-flow: row wrap;
-}
+} */
 .TokenIssue .tokens .tokens-list svg.spinner {
   display: block;
   width: 5rem;

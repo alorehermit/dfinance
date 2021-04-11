@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Ed25519KeyIdentity } from "@dfinity/authentication";
 import { getUint8ArrayFromHex } from "../utils/common";
+import "./KeyPair.css";
+import classNames from "classnames";
+import { withRouter } from "react-router";
 
 const KeyPair = props => {
 
@@ -39,11 +42,9 @@ const KeyPair = props => {
 
   return (
     <div className="KeyPair">
-      <div className="wrap">
-        <button onClick={() => setShowForm(true)}>import wallet</button>
-      </div>
-      <div className="wrap">
-        <button onClick={createWallet}>create wallet</button>
+      <div className={classNames("wrap", {upper: showForm || wallet})}>
+        <button onClick={() => setShowForm(true)}>Import wallet</button>
+        <button onClick={createWallet}>Create wallet</button>
       </div>
       {showForm ? 
         <Form
@@ -60,23 +61,31 @@ const KeyPair = props => {
         />
       : null}
       {wallet ? 
-        <div>
-          <p>Wallet :</p>
-          <p>Principal : {principal}</p>
-          <p>Public Key : {wallet.publicKey}</p>
-          <p>Private Key : {wallet.privateKey}</p>
+        <div className="wallet">
+          <p className="label">Wallet :</p>
+          <p>
+            <label>Principal :</label>
+            <span>{principal}</span>
+          </p>
+          <p>
+            <label>Public Key :</label>
+            <span>{wallet.publicKey}</span>
+          </p>
+          <p>
+            <label>Private Key :</label>
+            <span>{wallet.privateKey}</span>
+          </p>
         </div>
       : null}
     </div>
   )
 };
 
-export default KeyPair;
+export default withRouter(KeyPair);
 
 const Form = props => {
   return (
-    <div className="import-from">
-      <input type="text" placeholder="Public Key" value={props.publicKey} onChange={props.publicKeyonChange} />
+    <div className="import-form">
       <input type="text" placeholder="Private Key" value={props.privateKey} onChange={props.privateKeyonChange} />
       <button onClick={props.submit}>Import</button>
       <button onClick={props.cancel}>Cancel</button>

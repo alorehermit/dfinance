@@ -1,55 +1,42 @@
 import React, { Component } from "react";
-import { createToken, getAllTokens } from "../APIs/Token";
+import { makeActorFactory, Principal } from "@dfinity/agent";
+import candid from "../utils/dtoken.did";
+import { getAllTokens } from "../APIs/Token";
 
-// const Test = () => {
-  
-//   useEffect(() => {
-//     createToken("Name", "Symbol", "10", "1000000000")
-//       .then(res => console.log("res: ", res))
-//       .catch(err => console.log("err: ", err))
-//   }, []);
-
-//   return (
-//     <div></div>
-//   )
-// };
 class Test extends Component {
   constructor() {
     super();
     this.state = {
-      tokens: []
     }
   }
-
   componentDidMount() {
-    this.initial();
-  }
-  
-  initial = () => {
-    getAllTokens()
-      .then(res => this.setState({ token: res }, () => console.log(res)))
-      .catch(err => console.log("initial failed: ", err));
-  };
-  add = async () => {
-    try {
-      let val = await createToken("Name", "Symbol", 10, 1000)
-      console.log(val);
-    } catch (err) {
-      console.log("err: ", err.message);
-    }
-  }
-  newAgent = () => {
+    const actor = makeActorFactory(candid)({ 
+      canisterId: Principal.fromText("ryjl3-tyaaa-aaaaa-aaaba-cai"),
+      agent: window.ic.agent,
+      maxAttempts: 100
+    });
+    actor.getTokenList()
+      .then(res => console.log("res: ", res))
+      .catch(err => console.log("err: ", err));
+    // getAllTokens()
+    //   .then(tokens => {
+    //     if (!tokens.length) return console.log("no token");
 
-  };
+    //     const actor = makeActorFactory(test)({ 
+    //       canisterId: Principal.fromText(tokens[0].canisterId),
+    //       agent: window.ic.agent,
+    //       maxAttempts: 100
+    //     });
+    //     console.log("actor: ", actor);
+    //     actor.balanceOf(Principal.fromText(localStorage.getItem("dfinance_current_user")))
+    //       .then(res => console.log("res: ", res))
+    //       .catch(err => console.log("err: ", err));
+    //   })
+  }
 
   render() {
     return (
       <div>
-        <button onClick={this.add}>add</button>
-        <button onClick={this.newAgent}>Create Agent</button>
-        {this.state.tokens.map((i, index) => (
-          <div key={index}>{JSON.stringify(i)}</div>
-        ))}
       </div>
     )
   }

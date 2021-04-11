@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { getAllTokens } from "../APIs/Token.js";
-import TokenItem from "./TokenItem.jsx";
 import Icon from "../stuff/Icon.jsx";
+import TokenList from "./TokenList.jsx";
+import UserPrincipalDisplayer from "./UserPrincipalDisplayer.jsx";
 import "./Wallet.css";
 
 const dtokenMocked = {
@@ -54,6 +55,7 @@ class Wallet extends Component {
   render () {
     return (
       <div className="Wallet">
+        <UserPrincipalDisplayer />
         <div className="balance">
           <label>Your Total ICP Balance</label>
           <p>
@@ -78,9 +80,10 @@ class Wallet extends Component {
             {this.state.loading ? 
               <Icon name="spinner" spin />
             : null}
-            {this.state.tokens.map((i, index) => (
+            {/* {this.state.tokens.map((i, index) => (
               <TokenItem key={index} {...i} owned={i.owner === localStorage.getItem("dfinance_current_user")} />
-            ))}
+            ))} */}
+            <TokenList tokens={this.state.tokens} />
             {!this.state.loading && !this.state.tokens.length?
               <p className="zero">No Token Yet</p>
             : null}

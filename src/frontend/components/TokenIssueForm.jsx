@@ -70,7 +70,7 @@ class TokenIssueForm extends Component {
     }
     this.setState({ loading: true });
     createToken(
-      name, symbol, parseInt(decimals), parseInt(supply)
+      name, symbol, decimals, supply
     )
       .then(res => console.log("res: ", res))
       .catch(err => console.log("err: ", err))

@@ -1,11 +1,11 @@
-/* @font-face {
+@font-face {
   font-family: "Roboto";
-  src: url(./fonts/Roboto-Regular.ttf);
+  src: url("https://res.cloudinary.com/reachimgapi/raw/upload/v1618160197/Roboto-Regular_o2h8ra.ttf");
 }
 @font-face {
   font-family: "Roboto bold";
-  src: url(./fonts/Roboto-Bold.ttf);
-} */
+  src: url("https://res.cloudinary.com/reachimgapi/raw/upload/v1618160182/Roboto-Bold_iexbmo.ttf");
+}
 
 body {
   margin: 0;
