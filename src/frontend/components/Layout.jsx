@@ -9,39 +9,50 @@ import Test from "./Test.jsx";
 import KeyPair from "./KeyPair.jsx";
 import { getAgent } from "../utils/common.js";
 import "./Layout.css";
+import ProtectedRouteWrap from "../utils/ProtectedRouteWrap.jsx";
 
 class Layout extends Component{
+  constructor() {
+    super();
+    this.state = {
+      hasUser: false,
+      loading: true
+    };
+  }
 
   componentDidMount() {
-    this.userCheckAndRedirect();
+    this.initialUserCheck();
   }
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps.history.location.path !== this.props.history.location.pathname) {
-  //     console.log(this.props.history.location.pathname);
-  //     this.userCheckAndRedirect();
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.hasUser !== this.state.hasUser) {
+      this.updateAgentOnUserChange();
+    }
+  }
 
-  userCheckAndRedirect = () => {
-    if (!(window).ic) {
-      const { HttpAgent, IDL } = require("@dfinity/agent");
-      if (localStorage.getItem("dfinance_current_user_key") && localStorage.getItem("dfinance_current_user")) {
+  initialUserCheck = () => {
+    if (localStorage.getItem("dfinance_current_user_key") && localStorage.getItem("dfinance_current_user")) {
+      this.setState({ hasUser: true, loading: false });
+    } else {
+      this.setState({ hasUser: false, loading: false });
+    }
+  };
+  updateAgentOnUserChange = () => {
+    if (this.state.hasUser) {
+      if (!(window).ic) {
+        const { HttpAgent, IDL } = require("@dfinity/agent");
         (window).ic = { agent: getAgent(), HttpAgent, IDL };
       } else {
-        (window).ic = { HttpAgent, IDL };
-        this.props.history.replace("/connectwallet");
+        (window).ic.agent = getAgent();
+        console.log("window.ic:", window.ic);
       }
     } else {
-      if (localStorage.getItem("dfinance_current_user_key") && localStorage.getItem("dfinance_current_user")) {
-        (window).ic.agent = getAgent();
-      } else {
-        this.props.history.replace("/connectwallet");
-      }
-      console.log("window.ic:", window.ic);
+      (window).ic.agent = null;
+      this.props.history.push("/connectwallet");
     }
   };
 
   render() {
+    if (this.state.loading) return null;  // wait for checking
     return (
       <div className="Layout">
         {this.props.history.location.pathname !== "/newtoken" ? 
@@ -60,14 +71,20 @@ class Layout extends Component{
             <path id="路径_73" data-name="路径 73" d="M4461.668-6629.178c-482.182-192.152-807.01,79.89-1222,62.753s-584.357-146.518-757.722-13.424S2383.694-5895,2383.694-5895l2131.216,13.737Z" transform="translate(-2367.505 6698.168)" fill="#fff"/>
           </svg>
         </div>
-        <Route path="/" exact render={() => <Wallet />} />
-        <Route path="/1" exact render={() => <TokenIssue />} />
+        <Route path="/" exact render={() => (
+          <ProtectedRouteWrap component={<Wallet />} access={this.state.hasUser} redirectPath="/connectwallet" />
+        )} />
+        <Route path="/1" exact render={() => (
+          <ProtectedRouteWrap component={<TokenIssue />} access={this.state.hasUser} redirectPath="/connectwallet" />
+        )} />
         {/* <Route path="/2" exact render={() => <Wallet />} />
         <Route path="/3" exact render={() => <Wallet />} />
         <Route path="/4" exact render={() => <Wallet />} /> */}
-        <Route path="/newtoken" exact render={() => <TokenIssueForm />} />
+        <Route path="/newtoken" exact render={() => (
+          <ProtectedRouteWrap component={<TokenIssueForm />} access={this.state.hasUser} redirectPath="/connectwallet" />
+        )} />
         <Route path="/test" exact render={() => <Test />} />
-        <Route path="/connectwallet" exact render={() => <KeyPair />} />
+        <Route path="/connectwallet" exact render={() => <KeyPair changeUser={val => this.setState({ hasUser: val })} />} />
       </div>
     )
   }

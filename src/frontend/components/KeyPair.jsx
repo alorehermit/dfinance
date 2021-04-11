@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Ed25519KeyIdentity } from "@dfinity/authentication";
 import { getAgent } from "../utils/common";
 
-const KeyPair = () => {
+const KeyPair = props => {
 
   const [showForm, setShowForm] = useState(false);
   const [principal, setPrincipal] = useState("");
@@ -20,7 +20,7 @@ const KeyPair = () => {
     setShowForm(false);
     setPublicKey("");
     setPrivateKey("");
-    replaceAgent();
+    props.changeUser(true);
   };
   const createWallet = () => {
 		const createRandomSeed = () => crypto.getRandomValues(new Uint8Array(32));
@@ -32,16 +32,11 @@ const KeyPair = () => {
       publicKey: keyIdentity.toJSON()[0], 
       privateKey: keyIdentity.toJSON()[1] 
     });
-    replaceAgent();
-  };
-  const replaceAgent = () => {
-    const agent = getAgent();
-    (window).ic.agent = agent;
+    props.changeUser(true);
   };
 
   return (
     <div className="KeyPair">
-      <button onClick={replaceAgent}>test</button>
       <div className="wrap">
         <button onClick={() => setShowForm(true)}>import wallet</button>
       </div>
