@@ -6,16 +6,40 @@ import Wallet from "./Wallet.jsx";
 import TokenIssue from "./TokenIssue.jsx";
 import TokenIssueForm from "./TokenIssueForm.jsx";
 import Test from "./Test.jsx";
-import "./Layout.css";
 import KeyPair from "./KeyPair.jsx";
+import { getAgent } from "../utils/common.js";
+import "./Layout.css";
 
 class Layout extends Component{
-  constructor() {
-    super();
-    this.state = {
 
-    };
+  componentDidMount() {
+    this.userCheckAndRedirect();
   }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps.history.location.path !== this.props.history.location.pathname) {
+  //     console.log(this.props.history.location.pathname);
+  //     this.userCheckAndRedirect();
+  //   }
+  // }
+
+  userCheckAndRedirect = () => {
+    if (!(window).ic) {
+      const { HttpAgent, IDL } = require("@dfinity/agent");
+      if (localStorage.getItem("dfinance_current_user_key") && localStorage.getItem("dfinance_current_user")) {
+        (window).ic = { agent: getAgent(), HttpAgent, IDL };
+      } else {
+        (window).ic = { HttpAgent, IDL };
+        this.props.history.replace("/connectwallet");
+      }
+    } else {
+      if (localStorage.getItem("dfinance_current_user_key") && localStorage.getItem("dfinance_current_user")) {
+        (window).ic.agent = getAgent();
+      } else {
+        this.props.history.replace("/connectwallet");
+      }
+      console.log("window.ic:", window.ic);
+    }
+  };
 
   render() {
     return (

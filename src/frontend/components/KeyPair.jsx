@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Ed25519KeyIdentity } from "@dfinity/authentication";
+import { getAgent } from "../utils/common";
 
 const KeyPair = () => {
 
@@ -19,11 +20,11 @@ const KeyPair = () => {
     setShowForm(false);
     setPublicKey("");
     setPrivateKey("");
+    replaceAgent();
   };
   const createWallet = () => {
 		const createRandomSeed = () => crypto.getRandomValues(new Uint8Array(32));
     const keyIdentity = Ed25519KeyIdentity.generate(createRandomSeed());
-    setTest(keyIdentity._publicKey.rawKey)
     localStorage.setItem("dfinance_current_user", keyIdentity.getPrincipal().toString());
     localStorage.setItem("dfinance_current_user_key", JSON.stringify(keyIdentity.toJSON()));
     setPrincipal(keyIdentity.getPrincipal().toString());
@@ -31,10 +32,16 @@ const KeyPair = () => {
       publicKey: keyIdentity.toJSON()[0], 
       privateKey: keyIdentity.toJSON()[1] 
     });
+    replaceAgent();
+  };
+  const replaceAgent = () => {
+    const agent = getAgent();
+    (window).ic.agent = agent;
   };
 
   return (
     <div className="KeyPair">
+      <button onClick={replaceAgent}>test</button>
       <div className="wrap">
         <button onClick={() => setShowForm(true)}>import wallet</button>
       </div>

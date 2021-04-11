@@ -79,7 +79,7 @@ class Wallet extends Component {
               <Icon name="spinner" spin />
             : null}
             {this.state.tokens.map((i, index) => (
-              <TokenItem key={index} {...i} owned={i.owner === ""} />
+              <TokenItem key={index} {...i} owned={i.owner === localStorage.getItem("dfinance_current_user")} />
             ))}
             {!this.state.loading && !this.state.tokens.length?
               <p className="zero">No Token Yet</p>

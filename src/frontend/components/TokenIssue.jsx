@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Icon from "../stuff/Icon.jsx";
 import { getTokensByUser } from "../APIs/Token.js";
 import "./TokenIssue.css";
+import { Principal } from "@dfinity/agent";
 
 class TokenIssue extends Component {
   constructor() {
@@ -27,7 +28,7 @@ class TokenIssue extends Component {
   initial = () => {
     const user = localStorage.getItem("dfinance_current_user");
     if (!user) return this.setState({ loading: false });
-    getTokensByUser(user)
+    getTokensByUser(Principal.fromText(user))
       .then(tokens => {
         if (this._isMounted) this.setState({ tokens });
       })
@@ -55,7 +56,7 @@ class TokenIssue extends Component {
               <Icon name="spinner" spin />
             : null}
             {this.state.tokens.map((i, index) => (
-              <TokenItem key={index} {...i} owned={i.owner === ""} />
+              <TokenItem key={index} {...i} owned={i.owner === localStorage.getItem("dfinance_current_user")} />
             ))}
             {!this.state.loading && !this.state.user ? 
               <p className="zero">No Account Found</p>

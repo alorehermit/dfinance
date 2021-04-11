@@ -1,20 +1,9 @@
 import React, { Component } from "react";
 import ReactDOM from "react-dom";
-import { HashRouter } from "react-router-dom";
+import { HashRouter, Redirect } from "react-router-dom";
 import { Ed25519KeyIdentity } from "@dfinity/authentication";
 import Layout from "./components/Layout.jsx";
 import "./index.css";
-
-if (!(window).ic) {
-  const { HttpAgent, IDL } = require("@dfinity/agent");
-  const createAgent = require("../dtoken/src/public/createAgent").default;
-	console.log("1: ", createAgent())
-	console.log("2: ", HttpAgent)
-	console.log("3: ", IDL)
-  (window).ic = { agent: createAgent(), HttpAgent, IDL };
-} else {
-  console.log("window.ic:", window.ic);
-}
 
 class App extends Component {
 	componentDidMount() {
