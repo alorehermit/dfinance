@@ -94,8 +94,11 @@ class TokenList extends Component {
       <div className="TokenListWrap">
         <div className="TokenList">
           {this.props.tokens.map((i, index) => (
-            <div onClick={() => this.setState({ active: i })}>
-              <TokenItem key={index} {...i} owned={i.owner === ""} />
+            <div 
+              className="TokenItemWrap"
+              onClick={() => this.setState({ active: i })}
+            >
+              <TokenItem key={index} {...i} owned={i.owner === localStorage.getItem("dfinance_current_user")} />
             </div>
           ))}
         </div>

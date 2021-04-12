@@ -9,7 +9,7 @@ class Header extends Component {
       <div className="Header">
         <div className="wrap">
           <Link className="brand" to="/">
-            <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="283" height="83" viewBox="0 0 283 83">
+            <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 283 83">
               <defs>
                 <linearGradient id="linear-gradient" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
                   <stop offset="0" stopColor="#3dc4ed"/>
@@ -49,7 +49,13 @@ class Header extends Component {
           </Link>
           {this.props.withNav ? 
             <div className="nav-wrap">
-              <Nav />
+              <Nav list={[
+                {path: "/", name: "Wallet", match: path => path === "/"},
+                {path: "/dtoken", name: "DToken", match: path => path === "/dtoken"},
+                {path: "/swap/exchange", name: "DSwap", match: path => path.indexOf("/swap/") > -1},
+                {path: "/DUSD", name: "DUSD", match: path => path === "/DUSD"},
+                {path: "/DLend", name: "DLend", match: path => path === "/DLend"},
+              ]} />
             </div>
           : null}
         </div>

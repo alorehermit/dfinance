@@ -1,8 +1,12 @@
 .TokenList {
-  display: flex;
-  justify-content: space-between;
-  flex-flow: row wrap;
-  width: 100%;
+  width: calc(100% + 4rem);
+  margin-left: -2rem;
+}
+.TokenList .TokenItemWrap {
+  display: inline-block;
+  vertical-align: top;
+  width: 25%;
+  padding: 0 2rem;
 }
 .TokenListModal {
   position: fixed;

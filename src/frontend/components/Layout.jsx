@@ -2,14 +2,16 @@ import classNames from "classnames";
 import React, { Component } from "react";
 import { Route, withRouter } from "react-router-dom";
 import Header from "./Header.jsx";
+import ProtectedRouteWrap from "../utils/ProtectedRouteWrap.jsx";
 import Wallet from "./Wallet.jsx";
 import TokenIssue from "./TokenIssue.jsx";
 import TokenIssueForm from "./TokenIssueForm.jsx";
 import Test from "./Test.jsx";
 import KeyPair from "./KeyPair.jsx";
 import { getAgent } from "../utils/common.js";
+import Swap from "./Swap.jsx";
 import "./Layout.css";
-import ProtectedRouteWrap from "../utils/ProtectedRouteWrap.jsx";
+import ComingSoon from "./ComingSoon.jsx";
 
 class Layout extends Component{
   constructor() {
@@ -39,7 +41,8 @@ class Layout extends Component{
   updateAgentOnUserChange = () => {
     if (this.state.hasUser) {
       if (!(window).ic) {
-        const { HttpAgent, IDL } = require("@dfinity/agent");
+        const { HttpAgent, IDL, canister } = require("@dfinity/agent");
+        console.log(canister)
         (window).ic = { agent: getAgent(), HttpAgent, IDL };
       } else {
         (window).ic.agent = getAgent();
@@ -61,7 +64,7 @@ class Layout extends Component{
         <div className={classNames(
           "layout-bg", 
           {status1: this.props.history.location.pathname === "/"},
-          {status2: this.props.history.location.pathname === "/1"},
+          {status2: this.props.history.location.pathname === "/dtoken"},
           {disabled: this.props.history.location.pathname === "/newtoken"}
         )}>
           <svg className="accessory-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2368.707 824.631">
@@ -74,16 +77,16 @@ class Layout extends Component{
         <Route path="/" exact render={() => (
           <ProtectedRouteWrap component={<Wallet />} access={this.state.hasUser} redirectPath="/connectwallet" />
         )} />
-        <Route path="/1" exact render={() => (
+        <Route path="/dtoken" exact render={() => (
           <ProtectedRouteWrap component={<TokenIssue />} access={this.state.hasUser} redirectPath="/connectwallet" />
         )} />
-        {/* <Route path="/2" exact render={() => <Wallet />} />
-        <Route path="/3" exact render={() => <Wallet />} />
-        <Route path="/4" exact render={() => <Wallet />} /> */}
+        <Route path="/swap" render={() => <Swap />} />
+        <Route path="/DUSD" exact render={() => <ComingSoon />} />
+        <Route path="/DLend" exact render={() => <ComingSoon />} />
         <Route path="/newtoken" exact render={() => (
           <ProtectedRouteWrap component={<TokenIssueForm />} access={this.state.hasUser} redirectPath="/connectwallet" />
         )} />
-        <Route path="/test" exact render={() => <Test />} />
+        {/* <Route path="/test" exact render={() => <Test />} /> */}
         <Route path="/connectwallet" exact render={() => <KeyPair changeUser={val => this.setState({ hasUser: val })} />} />
       </div>
     )

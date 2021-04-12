@@ -27,6 +27,15 @@ code {
   outline: none;
 }
 
+.ComingSoon {
+  width: 76rem;
+  margin: 10rem auto;
+  text-align: center;
+  font-size: 6rem;
+  font-family: "Roboto bold";
+  text-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.2);
+}
+
 html {
   font-size: 62.5%;
 }

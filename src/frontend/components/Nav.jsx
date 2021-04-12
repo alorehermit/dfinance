@@ -1,20 +1,18 @@
+import classNames from "classnames";
 import React, { Component, createRef } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 
 class Nav extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    console.log(this.props, this.props.list)
     this.state = {
       left: 0,
       width: 0
     };  
   }
 
-  nav0 = createRef();
-  nav1 = createRef();
-  nav2 = createRef();
-  nav3 = createRef();
-  nav4 = createRef();
+  navs = this.props.list.map(() => createRef());
 
   componentDidMount() {
     this.initial();
@@ -26,23 +24,17 @@ class Nav extends Component {
 
   initial = () => {
     const path = this.props.history.location.pathname;
-    let dom = this.nav0;
-    switch (path) {
-      case "/1":
-        dom = this.nav1;
+    let index = -1;
+    let arr = this.props.list;
+    for (let i = 0; i < arr.length; i++) {
+      let val = arr[i].match(path);
+      if (val) {
+        index = i;
         break;
-      case "/2":
-        dom = this.nav1;
-        break;
-      case "/3":
-        dom = this.nav1;
-        break;
-      case "/4":
-        dom = this.nav1;
-        break;
-      default:
-        break;
+      }
     }
+    if (index < 0) return;
+    let dom = this.navs[index];
     if (dom.current) {
       this.setState({ 
         left: dom.current.offsetLeft,
@@ -51,7 +43,7 @@ class Nav extends Component {
     }
   }
   moveAccessory = val => {
-    const arr = [this.nav0, this.nav1, this.nav2, this.nav3, this.nav4];
+    const arr = this.navs;
     const dom = arr[val];
     if (dom.current) {
       this.setState({
@@ -64,21 +56,16 @@ class Nav extends Component {
   render () {
     return (
       <div className="Nav">
-        <div className="nav" ref={this.nav0}>
-          <NavLink exact to="/" onClick={() => this.moveAccessory(0)}>Wallet</NavLink>
-        </div>
-        <div className="nav" ref={this.nav1}>
-          <NavLink exact to="/1" onClick={() => this.moveAccessory(1)}>DToken</NavLink>
-        </div>
-        <div className="nav" ref={this.nav2}>
-          <NavLink exact to="/2" onClick={() => this.moveAccessory(2)}>DSwap</NavLink>
-        </div>
-        <div className="nav" ref={this.nav3}>
-          <NavLink exact to="/3" onClick={() => this.moveAccessory(3)}>DUSD</NavLink>
-        </div>
-        <div className="nav" ref={this.nav4}>
-          <NavLink exact to="/4" onClick={() => this.moveAccessory(4)}>DLend</NavLink>
-        </div>
+        {this.props.list.map((i, index) => (
+          <div key={index} className="nav" ref={this.navs[index]}>
+            <NavLink 
+              exact 
+              className={classNames({active: i.match(this.props.history.location.pathname)})} 
+              to={i.path} 
+              onClick={() => this.moveAccessory(index)}
+            >{i.name}</NavLink>
+          </div>
+        ))}
         <div className="accessory" style={{ left: `${this.state.left}px`, width: `${this.state.width}px`}}></div>
       </div>
     )

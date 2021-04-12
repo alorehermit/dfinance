@@ -29,7 +29,7 @@ class TokenItem extends Component {
       <div className="Token">
         <div className={classNames("bg", {owned: this.props.owned})}></div>
         <div className="wrap">
-          {this.props.owner ? <span className="owned">You Issued</span> : null}
+          {this.props.owned ? <span className="owned">You Issued</span> : null}
           <p className="token-name">
             <span className="symbol">{this.props.symbol}</span>
             <span className="name">/ {this.props.name}</span>
