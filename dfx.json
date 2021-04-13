@@ -6,7 +6,7 @@
     "dswap": {
       "main": "src/dswap/src/DSwap.mo"
     },
-    "fontend": {
+    "frontend": {
       "dependencies": [
         "dtoken", "dswap"
       ],
