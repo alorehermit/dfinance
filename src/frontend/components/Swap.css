@@ -108,6 +108,10 @@
   font-family: "Roboto bold";
   color: #001414;
 }
+.SwapExchange .SwapExchangeInputGroup.noInput .input-group input,
+.SwapLiquidity .SwapExchangeInputGroup.noInput .input-group input {
+  display: none;
+}
 .SwapExchange .SwapExchangeInputGroup .input-group input::placeholder,
 .SwapLiquidity .SwapExchangeInputGroup .input-group input::placeholder {
   color: #B8B8B8;
@@ -116,6 +120,11 @@
 .SwapLiquidity .SwapExchangeInputGroup .input-group .select-group {
   width: 13.4rem;
   height: 100%;
+}
+.SwapExchange .SwapExchangeInputGroup.noInput .input-group .select-group,
+.SwapLiquidity .SwapExchangeInputGroup.noInput .input-group .select-group {
+  width: 100%;
+  padding-left: 1rem;
 }
 .SwapExchange .SwapExchangeInputGroup .input-group .select-group button.select,
 .SwapLiquidity .SwapExchangeInputGroup .input-group .select-group button.select {

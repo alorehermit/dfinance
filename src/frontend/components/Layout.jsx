@@ -86,7 +86,7 @@ class Layout extends Component{
         <Route path="/newtoken" exact render={() => (
           <ProtectedRouteWrap component={<TokenIssueForm />} access={this.state.hasUser} redirectPath="/connectwallet" />
         )} />
-        {/* <Route path="/test" exact render={() => <Test />} /> */}
+        <Route path="/test" exact render={() => <Test />} />
         <Route path="/connectwallet" exact render={() => <KeyPair changeUser={val => this.setState({ hasUser: val })} />} />
       </div>
     )

@@ -99,6 +99,7 @@ class SwapExchange extends Component {
     try {
       const val1 = await getAllTokens();
       const val2 = await getAllTokenPairs();
+      console.log("pairs: ", val2);
       if (this._isMounted) this.setState({ tokens: val1, pairs: val2 });
     } catch(err) {
       console.log(err);
@@ -322,6 +323,7 @@ class InputGroup extends Component {
       <div className={classNames(
         "SwapExchangeInputGroup", 
         this.props.class, 
+        {noInput: this.props.noInput},
         {err: this.props.err}
       )}>
         <label>{this.props.label}</label>
@@ -496,6 +498,7 @@ class SwapLiquidity extends Component {
     try {
       const val1 = await getAllTokens();
       const val2 = await getAllTokenPairs();
+      console.log("pair: ", val2);
       if (this._isMounted) this.setState({ tokens: val1, pairs: val2 });
     } catch(err) {
       console.log(err);
@@ -504,6 +507,7 @@ class SwapLiquidity extends Component {
   updatePairs = async () => {
     try {
       const val = await getAllTokenPairs();
+      console.log("pair: ", val);
       if (this._isMounted) this.setState({ pairs: val });
     } catch(err) {
       console.log(err);
@@ -592,14 +596,14 @@ class Page1 extends Component {
   constructor() {
     super();
     this.state = {
-      token0Amount: "",
+      // token0Amount: "",
       token0Bal: "",
       token0: null,
-      token0Error: false,
-      token1Amount: "",
+      // token0Error: false,
+      // token1Amount: "",
       token1Bal: "",
       token1: null,
-      token1Error: false,
+      // token1Error: false,
       showTokenList: false,
       bigger: false,
       loading: ""
@@ -609,12 +613,6 @@ class Page1 extends Component {
   _isMounted = false;
   componentDidMount() {
     this._isMounted = true;
-    if (this.state.token0 && this.state.token0.canisterId) {
-      this.getTokenBalance(this.state.token0.canisterId)
-        .then(res => {
-          if (this._isMounted) this.setState({ token0Bal: res });
-        });
-    }
   }
   componentWillUnmount() {
     this._isMounted = false;
@@ -670,35 +668,8 @@ class Page1 extends Component {
       return "0";
     }
   };
-  token0AmountOnChange = e => {
-    const val = e.target.value;
-    const reg = new RegExp(/^[0-9\.]*$/);
-    if (val && !reg.test(val)) return;
-    this.setState({ token0Amount: val });
-    if (!val || !parseFloat(val)) return this.setState({ token0Error: true });
-    if (this.state.token0Bal && parseFloat(this.state.token0Bal) < parseFloat(val)) return this.setState({ token0Error: true });
-    this.setState({ token0Error: false });
-  };
-  token1AmountOnChange = e => {
-    const val = e.target.value;
-    const reg = new RegExp(/^[0-9\.]*$/);
-    if (val && !reg.test(val)) return;
-    this.setState({ token1Amount: val });
-    if (!val || !parseFloat(val)) return this.setState({ token1Error: true });
-    if (this.state.token1Bal && parseFloat(this.state.token1Bal) < parseFloat(val)) return this.setState({ token1Error: true });
-    this.setState({ token1Error: false });
-  };
   submit = async () => {
-    this.setState({ loading: "Approving..." });
-    try {
-      await approveToken(this.state.token0.canisterId, Principal.fromText(DSWAP_CANISTER_ID), this.state.token0Amount);
-      await approveToken(this.state.token1.canisterId, Principal.fromText(DSWAP_CANISTER_ID), this.state.token1Amount);
-    } catch(err) {
-      console.log(err);
-      if (this._isMounted) this.setState({ loading: "" });
-      return;
-    }
-    if (this._isMounted) this.setState({ loading: "Creating..." });
+    this.setState({ loading: "Creating..." });
     try {
       await createTokenPair(Principal.fromText(this.state.token0.canisterId), Principal.fromText(this.state.token1.canisterId));
       this.props.updatePairs();
@@ -707,21 +678,15 @@ class Page1 extends Component {
       if (this._isMounted) this.setState({ loading: "" });
       return;
     }
-    try {
-      await addLiquidity(
-        Principal.fromText(this.state.token0.canisterId), 
-        Principal.fromText(this.state.token1.canisterId), 
-        this.state.token0Amount, 
-        this.state.token1Amount
-      );
-    } catch(err) {
-      console.log(err);
-      if (this._isMounted) this.setState({ loading: "" });
-      return;
-    }
     if (this._isMounted) {
-      this.setState({ loading: "" });
-      this.updateBals();
+      this.setState({ loading: "Done" }, () => {
+        setTimeout(() => {
+          if (this._isMounted) {
+            this.setState({ loading: "" });
+            this.updateBals();
+          }
+        }, 1500);
+      });
     }
   };
 
@@ -731,15 +696,16 @@ class Page1 extends Component {
         <button className="back" onClick={() => this.props.goPage(0)}>{"< Back"}</button>
         <label className="label">Create a pair</label>
         <InputGroup
-          label="Input"
-          placeholder="0.00"
-          value={this.state.token0Amount}
-          onChange={this.token0AmountOnChange}
+          noInput
+          label="Token"
+          placeholder=""
+          value=""
+          onChange={() => {}}
           token={this.state.token0}
           balance={this.state.token0Bal}
           onSelect={token0 => this.setState({ token0 })}
           options={this.getTokenOptions(this.state.token1, this.props.tokens, this.props.pairs)}
-          err={this.state.token0Error}
+          err={false}
           class="token0"
         />
         <div className="plus-svg">
@@ -749,19 +715,20 @@ class Page1 extends Component {
         </div>
         {this.state.token1 ?
           <InputGroup
-            label="Input"
-            placeholder="0.00"
-            value={this.state.token1Amount}
-            onChange={this.token1AmountOnChange}
+            noInput
+            label="Token"
+            placeholder=""
+            value=""
+            onChange={() => {}}
             token={this.state.token1}
             balance={this.state.token1Bal}
             onSelect={token1 => this.setState({ token1 })}
             options={this.getTokenOptions(this.state.token0, this.props.tokens, this.props.pairs)}
-            err={this.state.token1Error}
+            err={false}
             class="token1"
           /> :
           <TokenList
-            label="Input"
+            label="Token"
             options={this.getTokenOptions(this.state.token0, this.props.tokens, this.props.pairs)}
             onSelect={token1 => this.setState({ token1 })}
             setBigger={bigger => this.setState({ bigger })}
@@ -775,22 +742,11 @@ class Page1 extends Component {
         {this.state.loading ? 
           <button className="submit" disabled>{this.state.loading}</button> :
           <button className="submit" onClick={this.submit} disabled={
-            !this.state.token1 || 
-            !this.state.token0Amount || 
-            !this.state.token1Amount || 
-            this.state.token0Error || 
-            this.state.token1Error ||
-            parseFloat(this.state.token0Amount || "0") * parseFloat(this.state.token1Amount || "0") <= 1000 * 1000
+            !this.state.token0 || !this.state.token1
           }>
             Create
           </button>
         }
-        {this.state.token0 && this.state.token1 && 
-          this.state.token0Amount && 
-          this.state.token1Amount && 
-          (parseFloat(this.state.token0Amount || "0") * parseFloat(this.state.token1Amount || "0") <= 1000 * 1000) ? 
-          <span className="err">* Product of tokens' amount has to be larger than 1000000.</span>
-        : null}
       </div>
     )
   }

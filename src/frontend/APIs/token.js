@@ -143,7 +143,7 @@ export const getPair = (token0, token1) => {
 
 export const getAllTokenPairs = () => {
   const promise = new Promise((resolve, reject) => {
-    dswap.getAllPair()
+    dswap.getAllPairs()
       .then(res => {
         const list = res.map(i => [i[0].toString(), i[1].toString()]);
         resolve(list);
