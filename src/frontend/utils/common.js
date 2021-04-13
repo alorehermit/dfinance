@@ -11,10 +11,32 @@ export const getAgent = () => {
   return agent;
 };
 
+/**
+ * @param {String} str - hex string
+ * @returns 
+ */
 export const getUint8ArrayFromHex = str => {
   return new Uint8Array(str.match(/.{1,2}/g).map(byte => parseInt(byte, 16)));
 };
 
+/**
+ * @param {Uint8Array} arr 
+ * @returns 
+ */
 export const getHexFromUint8Array = arr => {
   return Buffer.from(arr).toString('hex');
+};
+
+/**
+ * @param {String} amount 
+ * @param {String} decimals 
+ * @returns 
+ */
+export const currencyFormat = (amount, decimals) => {
+  const DCM = parseInt(decimals || "0");
+  const value = parseFloat(amount || "0").toFixed(DCM);
+  const str = new Intl.NumberFormat(
+    "en-GB", { minimumFractionDigits: (DCM > 2 ? 2 : DCM), maximumFractionDigits: 2 }
+  ).format(parseFloat(value));
+  return str;
 };

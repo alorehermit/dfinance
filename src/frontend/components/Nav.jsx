@@ -5,7 +5,6 @@ import { NavLink, withRouter } from "react-router-dom";
 class Nav extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props, this.props.list)
     this.state = {
       left: 0,
       width: 0

@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { Component } from "react";
 import { createToken } from "../APIs/Token.js";
+import { currencyFormat } from "../utils/common.js";
 import Header from "./Header.jsx";
 import "./TokenIssueForm.css";
 
@@ -89,8 +90,8 @@ class TokenIssueForm extends Component {
               <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18">
                 <defs>
                   <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
-                    <stop offset="0" stop-color="#e12b7c"/>
-                    <stop offset="1" stop-color="#323a8d"/>
+                    <stop offset="0" stopColor="#e12b7c"/>
+                    <stop offset="1" stopColor="#323a8d"/>
                   </linearGradient>
                 </defs>
                 <path id="减去_5" data-name="减去 5" d="M-1981,18a9.01,9.01,0,0,1-9-9,9.01,9.01,0,0,1,9-9,9.01,9.01,0,0,1,9,9A9.01,9.01,0,0,1-1981,18Zm0-14a5.006,5.006,0,0,0-5,5,5.006,5.006,0,0,0,5,5,5.006,5.006,0,0,0,5-5A5.006,5.006,0,0,0-1981,4Z" transform="translate(1990)" fill="url(#linear-gradient)"/>
@@ -115,8 +116,8 @@ class TokenIssueForm extends Component {
               <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18">
                 <defs>
                   <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
-                    <stop offset="0" stop-color="#e12b7c"/>
-                    <stop offset="1" stop-color="#323a8d"/>
+                    <stop offset="0" stopColor="#e12b7c"/>
+                    <stop offset="1" stopColor="#323a8d"/>
                   </linearGradient>
                 </defs>
                 <path id="减去_5" data-name="减去 5" d="M-1981,18a9.01,9.01,0,0,1-9-9,9.01,9.01,0,0,1,9-9,9.01,9.01,0,0,1,9,9A9.01,9.01,0,0,1-1981,18Zm0-14a5.006,5.006,0,0,0-5,5,5.006,5.006,0,0,0,5,5,5.006,5.006,0,0,0,5-5A5.006,5.006,0,0,0-1981,4Z" transform="translate(1990)" fill="url(#linear-gradient)"/>
@@ -137,8 +138,8 @@ class TokenIssueForm extends Component {
               <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 18 18">
                 <defs>
                   <linearGradient id="linear-gradient" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
-                    <stop offset="0" stop-color="#e12b7c"/>
-                    <stop offset="1" stop-color="#323a8d"/>
+                    <stop offset="0" stopColor="#e12b7c"/>
+                    <stop offset="1" stopColor="#323a8d"/>
                   </linearGradient>
                 </defs>
                 <path id="减去_5" data-name="减去 5" d="M-1981,18a9.01,9.01,0,0,1-9-9,9.01,9.01,0,0,1,9-9,9.01,9.01,0,0,1,9,9A9.01,9.01,0,0,1-1981,18Zm0-14a5.006,5.006,0,0,0-5,5,5.006,5.006,0,0,0,5,5,5.006,5.006,0,0,0,5-5A5.006,5.006,0,0,0-1981,4Z" transform="translate(1990)" fill="url(#linear-gradient)"/>
@@ -194,9 +195,13 @@ class TokenIssueForm extends Component {
               <div className="wrap">
                 <span className={classNames("name", {muted: !this.state.name})}>{this.state.name || "---"}</span>
                 <label className="supply">Total Supply</label>
-                <span className={classNames("supply", {muted: !this.state.supply})}>{this.state.supply || "---"}</span>
+                <span className={classNames("supply", {muted: !this.state.supply})}>
+                  {currencyFormat(this.state.supply, this.state.decimals || "0") || "---"}
+                </span>
                 <label className="decimals">Decimals</label>
-                <span className={classNames("demical", {muted: !this.state.decimals})}>{this.state.decimals || "---"}</span>
+                <span className={classNames("demical", {muted: !this.state.decimals})}>
+                  {this.state.decimals || "---"}
+                </span>
               </div>
             </div>
             {this.state.loading ? 

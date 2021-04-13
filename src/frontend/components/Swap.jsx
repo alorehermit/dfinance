@@ -1,44 +1,26 @@
 import { Principal } from "@dfinity/agent";
 import classNames from "classnames";
-import React, { Component, createRef, useEffect, useState } from "react";
-import { Route } from "react-router";
+import React, { Component, createRef } from "react";
+import { Route } from "react-router-dom";
 import { addLiquidity, approveToken, createTokenPair, getAllTokenPairs, getAllTokens, getDTokenBalance, getPair, swapToken } from "../APIs/Token.js";
+import { currencyFormat } from "../utils/common.js";
 import ComingSoon from "./ComingSoon.jsx";
 import Nav from "./Nav.jsx";
+import canister_ids from "../utils/canister_ids.json";
 import "./Swap.css";
 
+const DSWAP_CANISTER_ID = canister_ids.dswap.local;
+
 const Swap = () => {
-
-  const [tokens, setTokens] = useState([]);
-  const [pairs, setPairs] = useState([]);
-  useEffect(() => {
-    const initial = async () => {
-      try {
-        const val1 = await getAllTokens();
-        setTokens(val1);
-        console.log("hahah: ", val1)
-      } catch(err) {
-        console.log(err);
-      }
-    };
-    initial();
-  }, []);
-
-  const updatePairs = async () => {
-    const val = await getAllTokenPairs();
-    console.log("lalal", val)
-    setPairs(val);
-  };
-
   return (
     <div className="Swap">
       <SwapHeader />
-      <Route path="/swap/exchange" render={() => <SwapExchange tokens={tokens} pairs={pairs} updatePairs={updatePairs} />} />
-      <Route path="/swap/liquidity" render={() => <SwapLiquidity tokens={tokens} pairs={pairs} updatePairs={updatePairs} />} />
+      <Route path="/swap/exchange" render={() => <SwapExchange />} />
+      <Route path="/swap/liquidity" render={() => <SwapLiquidity />} />
       <Route path="/swap/info" render={() => <SwapInfo />} />
     </div>
   )
-}
+};
 
 export default Swap;
 
@@ -55,12 +37,14 @@ const SwapHeader = () => {
 };
 
 class SwapExchange extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
+      tokens: [],
+      pairs: [],
       fromAmount: "",
       fromBal: "",
-      fromToken: props.tokens ? props.tokens[0] : null,
+      fromToken: null,
       fromError: false,
       toAmount: "",
       toBal: "",
@@ -76,13 +60,7 @@ class SwapExchange extends Component {
   _isMounted = false;
   componentDidMount() {
     this._isMounted = true;
-    this.props.updatePairs();
-    if (this.state.fromToken && this.state.fromToken.canisterId) {
-      this.getTokenBalance(this.state.fromToken.canisterId)
-        .then(res => {
-          if (this._isMounted) this.setState({ fromBal: res });
-        });
-    }
+    this.initial();
   }
   componentWillUnmount() {
     this._isMounted = false;
@@ -112,11 +90,34 @@ class SwapExchange extends Component {
           if (this._isMounted) this.setState({ pairInfo: res[0] });
         })
     }
-    if (this.props.tokens && this.props.tokens.length > 0 && !this.state.fromToken) {
-      this.setState({ fromToken: this.props.tokens[0] });
+    if (this.state.tokens && this.state.tokens.length > 0 && !this.state.fromToken) {
+      this.setState({ fromToken: this.state.tokens[0] });
     }
   }
 
+  initial = async () => {
+    try {
+      const val1 = await getAllTokens();
+      const val2 = await getAllTokenPairs();
+      if (this._isMounted) this.setState({ tokens: val1, pairs: val2 });
+    } catch(err) {
+      console.log(err);
+    }
+  };
+  updateBals = () => {
+    if (this.state.fromToken && this.state.fromToken.canisterId) {
+      this.getTokenBalance(this.state.fromToken.canisterId)
+        .then(res => {
+          if (this._isMounted) this.setState({ fromBal: res });
+        });
+    }
+    if (this.state.toToken && this.state.toToken.canisterId) {
+      this.getTokenBalance(this.state.toToken.canisterId)
+        .then(res => {
+          if (this._isMounted) this.setState({ toBal: res });
+        });
+    }
+  }
   getAmountOut = (amountIn, reserve0, reserve1) => {
     if (!amountIn) return 0;
     var amountInWithFee = amountIn * 997;
@@ -145,7 +146,6 @@ class SwapExchange extends Component {
   getTokenBalance = async canisterId => {
     try {
       const bal = await getDTokenBalance(canisterId);
-      console.log("bal: ", bal);
       return bal.toString();
     } catch(err) {
       console.log(err);
@@ -214,14 +214,15 @@ class SwapExchange extends Component {
     try {
       await approveToken(
         this.state.fromToken.canisterId, 
-        Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"), 
+        Principal.fromText(DSWAP_CANISTER_ID), 
         this.state.fromAmount
       );
     } catch(err) {
       console.log(err);
-      return this.setState({ loading: "" });
+      if (this._isMounted) this.setState({ loading: "" });
+      return;
     }
-    this.setState({ loading: "Swapping..." });
+    if (this._isMounted) this.setState({ loading: "Swapping..." });
     try {
       await swapToken(
         this.state.fromToken.canisterId, 
@@ -231,9 +232,13 @@ class SwapExchange extends Component {
       );
     } catch(err) {
       console.log(err);
-      return this.setState({ loading: "" });
+      if (this._isMounted) this.setState({ loading: "" });
+      return;
     }
-    this.setState({ loading: "", fromAmount: "", toAmount: "" });
+    if (this._isMounted) {
+      this.setState({ loading: "" });
+      this.updateBals();
+    }
   };
 
   render() {
@@ -249,7 +254,7 @@ class SwapExchange extends Component {
             token={this.state.fromToken}
             balance={this.state.fromBal}
             onSelect={token => this.setState({ fromToken: token})}
-            options={this.getTokenOptions(this.state.toToken, this.props.tokens, this.props.pairs)}
+            options={this.getTokenOptions(this.state.toToken, this.state.tokens, this.state.pairs)}
             err={this.state.fromError}
             class="from"
           />
@@ -274,13 +279,13 @@ class SwapExchange extends Component {
               token={this.state.toToken}
               balance={this.state.toBal}
               onSelect={token => this.setState({ toToken: token})}
-              options={this.getTokenOptions(this.state.fromToken, this.props.tokens, this.props.pairs)} //todo
+              options={this.getTokenOptions(this.state.fromToken, this.state.tokens, this.state.pairs)}
               err={this.state.toError}
               class="to"
             /> : 
             <TokenList 
               label="To"
-              options={this.getTokenOptions(this.state.fromToken, this.props.tokens, this.props.pairs)}
+              options={this.getTokenOptions(this.state.fromToken, this.state.tokens, this.state.pairs)}
               onSelect={token => this.setState({ toToken: token })}
               setBigger={bigger => this.setState({ bigger })}
             />
@@ -329,7 +334,7 @@ class InputGroup extends Component {
           />
         </div>
         <span className="balance">
-          {this.props.balance ? `Balance: ${this.props.balance}` : ""}
+          {this.props.balance ? `Balance: ${currencyFormat(this.props.balance, this.props.token ? this.props.token.decimals : "2")}` : ""}
         </span>
       </div>
     )
@@ -406,6 +411,9 @@ class TokenList extends Component {
         {this.state.show ? 
           <div className="option-wrap">
             <div className="options">
+              {this.props.options.length === 0 ? 
+                <span className="no-pair">No token available</span>
+              : null}
               {this.props.options.map((i, index) => (
                 <TokenListOptionItem key={index} {...i} token={i} onSelect={this.props.onSelect} />
               ))}
@@ -422,7 +430,7 @@ class TokenList extends Component {
       </div>
     )
   }
-}
+};
 
 class TokenListOptionItem extends Component {
   constructor() {
@@ -453,21 +461,55 @@ class TokenListOptionItem extends Component {
           <span className="token-icon"></span>
           <span className="token-symbol">{this.props.symbol}</span>
           <span className="token-name">{this.props.name}</span>
-          <span className="token-balance">{this.state.balance}</span>
+          <span className="token-balance">{currencyFormat(this.state.balance, this.props.decimals)}</span>
         </button>
       </div>
     )
   }
-}
+};
 
 class SwapLiquidity extends Component {
   constructor() {
     super();
     this.state = {
-      page: 0
+      page: 0,
+      tokens: [],
+      pairs: []
+    }
+  }
+
+  _isMounted = false
+  componentDidMount() {
+    this._isMounted = true;
+    this.initial();
+  }
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.page !== prevState.page) {
+      this.initial();
     }
   }
   
+  initial = async () => {
+    try {
+      const val1 = await getAllTokens();
+      const val2 = await getAllTokenPairs();
+      if (this._isMounted) this.setState({ tokens: val1, pairs: val2 });
+    } catch(err) {
+      console.log(err);
+    }
+  };
+  updatePairs = async () => {
+    try {
+      const val = await getAllTokenPairs();
+      if (this._isMounted) this.setState({ pairs: val });
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
   render() {
     return (
       <div className="SwapLiquidity">
@@ -475,86 +517,84 @@ class SwapLiquidity extends Component {
           <Page0 goPage={page => this.setState({ page })} />
         : null}
         {this.state.page === 1 ? 
-          <Page1 goPage={page => this.setState({ page })} tokens={this.props.tokens} pairs={this.props.pairs} updatePairs={this.props.updatePairs} />
+          <Page1 goPage={page => this.setState({ page })} tokens={this.state.tokens} pairs={this.state.pairs} updatePairs={this.updatePairs} />
         : null}
         {this.state.page === 2 ? 
-          <Page2 goPage={page => this.setState({ page })} tokens={this.props.tokens} pairs={this.props.pairs} />
+          <Page2 goPage={page => this.setState({ page })} tokens={this.state.tokens} pairs={this.state.pairs} />
         : null}
       </div>
     )
   }
 };
 
-class Page0 extends Component {
-  render () {
-    return (
-      <div className="SwapLiquidityPage SwapLiquidityPage0">
-        <div className="brand">
-          <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="341" height="191" viewBox="0 0 341 191">
-            <defs>
-              <linearGradient id="linear-gradient" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
-                <stop offset="0" stop-color="#3dc4ed"/>
-                <stop offset="1" stop-color="#2976ba"/>
-              </linearGradient>
-              <linearGradient id="linear-gradient-2" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
-                <stop offset="0" stop-color="#5a68d2"/>
-                <stop offset="0.234" stop-color="#5d66d2"/>
-                <stop offset="0.443" stop-color="#6862d2"/>
-                <stop offset="0.641" stop-color="#7a5bd3"/>
-                <stop offset="0.831" stop-color="#9351d5"/>
-                <stop offset="1" stop-color="#b146d7"/>
-              </linearGradient>
-              <linearGradient id="linear-gradient-3" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
-                <stop offset="0" stop-color="#618fe0"/>
-                <stop offset="1" stop-color="#6962d6"/>
-              </linearGradient>
-            </defs>
-            <g id="logo" transform="translate(-5510.111 -3889.79)">
-              <g id="组_69" data-name="组 69" transform="translate(5584.043 3889.79)">
-                <path id="路径_75" data-name="路径 75" d="M5637.533,3934.954a36.483,36.483,0,0,1,26.062,62.013,37.039,37.039,0,0,1-26.485,10.953h-14.3a7.965,7.965,0,0,1-7.965-7.964v-57.037a7.965,7.965,0,0,1,7.965-7.965h14.719m7.037-45.164h-52.15a8.377,8.377,0,0,0-8.377,8.378v146.539a8.377,8.377,0,0,0,8.377,8.378h52.15a81.647,81.647,0,0,0,81.647-81.648h0a81.647,81.647,0,0,0-81.647-81.647Z" transform="translate(-5584.043 -3889.79)" fill="url(#linear-gradient)"/>
-                <g id="组_68" data-name="组 68" transform="translate(46.683)">
-                  <path id="路径_76" data-name="路径 76" d="M5644.57,3889.79h-13.844a82.682,82.682,0,0,1,69.663,80.223c.011.473.018.946.018,1.42v0h0q0,.714-.018,1.425a82.682,82.682,0,0,1-69.663,80.223h13.844a81.647,81.647,0,0,0,81.647-81.648h0A81.647,81.647,0,0,0,5644.57,3889.79Z" transform="translate(-5630.726 -3889.79)" fill="url(#linear-gradient-2)"/>
-                </g>
-                <path id="路径_77" data-name="路径 77" d="M5584.043,3901.1c0,38.353,27.653,59.089,27.653,85.612s-27.653,41.182-27.653,55.07Z" transform="translate(-5584.043 -3889.79)" fill="url(#linear-gradient-3)"/>
+const Page0 = props => {
+  return (
+    <div className="SwapLiquidityPage SwapLiquidityPage0">
+      <div className="brand">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 341 191">
+          <defs>
+            <linearGradient id="linear-gradient" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+              <stop offset="0" stopColor="#3dc4ed"/>
+              <stop offset="1" stopColor="#2976ba"/>
+            </linearGradient>
+            <linearGradient id="linear-gradient-2" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+              <stop offset="0" stopColor="#5a68d2"/>
+              <stop offset="0.234" stopColor="#5d66d2"/>
+              <stop offset="0.443" stopColor="#6862d2"/>
+              <stop offset="0.641" stopColor="#7a5bd3"/>
+              <stop offset="0.831" stopColor="#9351d5"/>
+              <stop offset="1" stopColor="#b146d7"/>
+            </linearGradient>
+            <linearGradient id="linear-gradient-3" y1="0.5" x2="1" y2="0.5" gradientUnits="objectBoundingBox">
+              <stop offset="0" stopColor="#618fe0"/>
+              <stop offset="1" stopColor="#6962d6"/>
+            </linearGradient>
+          </defs>
+          <g id="logo" transform="translate(-5510.111 -3889.79)">
+            <g id="组_69" data-name="组 69" transform="translate(5584.043 3889.79)">
+              <path id="路径_75" data-name="路径 75" d="M5637.533,3934.954a36.483,36.483,0,0,1,26.062,62.013,37.039,37.039,0,0,1-26.485,10.953h-14.3a7.965,7.965,0,0,1-7.965-7.964v-57.037a7.965,7.965,0,0,1,7.965-7.965h14.719m7.037-45.164h-52.15a8.377,8.377,0,0,0-8.377,8.378v146.539a8.377,8.377,0,0,0,8.377,8.378h52.15a81.647,81.647,0,0,0,81.647-81.648h0a81.647,81.647,0,0,0-81.647-81.647Z" transform="translate(-5584.043 -3889.79)" fill="url(#linear-gradient)"/>
+              <g id="组_68" data-name="组 68" transform="translate(46.683)">
+                <path id="路径_76" data-name="路径 76" d="M5644.57,3889.79h-13.844a82.682,82.682,0,0,1,69.663,80.223c.011.473.018.946.018,1.42v0h0q0,.714-.018,1.425a82.682,82.682,0,0,1-69.663,80.223h13.844a81.647,81.647,0,0,0,81.647-81.648h0A81.647,81.647,0,0,0,5644.57,3889.79Z" transform="translate(-5630.726 -3889.79)" fill="url(#linear-gradient-2)"/>
               </g>
-              <g id="DFINANCE-2" transform="translate(5510.111 3959.116)">
-                <text id="DFINANCE" transform="translate(0 61)" fill="#242424" font-size="56.87" font-family="Helvetica"><tspan x="0" y="0">DFINANCE</tspan></text>
-              </g>
-              <text id="Liquidity" transform="translate(5718.111 4072.79)" fill="#242424" font-size="36" font-family="Helvetica"><tspan x="0" y="0">Liquidity</tspan></text>
+              <path id="路径_77" data-name="路径 77" d="M5584.043,3901.1c0,38.353,27.653,59.089,27.653,85.612s-27.653,41.182-27.653,55.07Z" transform="translate(-5584.043 -3889.79)" fill="url(#linear-gradient-3)"/>
             </g>
-          </svg>
+            <g id="DFINANCE-2" transform="translate(5510.111 3959.116)">
+              <text id="DFINANCE" transform="translate(0 61)" fill="#242424" fontSize="56.87" fontFamily="Helvetica"><tspan x="0" y="0">DFINANCE</tspan></text>
+            </g>
+            <text id="Liquidity" transform="translate(5718.111 4072.79)" fill="#242424" fontSize="36" fontFamily="Helvetica"><tspan x="0" y="0">Liquidity</tspan></text>
+          </g>
+        </svg>
+      </div>
+      <div className="message">
+        Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.
+      </div>
+      <div className="page-cards">
+        <div className="page-card page-card-1">
+          <button onClick={() => props.goPage(1)}></button>
+          <div className="accessory-1">Create a pair</div>
+          <div className="accessory-2"></div>
+          <div className="accessory-3"></div>
         </div>
-        <div className="message">
-          Liquidity providers earn a 0.3% fee on all trades proportional to their share of the pool. Fees are added to the pool, accrue in real time and can be claimed by withdrawing your liquidity.
-        </div>
-        <div className="page-cards">
-          <div className="page-card page-card-1">
-            <button onClick={() => this.props.goPage(1)}></button>
-            <div className="accessory-1">Create a pair</div>
-            <div className="accessory-2"></div>
-            <div className="accessory-3"></div>
-          </div>
-          <div className="page-card page-card-2">
-            <button onClick={() => this.props.goPage(2)}></button>
-            <div className="accessory-1">Add liquidity</div>
-            <div className="accessory-2"></div>
-            <div className="accessory-3"></div>
-            <div className="accessory-4"></div>
-            <div className="accessory-5"></div>
-          </div>
+        <div className="page-card page-card-2">
+          <button onClick={() => props.goPage(2)}></button>
+          <div className="accessory-1">Add liquidity</div>
+          <div className="accessory-2"></div>
+          <div className="accessory-3"></div>
+          <div className="accessory-4"></div>
+          <div className="accessory-5"></div>
         </div>
       </div>
-    )
-  }
+    </div>
+  )
 };
 
 class Page1 extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       token0Amount: "",
       token0Bal: "",
-      token0: props.tokens ? props.tokens[0] : null,
+      token0: null,
       token0Error: false,
       token1Amount: "",
       token1Bal: "",
@@ -592,8 +632,25 @@ class Page1 extends Component {
           if (this._isMounted) this.setState({ token1Bal: res });
         });
     }
+    if (this.props.tokens && this.props.tokens.length > 0 && !this.state.token0) {
+      this.setState({ token0: this.props.tokens[0] });
+    }
   }
   
+  updateBals = () => {
+    if (this.state.token0 && this.state.token0.canisterId) {
+      this.getTokenBalance(this.state.token0.canisterId)
+        .then(res => {
+          if (this._isMounted) this.setState({ token0Bal: res });
+        });
+    }
+    if (this.state.token1 && this.state.token1.canisterId) {
+      this.getTokenBalance(this.state.token1.canisterId)
+        .then(res => {
+          if (this._isMounted) this.setState({ token1Bal: res });
+        });
+    }
+  };
   getTokenOptions = (token, tokens, pairs) => {
     if (!token) return tokens;
     let res = tokens.filter(i => i.canisterId !== token.canisterId);
@@ -634,19 +691,21 @@ class Page1 extends Component {
   submit = async () => {
     this.setState({ loading: "Approving..." });
     try {
-      await approveToken(this.state.token0.canisterId, Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"), this.state.token0Amount);
-      await approveToken(this.state.token1.canisterId, Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"), this.state.token1Amount);
+      await approveToken(this.state.token0.canisterId, Principal.fromText(DSWAP_CANISTER_ID), this.state.token0Amount);
+      await approveToken(this.state.token1.canisterId, Principal.fromText(DSWAP_CANISTER_ID), this.state.token1Amount);
     } catch(err) {
       console.log(err);
-      return this.setState({ loading: "" });
+      if (this._isMounted) this.setState({ loading: "" });
+      return;
     }
-    this.setState({ loading: "Creating..." });
+    if (this._isMounted) this.setState({ loading: "Creating..." });
     try {
       await createTokenPair(Principal.fromText(this.state.token0.canisterId), Principal.fromText(this.state.token1.canisterId));
       this.props.updatePairs();
     } catch(err) {
       console.log(err);
-      return this.setState({ loading: "" });
+      if (this._isMounted) this.setState({ loading: "" });
+      return;
     }
     try {
       await addLiquidity(
@@ -657,9 +716,13 @@ class Page1 extends Component {
       );
     } catch(err) {
       console.log(err);
-      return this.setState({ loading: "" });
+      if (this._isMounted) this.setState({ loading: "" });
+      return;
     }
-    this.setState({ loading: "", token0Amount: "", token1Amount: "" });
+    if (this._isMounted) {
+      this.setState({ loading: "" });
+      this.updateBals();
+    }
   };
 
   render() {
@@ -734,12 +797,12 @@ class Page1 extends Component {
 }
 
 class Page2 extends Component {
-  constructor(props) {
+  constructor() {
     super();
     this.state = {
       token0Amount: "",
       token0Bal: "",
-      token0: props.tokens ? props.tokens[0] : null,
+      token0: null,
       token0Error: false,
       token1Amount: "",
       token1Bal: "",
@@ -777,8 +840,25 @@ class Page2 extends Component {
           if (this._isMounted) this.setState({ token1Bal: res });
         });
     }
+    if (this.props.tokens && this.props.tokens.length > 0 && !this.state.token0) {
+      this.setState({ token0: this.props.tokens[0] });
+    }
   }
 
+  updateBals = () => {
+    if (this.state.token0 && this.state.token0.canisterId) {
+      this.getTokenBalance(this.state.token0.canisterId)
+        .then(res => {
+          if (this._isMounted) this.setState({ token0Bal: res });
+        });
+    }
+    if (this.state.token1 && this.state.token1.canisterId) {
+      this.getTokenBalance(this.state.token1.canisterId)
+        .then(res => {
+          if (this._isMounted) this.setState({ token1Bal: res });
+        });
+    }
+  }
   getTokenOptions = (token, tokens, pairs) => {
     if (!token) return tokens;
     let res = [];
@@ -821,13 +901,14 @@ class Page2 extends Component {
   submit = async () => {
     this.setState({ loading: "Approving..." });
     try {
-      await approveToken(this.state.token0.canisterId, Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"), this.state.token0Amount);
-      await approveToken(this.state.token1.canisterId, Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"), this.state.token1Amount);
+      await approveToken(this.state.token0.canisterId, Principal.fromText(DSWAP_CANISTER_ID), this.state.token0Amount);
+      await approveToken(this.state.token1.canisterId, Principal.fromText(DSWAP_CANISTER_ID), this.state.token1Amount);
     } catch(err) {
       console.log(err);
-      return this.setState({ loading: "" });
+      if (this._isMounted) this.setState({ loading: "" });
+      return;
     }
-    this.setState({ loading: "Adding..." });
+    if (this._isMounted) ({ loading: "Adding..." });
     try {
       await addLiquidity(
         Principal.fromText(this.state.token0.canisterId), 
@@ -837,9 +918,13 @@ class Page2 extends Component {
       );
     } catch(err) {
       console.log(err);
-      return this.setState({ loading: "" });
+      if (this._isMounted) this.setState({ loading: "" });
+      return;
     }
-    this.setState({ loading: "", token0Amount: "", token1Amount: "" });
+    if (this._isMounted) {
+      this.setState({ loading: "" });
+      this.updateBals();
+    }
   };
 
   render() {
@@ -915,7 +1000,6 @@ class Page2 extends Component {
 
 const SwapInfo = () => {
   return (
-    // <div>info</div>
     <ComingSoon />
   )
 };

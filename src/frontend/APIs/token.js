@@ -26,7 +26,6 @@ export const createToken = (
     dtoken.createToken(
       name, symbol, parseInt(decimals), parseInt(totalSupply)
     )
-    // dTokenActor.createToken(name, symbol, parseInt(decimals), parseInt(totalSupply))
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -146,8 +145,8 @@ export const getAllTokenPairs = () => {
   const promise = new Promise((resolve, reject) => {
     dswap.getAllPair()
       .then(res => {
-        const list = res.map(i => [i[0].toString(), i[1].toString()])
-        resolve(list)
+        const list = res.map(i => [i[0].toString(), i[1].toString()]);
+        resolve(list);
       })
       .catch(err => reject(err));
   });

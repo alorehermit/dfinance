@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { Component } from "react";
 import { getDTokenBalance, transferDToken } from "../APIs/Token";
+import { currencyFormat } from "../utils/common";
 import TokenItem from "./TokenItem.jsx";
 import "./TokenList.css";
 
@@ -137,7 +138,7 @@ class TokenList extends Component {
               onChange={this.amountOnChange} 
             />
             <div className="balance-ctrl">
-              <span>{this.state.balance ? `Balance: ${this.state.balance}` : ""}</span>
+              <span>{this.state.balance ? `Balance: ${currencyFormat(this.state.balance, this.state.active ? this.state.active.decimals : "18")}` : ""}</span>
               <button onClick={this.max}>Max</button>
             </div>
             {this.state.loading ?

@@ -2,6 +2,7 @@
 import classNames from "classnames";
 import React, { Component } from "react";
 import { getDTokenBalance } from "../APIs/Token";
+import { currencyFormat } from "../utils/common";
 import "./TokenItem.css";
 
 class TokenItem extends Component {
@@ -36,7 +37,7 @@ class TokenItem extends Component {
           </p>
           <p className="token-amount">
             <label>Amount</label>
-            <span>{this.state.balance}</span>
+            <span>{currencyFormat(this.state.balance, this.props.decimals)}</span>
           </p>
         </div>
       </div>

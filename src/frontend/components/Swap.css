@@ -261,6 +261,14 @@
   padding-right: 2rem;
   overflow-y: auto;
 }
+.SwapExchange .wrap .TokenOptionList .option-wrap .options span.no-pair,
+.SwapLiquidity .TokenOptionList .option-wrap .options span.no-pair {
+  display: block;
+  width: 100%;
+  text-align: center;
+  font-size: 1.8rem;
+  color: #B8B8B8;
+}
 .SwapExchange .wrap .TokenOptionList .option-wrap::-webkit-scrollbar,
 .SwapLiquidity .TokenOptionList .option-wrap::-webkit-scrollbar {
   width: 0.9rem;
