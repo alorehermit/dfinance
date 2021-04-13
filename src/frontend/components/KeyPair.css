@@ -3,10 +3,12 @@
   height: 20rem;
   margin: 20rem auto;
   overflow: hidden;
+  padding: 0 1rem;
 }
 .KeyPair .wrap {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   opacity: 1;
   margin-top: 0;
   transition: all 180ms ease;
@@ -28,7 +30,7 @@
   background-image: linear-gradient(290deg, #323A8D, #E12B7C);
 }
 .KeyPair .wrap.upper {
-  margin-top: -22rem;
+  margin-top: -19rem;
   opacity: 0;
 }
 .KeyPair .import-form {
@@ -80,7 +82,6 @@
 }
 .KeyPair .wallet {
   width: 100%;
-  padding-top: 2rem;
 }
 .KeyPair .wallet p {
   display: flex;
@@ -89,6 +90,7 @@
   font-size: 2rem;
   font-family: "Roboto bold";
   color: #001414;
+  margin: 1rem 0;
 }
 .KeyPair .wallet p label {
   display: block;

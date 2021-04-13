@@ -165,7 +165,7 @@
   color: #308ECA;
   margin-top: 3.3rem;
 }
-.TokenIssueForm .form-wrap .card .accessory-2 label.decimal {
+.TokenIssueForm .form-wrap .card .accessory-2 label.decimals {
   color: #A34BD6;
   margin-top: 2rem;
 }
@@ -191,10 +191,12 @@
   border: none;
   border-radius: 3rem;
   background-image: linear-gradient(115deg, #2976BA, #2AA8CE);
+  cursor: pointer;
+}
+.TokenIssueForm .form-wrap .card button.submit span {
   color: #FFF;
   font-size: 3.2rem;
   font-family: "Roboto bold";
-  cursor: pointer;
 }
 .TokenIssueForm .form-wrap .card button.submit svg {
   width: 2rem;

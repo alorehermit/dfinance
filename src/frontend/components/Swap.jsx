@@ -407,7 +407,7 @@ class TokenList extends Component {
           <div className="option-wrap">
             <div className="options">
               {this.props.options.map((i, index) => (
-                <TokenListOptionItem key={index} {...i} />
+                <TokenListOptionItem key={index} {...i} token={i} onSelect={this.props.onSelect} />
               ))}
             </div>
           </div> :
@@ -415,7 +415,9 @@ class TokenList extends Component {
             className="trigger" 
             onClick={() => this.setState({ show: true })} 
             disabled={this.props.options && this.props.options.length === 0}
-          >Select a token</button>
+          >
+            {this.props.options && this.props.options.length === 0 ? "Unavailable" : "Select a token"}
+          </button>
         }
       </div>
     )
@@ -447,7 +449,7 @@ class TokenListOptionItem extends Component {
   render() {
     return (
       <div className="btn-wrap">
-        <button className="option-btn" onClick={() => this.props.onSelect(i)}>
+        <button className="option-btn" onClick={() => this.props.onSelect(this.props.token)}>
           <span className="token-icon"></span>
           <span className="token-symbol">{this.props.symbol}</span>
           <span className="token-name">{this.props.name}</span>

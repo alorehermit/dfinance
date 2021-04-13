@@ -200,7 +200,7 @@ class TokenIssueForm extends Component {
               </div>
             </div>
             {this.state.loading ? 
-              <button className="submit" disabled>Submitting...</button> :
+              <button className="submit" disabled><span>Submitting...</span></button> :
               <button className="submit" onClick={this.submit} disabled={this.state.nameStatus.code + this.state.symbolStatus.code + this.state.supplyStatus.code + this.state.decimalsStatus.code !== 4
               }>
                 <span>Issue</span>

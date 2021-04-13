@@ -62,7 +62,6 @@ const KeyPair = props => {
       : null}
       {wallet ? 
         <div className="wallet">
-          <p className="label">Wallet :</p>
           <p>
             <label>Principal :</label>
             <span>{principal}</span>
