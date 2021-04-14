@@ -86,7 +86,7 @@ class SwapExchange extends Component {
     ) {
       getPair(Principal.fromText(this.state.fromToken.canisterId), Principal.fromText(this.state.toToken.canisterId))
         .then(res => {
-          console.log("pairInfo: ", res, res[0].reserve0.toString())
+          console.log("pairInfo: ", res)
           if (this._isMounted) this.setState({ pairInfo: res[0] });
         })
     }
@@ -99,7 +99,7 @@ class SwapExchange extends Component {
     try {
       const val1 = await getAllTokens();
       const val2 = await getAllTokenPairs();
-      console.log("pairs: ", val2);
+      console.log("pairs 1: ", val2);
       if (this._isMounted) this.setState({ tokens: val1, pairs: val2 });
     } catch(err) {
       console.log(err);
@@ -147,6 +147,7 @@ class SwapExchange extends Component {
   getTokenBalance = async canisterId => {
     try {
       const bal = await getDTokenBalance(canisterId);
+      console.log("1: ", bal)
       return bal.toString();
     } catch(err) {
       console.log(err);
@@ -160,6 +161,7 @@ class SwapExchange extends Component {
     this.setState({ fromAmount: val }, () => {
       if (this.state.pairInfo) {
         const { reserve0, reserve1 } = this.state.pairInfo;
+        console.log("2,4 : ", reserve0, "3,5 : ", reserve1)
         if (reserve0 && reserve1 && reserve0.toString() && reserve1.toString()) {
           const amountOut = this.getAmountOut(
             parseFloat(val || "0"), 
@@ -184,6 +186,7 @@ class SwapExchange extends Component {
     this.setState({ toAmount: val }, () => {
       if (this.state.pairInfo) {
         const { reserve0, reserve1 } = this.state.pairInfo;
+        console.log("6,8 : ", reserve0, "7,9 : ", reserve1)
         if (reserve0 && reserve1 && reserve0.toString() && reserve1.toString()) {
           const amountIn = this.getAmountIn(
             parseFloat(val || "0"), 
@@ -237,7 +240,13 @@ class SwapExchange extends Component {
       return;
     }
     if (this._isMounted) {
-      this.setState({ loading: "" });
+      this.setState({ loading: "Done" }, () => {
+        setTimeout(() => {
+          if (this._isMounted) {
+            this.setState({ loading: "" });
+          }
+        }, 1500);
+      });
       this.updateBals();
     }
   };
@@ -448,6 +457,7 @@ class TokenListOptionItem extends Component {
     if (this.props.canisterId) {
       getDTokenBalance(this.props.canisterId)
         .then(res => {
+          console.log("10 : ", res)
           if (this._isMounted) this.setState({ balance: res.toString() });
         })
     }
@@ -498,7 +508,7 @@ class SwapLiquidity extends Component {
     try {
       const val1 = await getAllTokens();
       const val2 = await getAllTokenPairs();
-      console.log("pair: ", val2);
+      console.log("pair: 2", val2);
       if (this._isMounted) this.setState({ tokens: val1, pairs: val2 });
     } catch(err) {
       console.log(err);
@@ -507,7 +517,7 @@ class SwapLiquidity extends Component {
   updatePairs = async () => {
     try {
       const val = await getAllTokenPairs();
-      console.log("pair: ", val);
+      console.log("pair: 3", val);
       if (this._isMounted) this.setState({ pairs: val });
     } catch(err) {
       console.log(err);
@@ -635,20 +645,6 @@ class Page1 extends Component {
     }
   }
   
-  updateBals = () => {
-    if (this.state.token0 && this.state.token0.canisterId) {
-      this.getTokenBalance(this.state.token0.canisterId)
-        .then(res => {
-          if (this._isMounted) this.setState({ token0Bal: res });
-        });
-    }
-    if (this.state.token1 && this.state.token1.canisterId) {
-      this.getTokenBalance(this.state.token1.canisterId)
-        .then(res => {
-          if (this._isMounted) this.setState({ token1Bal: res });
-        });
-    }
-  };
   getTokenOptions = (token, tokens, pairs) => {
     if (!token) return tokens;
     let res = tokens.filter(i => i.canisterId !== token.canisterId);
@@ -662,6 +658,7 @@ class Page1 extends Component {
   getTokenBalance = async canisterId => {
     try {
       const bal = await getDTokenBalance(canisterId);
+      console.log("11 : ", bal)
       return bal.toString();
     } catch(err) {
       console.log(err);
@@ -683,7 +680,8 @@ class Page1 extends Component {
         setTimeout(() => {
           if (this._isMounted) {
             this.setState({ loading: "" });
-            this.updateBals();
+            // getAllTokenPairs()
+            //   .then(res => console.log("isPairAdded : ", res))
           }
         }, 1500);
       });
@@ -830,6 +828,7 @@ class Page2 extends Component {
   getTokenBalance = async canisterId => {
     try {
       const bal = await getDTokenBalance(canisterId);
+      console.log("12: ", bal)
       return bal.toString();
     } catch(err) {
       console.log(err);
@@ -878,7 +877,13 @@ class Page2 extends Component {
       return;
     }
     if (this._isMounted) {
-      this.setState({ loading: "" });
+      this.setState({ loading: "Done" }, () => {
+        setTimeout(() => {
+          if (this._isMounted) {
+            this.setState({ loading: "" });
+          }
+        }, 1500);
+      });
       this.updateBals();
     }
   };

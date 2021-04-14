@@ -145,7 +145,8 @@ export const getAllTokenPairs = () => {
   const promise = new Promise((resolve, reject) => {
     dswap.getAllPairs()
       .then(res => {
-        const list = res.map(i => [i[0].toString(), i[1].toString()]);
+        console.log("pairssssss", res)
+        const list = res.map(i => [i.token0.toString(), i.token1.toString()]);
         resolve(list);
       })
       .catch(err => reject(err));
