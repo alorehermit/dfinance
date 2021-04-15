@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { makeActorFactory, Principal } from "@dfinity/agent";
 import candid from "../utils/dtoken.did";
-import { addLiquidity, approveToken, createToken, createTokenPair, getAllTokenPairs, getAllTokens, getDTokenBalance, getLpBalance, getPair, getTokenAllowance, removeLiquidity } from "../APIs/Token";
+import { addLiquidity, approveToken, createToken, createTokenPair, getAllTokenPairs, getAllTokens, getDTokenBalance, getLpBalance, getPair, getTokenAllowance, removeLiquidity } from "../APIs/Token.js";
 
 class Test extends Component {
   constructor() {

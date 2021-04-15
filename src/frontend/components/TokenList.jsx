@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { Component } from "react";
-import { getDTokenBalance, transferDToken } from "../APIs/Token";
+import { getDTokenBalance, transferDToken } from "../APIs/Token.js";
 import { currencyFormat } from "../utils/common";
 import TokenItem from "./TokenItem.jsx";
 import "./TokenList.css";

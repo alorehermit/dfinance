@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Ed25519KeyIdentity } from "@dfinity/authentication";
 import { getUint8ArrayFromHex } from "../utils/common";
-import "./KeyPair.css";
 import classNames from "classnames";
 import { withRouter } from "react-router";
+import "./KeyPair.css";
 
 const KeyPair = props => {
 

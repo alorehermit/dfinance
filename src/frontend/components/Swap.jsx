@@ -2,7 +2,7 @@ import { Principal } from "@dfinity/agent";
 import classNames from "classnames";
 import React, { Component, createRef } from "react";
 import { Route } from "react-router-dom";
-import { addLiquidity, approveToken, createTokenPair, getAllTokenPairs, getAllTokens, getDTokenBalance, getPair, swapToken } from "../APIs/Token.js";
+import { addLiquidity, approveToken, createTokenPair, getAllTokenPairs, getAllTokens, getDTokenBalance, getPair, swapToken } from "../APIs/token.js";
 import { currencyFormat } from "../utils/common.js";
 import ComingSoon from "./ComingSoon.jsx";
 import Nav from "./Nav.jsx";
