@@ -4,7 +4,7 @@
       "main": "src/dtoken/src/registry.mo"
     },
     "dswap": {
-      "main": "src/dswap/src/DSwap.mo"
+      "main": "src/dswap/src/dswap.mo"
     },
     "frontend": {
       "dependencies": [
