@@ -16,8 +16,7 @@ class TokenList extends Component {
       amount: "",
       amountError: false,
       balance: "",
-      loading: false,
-      info: ""
+      loading: false
     }
   }
 
@@ -62,16 +61,11 @@ class TokenList extends Component {
       amount: "",
       amountError: false,
       balance: "",
-      loading: false,
-      info: ""
+      loading: false
     });
   };
   submit = () => {
-    this.setState({ loading: true });
-    console.log("token: ", this.state.active)
-    console.log("amount: ", this.state.amount)
-    console.log("decimals: ", this.state.active.decimals);
-
+    this.setState({ loading: "Transferring..." });
     transferDToken(
       this.state.active.canisterId, 
       this.state.spender, 
@@ -79,20 +73,18 @@ class TokenList extends Component {
       this.state.active.decimals
     )
       .then(res => {
-        if (this._isMounted) {
-          this.getBalance();
-          this.setState({ info: "Transferred" }, () => {
-            setTimeout(() => {
-              if (this._isMounted) this.setState({ info: "" });
-            }, 2000);
-          })
-        }
+        if (this._isMounted) his.getBalance();
       })
       .catch(err => {
+        console.log("transfer token failed");
         console.log(err);
       })
       .finally(() => {
-        if (this._isMounted) this.setState({ loading: false });
+        if (this._isMounted) this.setState({ loading: "Done" }, () => {
+          setTimeout(() => {
+            if (this._isMounted) this.setState({ loading: "" });
+          }, 1500);
+        })
       });
   };
 
@@ -138,12 +130,11 @@ class TokenList extends Component {
               <button onClick={this.max}>Max</button>
             </div>
             {this.state.loading ?
-              <button className="submit" disabled>Transferring...</button> :
+              <button className="submit" disabled>{this.state.loading}</button> :
               <button className="submit" onClick={this.submit} disabled={
                 !this.state.active || !this.state.spender || !this.state.amount ? true : false
               }>Transfer</button>
             }
-            <div className="info">{this.state.info}</div>
           </div>
         </div>
       </div>

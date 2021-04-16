@@ -53,8 +53,8 @@ class Header extends Component {
                 {path: "/", name: "Wallet", match: path => path === "/"},
                 {path: "/dtoken", name: "DToken", match: path => path === "/dtoken"},
                 {path: "/swap/exchange", name: "DSwap", match: path => path.indexOf("/swap/") > -1},
-                {path: "/DUSD", name: "DUSD", match: path => path === "/DUSD"},
-                {path: "/DLend", name: "DLend", match: path => path === "/DLend"},
+                // {path: "/DUSD", name: "DUSD", match: path => path === "/DUSD"},
+                // {path: "/DLend", name: "DLend", match: path => path === "/DLend"},
               ]} />
             </div>
           : null}

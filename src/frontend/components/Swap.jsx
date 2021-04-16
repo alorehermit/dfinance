@@ -126,17 +126,17 @@ class SwapExchange extends Component {
         });
     }
   }
-  getAmountOut = (amountIn, reserve0, reserve1) => {
+  getAmountOut = (amountIn, reserveIn, reserveOut) => {
     if (!amountIn) return 0;
     var amountInWithFee = amountIn * 997;
-    var numerator = amountInWithFee * reserve1;
-    var denominator = reserve0 * 1000 + amountInWithFee;
+    var numerator = amountInWithFee * reserveOut;
+    var denominator = reserveIn * 1000 + amountInWithFee;
     return numerator / denominator;
   };
-  getAmountIn = (amountOut, reserve0, reserve1) => {
+  getAmountIn = (amountOut, reserveIn, reserveOut) => {
     if (!amountOut) return 0;
-    var numerator = reserve0 * amountOut * 1000;
-    var denominator = (reserve1 - amountOut) * 997;
+    var numerator = reserveIn * amountOut * 1000;
+    var denominator = (reserveOut - amountOut) * 997;
     return numerator / denominator + 1;
   };
   getTokenOptions = (token, tokens, pairs) => {
@@ -168,13 +168,21 @@ class SwapExchange extends Component {
     this.setState({ fromAmount: val }, () => {
       if (this.state.pairInfo) {
         const { reserve0, reserve1 } = this.state.pairInfo;
-        console.log("2,4 : ", reserve0, "3,5 : ", reserve1)
         if (reserve0 && reserve1) {
-          const amountOut = this.getAmountOut(
-            parseFloat(val || "0"), 
-            parseFloat(reserve0), 
-            parseFloat(reserve1)
-          );
+          let amountOut;
+          if (this.state.fromToken.canisterId === this.state.pairInfo.token0) {
+            amountOut = this.getAmountOut(
+              parseFloat(val || "0"), 
+              parseFloat(reserve0), 
+              parseFloat(reserve1)
+            );
+          } else {
+            amountOut = this.getAmountOut(
+              parseFloat(val || "0"), 
+              parseFloat(reserve1),
+              parseFloat(reserve0) 
+            );
+          }
           this.setState({ toAmount: amountOut });
           if (this.state.toBal && parseFloat(this.state.toBal) < amountOut) {
             this.setState({ toError: true });
@@ -195,11 +203,20 @@ class SwapExchange extends Component {
         const { reserve0, reserve1 } = this.state.pairInfo;
         console.log("6,8 : ", reserve0, "7,9 : ", reserve1)
         if (reserve0 && reserve1) {
-          const amountIn = this.getAmountIn(
-            parseFloat(val || "0"), 
-            parseFloat(reserve0), 
-            parseFloat(reserve1)
-          );
+          let amountIn;
+          if (this.state.toToken.canisterId === this.state.pairInfo.token0) {
+            amountIn = this.getAmountIn(
+              parseFloat(val || "0"), 
+              parseFloat(reserve0), 
+              parseFloat(reserve1)
+            );
+          } else {
+            amountIn = this.getAmountIn(
+              parseFloat(val || "0"), 
+              parseFloat(reserve1),
+              parseFloat(reserve0) 
+            );
+          }
           this.setState({ fromAmount: amountIn });
           if (this.state.fromBal && parseFloat(this.state.fromBal) < amountIn) {
             this.setState({ fromError: true });

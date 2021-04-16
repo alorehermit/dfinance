@@ -139,10 +139,3 @@
   background-image: none;
   cursor: not-allowed;
 }
-.TokenListModal .wrap .info {
-  height: 2.5rem;
-  text-align: right;
-  font-size: 1.6rem;
-  font-family: "Roboto bold";
-  color: #001414;
-}
