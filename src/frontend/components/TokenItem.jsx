@@ -16,9 +16,9 @@ class TokenItem extends Component {
   componentDidMount() {
     this._isMounted = true;
     console.log("token: ", this.props)
-    getDTokenBalance(this.props.canisterId)
-      .then(res => {
-        if (this._isMounted) this.setState({ balance: res.toString() });
+    getDTokenBalance(this.props.canisterId, this.props.decimals)
+      .then(balance => {
+        if (this._isMounted) this.setState({ balance });
       })
       .catch(err => console.log(err));
   }

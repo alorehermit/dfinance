@@ -2,6 +2,8 @@ import dtoken from "ic:canisters/dtoken";
 import dswap from "ic:canisters/dswap";
 import { makeActorFactory, Principal } from "@dfinity/agent";
 import tokenCandid from "../utils/token.did";
+import { amountStrToBigInt, bigIntToAmountStr } from "../utils/common";
+import BigNumber from "bignumber.js";
 
 // import dSwapCandid from "../utils/dswap.did";
 // import dTokenCandid from "../utils/dtoken.did";
@@ -25,9 +27,9 @@ export const createToken = (
 ) => {
   const promise = new Promise((resolve, reject) => {
     dtoken.createToken(
-      name, symbol, parseInt(decimals), parseInt(totalSupply)
+      name, symbol, new BigNumber(decimals), new BigNumber(totalSupply).multipliedBy(new BigNumber("10").pow(parseInt(decimals))) 
     )
-      .then(res => resolve(res))
+      .then(res => resolve(res.toString()))
       .catch(err => reject(err));
   });
   return promise;
@@ -39,11 +41,11 @@ export const getAllTokens = () => {
       .then(res => {
         const list = res.map(i => {
           return {
-            name: i.name.toString(),
-            symbol: i.symbol.toString(),
             id: i.id.toString(),
+            name: i.name,
+            symbol: i.symbol,
             decimals: i.decimals.toString(),
-            totalSupply: i.totalSupply.toString(),
+            totalSupply: bigIntToAmountStr(i.totalSupply, i.decimals.toString()), // i.totalSupply.toString(),
             owner: i.owner.toString(),
             canisterId: i.canisterId.toString()
           };
@@ -63,11 +65,11 @@ export const getTokensByUser = (
       .then(res => {
         const list = res.map(i => {
           return {
-            name: i.name.toString(),
-            symbol: i.symbol.toString(),
             id: i.id.toString(),
+            name: i.name,
+            symbol: i.symbol,
             decimals: i.decimals.toString(),
-            totalSupply: i.totalSupply.toString(),
+            totalSupply: bigIntToAmountStr(i.totalSupply, i.decimals.toString()),
             owner: i.owner.toString(),
             canisterId: i.canisterId.toString()
           };
@@ -80,7 +82,8 @@ export const getTokensByUser = (
 };
 
 export const getDTokenBalance = (
-  tokenCanisterId
+  tokenCanisterId,  // string
+  decimals  // string
 ) => {
   const promise = new Promise((resolve, reject) => {
     const actor = makeActorFactory(tokenCandid)({
@@ -89,14 +92,17 @@ export const getDTokenBalance = (
       maxAttempts: 100
     });
     actor.balanceOf(Principal.fromText(localStorage.getItem("dfinance_current_user")))
-      .then(res => resolve(res))
+      .then(res => resolve(bigIntToAmountStr(res, decimals)))
       .catch(err => reject(err));
   });
   return promise;
 };
 
 export const transferDToken = (
-  tokenCanisterId, to, value
+  tokenCanisterId,  // string
+  to,               // string
+  value,             // string
+  decimals
 ) => {
   const promise = new Promise((resolve, reject) => {
     const actor = makeActorFactory(tokenCandid)({
@@ -104,29 +110,58 @@ export const transferDToken = (
       agent: window.ic.agent,
       maxAttempts: 100
     });
-    actor.transfer(Principal.fromText(to), parseFloat(value))
-      .then(res => resolve(res))
-      .catch(err => reject(err));
-  });
-  return promise;
-}
-
-export const getLpBalance = (
-  tokenId, who
-) => {
-  const promise = new Promise((resolve, reject) => {
-    dswap.balanceOf(tokenId, who)
+    console.log(value, decimals, amountStrToBigInt(value, decimals), amountStrToBigInt(value, decimals))
+    actor.transfer(Principal.fromText(to), parseInt(value) * Math.pow(10, parseInt(decimals)))
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
   return promise;
 };
 
-export const createTokenPair = (
-  token0, token1
+export const getLpAllowance = (
+  tokenId,  // string
+  owner,    // string
+  spender   // string
 ) => {
   const promise = new Promise((resolve, reject) => {
-    dswap.createPair(token0, token1)
+    dswap.allowance(tokenId, Principal.fromText(owner), Principal.fromText(spender))
+      .then(res => resolve(bigIntToAmountStr(res, "18")))
+      .catch(err => reject(err));
+  });
+  return promise;
+};
+
+export const approveLpToken = (
+  tokenId,  // string
+  spender,  // string
+  amount    // string
+) => {
+  const promise = new Promise((resolve, reject) => {
+    dswap.approve(tokenId, Principal.fromText(spender), parseInt(amount) * Math.pow(10, 18))
+      .then(res => resolve(res))
+      .catch(err => reject(err));
+  });
+  return promise;
+};
+
+export const getLpBalance = (
+  tokenId, 
+  owner
+) => {
+  const promise = new Promise((resolve, reject) => {
+    dswap.balanceOf(tokenId, Principal.fromText(owner))
+      .then(res => resolve(parseInt(res) * Math.pow(10, -18)))
+      .catch(err => reject(err));
+  });
+  return promise;
+};
+
+export const createTokenPair = (
+  token0,  //string
+  token1   //string
+) => {
+  const promise = new Promise((resolve, reject) => {
+    dswap.createPair(Principal.fromText(token0), Principal.fromText(token1))
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -135,8 +170,24 @@ export const createTokenPair = (
 
 export const getPair = (token0, token1) => {
   const promise = new Promise((resolve, reject) => {
-    dswap.getPair(token0, token1)
-      .then(res => resolve(res))
+    dswap.getPair(
+      Principal.fromText(token0), 
+      Principal.fromText(token1)
+    )
+      .then(res => {
+        const list = res.map(i => {
+          return {
+            id: i.id,
+            token0: i.token0.toString(),
+            token1: i.token1.toString(),
+            creator: i.creator.toString(),
+            reserve0: i.reserve0.toString(),
+            reserve1: i.reserve1.toString(),
+            lptoken: i.lptoken
+          }
+        });
+        resolve(list);
+      })
       .catch(err => reject(err));
   });
   return promise;
@@ -146,8 +197,17 @@ export const getAllTokenPairs = () => {
   const promise = new Promise((resolve, reject) => {
     dswap.getAllPairs()
       .then(res => {
-        console.log("pairssssss", res)
-        const list = res.map(i => [i.token0.toString(), i.token1.toString()]);
+        const list = res.map(i => {
+          return {
+            id: i.id,
+            token0: i.token0.toString(),
+            token1: i.token1.toString(),
+            creator: i.creator.toString(),
+            reserve0: i.reserve0.toString(),
+            reserve1: i.reserve1.toString(),
+            lptoken: i.lptoken
+          }
+        });
         resolve(list);
       })
       .catch(err => reject(err));
@@ -156,10 +216,22 @@ export const getAllTokenPairs = () => {
 };
 
 export const addLiquidity = (
-  token0, token1, amount0, amount1
+  token0,   // string
+  token1,   // string
+  amount0,  // string
+  amount1,   // string
+  decimal0,
+  decimal1
 ) => {
   const promise = new Promise((resolve, reject) => {
-    dswap.addLiquidity(token0, token1, parseFloat(amount0), parseFloat(amount1), parseFloat("2"), parseFloat("2"))
+    dswap.addLiquidity(
+      Principal.fromText(token0), 
+      Principal.fromText(token1), 
+      amountStrToBigInt(amount0, decimal0), 
+      amountStrToBigInt(amount1, decimal1), 
+      parseFloat("2"),  // todo
+      parseFloat("2") // todo
+    )
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -167,10 +239,16 @@ export const addLiquidity = (
 };
 
 export const removeLiquidity = (
-  token0, token1, lpAmount
+  token0,   // string
+  token1,   // string
+  lpAmount  // string
 ) => {
   const promise = new Promise((resolve, reject) => {
-    dswap.removeLiquidity(token0, token1, parseFloat(lpAmount))
+    dswap.removeLiquidity(
+      Principal.fromText(token0), 
+      Principal.fromText(token1), 
+      amountStrToBigInt(lpAmount, "18")
+    )
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -178,7 +256,10 @@ export const removeLiquidity = (
 };
 
 export const approveToken = (
-  tokenCanisterId, spender, value
+  tokenCanisterId, 
+  spender, 
+  value,
+  decimals
 ) => {
   const promise = new Promise((resolve, reject) => {
     const actor = makeActorFactory(tokenCandid)({
@@ -186,7 +267,7 @@ export const approveToken = (
       agent: window.ic.agent,
       maxAttempts: 100
     });
-    actor.approve(spender, parseFloat(value))
+    actor.approve(Principal.fromText(spender), parseFloat(value) * Math.pow(10, parseInt(decimals)))
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -194,7 +275,9 @@ export const approveToken = (
 };
 
 export const getTokenAllowance = (
-  tokenCanisterId, spender
+  tokenCanisterId, 
+  spender,
+  decimals
 ) => {
   const promise = new Promise((resolve, reject) => {
     const actor = makeActorFactory(tokenCandid)({
@@ -204,19 +287,24 @@ export const getTokenAllowance = (
     });
     actor.allowance(
       Principal.fromText(localStorage.getItem("dfinance_current_user")), 
-      spender
+      Principal.fromText(spender)
     )
-      .then(res => resolve(res))
+      .then(res => resolve(bigIntToAmountStr(res, decimals)))
       .catch(err => reject(err));
   });
   return promise;
 }
 
 export const swapToken = (
-  tokenIn, tokenOut, amountIn, amountOut
+  tokenIn, tokenOut, amountIn, amountOutMin, decimalIn, decimalOut
 ) => {
   const promise = new Promise((resolve, reject) => {
-    dswap.swap(Principal.fromText(tokenIn), Principal.fromText(tokenOut), parseFloat(amountIn), 0)
+    dswap.swap(
+      Principal.fromText(tokenIn), 
+      Principal.fromText(tokenOut), 
+      amountStrToBigInt(amountIn, decimalIn), 
+      amountStrToBigInt(amountOutMin, decimalOut)
+    )
       .then(res => resolve(res))
       .catch(err => reject(err));
   });

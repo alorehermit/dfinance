@@ -1,0 +1,210 @@
+.LiquidityList {
+  width: 100%;
+  margin-top: 6rem;
+  margin-bottom: 6rem;
+}
+.LiquidityList .scroll-wrap {
+  width: calc(100% + 2rem);
+  max-height: 120rem;
+  overflow-y: auto;
+}
+.LiquidityList .scroll-wrap::-webkit-scrollbar {
+  width: 0.8rem;
+  border-radius: 1rem;
+  background-color: #D3D3D3;
+  box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.2) inset;
+}
+.LiquidityList .scroll-wrap::-webkit-scrollbar-thumb {
+  background-color: #FAFAFA;
+  border-radius: 1rem;
+}
+.LiquidityList label.main-title {
+  display: block;
+  width: calc(100% - 2rem);
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  line-height: 7rem;
+  color: #242424;
+  border-bottom: 0.3rem solid #242424;
+}
+.LiquidityList svg.spinner {
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  margin: 2rem auto;
+}
+.LiquidityList span.no-pair {
+  display: block;
+  text-align: center;
+  font-size: 2rem;
+  color: #8B8B8B;
+  padding: 2rem 0;
+  cursor: default;
+}
+.LiquidityList .LiquidityItem {
+  width: calc(100% - 2rem);
+  border-bottom: 0.1rem solid #242424;
+  padding: 2rem 3rem;
+}
+.LiquidityList .LiquidityItem label {
+  display: inline-block;
+  font-size: 2.2rem;
+  font-family: "Roboto bold";
+  color: #242424;
+  margin-bottom: 0.5rem;
+}
+.LiquidityList .LiquidityItem span.bal {
+  float: right;
+  font-size: 2rem;
+  color: #242424;
+}
+.LiquidityList .LiquidityItem span.id {
+  display: block;
+  font-size: 2rem;
+  color: #6B6B6B;
+}
+.LiquidityList .LiquidityItem button {
+  padding: 0.8rem 2rem;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1.8rem;
+  background-color: #D3D3D3;
+  color: #fff;
+  cursor: pointer;
+}
+.LiquidityList .LiquidityItem button:hover {
+  background-image: linear-gradient(115deg, #E12B7C, #323A8D);
+  box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.2);
+}
+.LiquidityList .RemoveLiquidityModal {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+.LiquidityList .RemoveLiquidityModal.ac {
+  pointer-events: all;
+}
+.LiquidityList .RemoveLiquidityModal .bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+.LiquidityList .RemoveLiquidityModal.ac .bg {
+  opacity: 1;
+}
+.LiquidityList .RemoveLiquidityModal .wrap {
+  position: absolute;
+  width: 66rem;
+  height: 44rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: transform 200ms ease-out,
+    opacity 180ms ease;
+  border-radius: 3rem;
+  background-color: #FFF;
+  box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.5);
+  padding: 3.5rem 7rem 3rem 7rem;
+  opacity: 0;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap {
+  opacity: 1;
+  transform: translate(-55%, -50%);
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap button.close {
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  background-color: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  opacity: 0.3;
+  transition: opacity 120ms ease;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap button.close:hover {
+  opacity: 0.6;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap label.label {
+  display: block;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  margin-left: -3.5rem;
+  color: #001414;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap label.sub-label {
+  display: block;
+  font-size: 1.8rem;
+  font-family: "Roboto bold";
+  margin-top: 3.5rem;
+  margin-bottom: 1rem;
+  color: #001414;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap input {
+  width: 100%;
+  height: 5.8rem;
+  border: 0.2rem solid #E3E3E3;
+  border-radius: 1rem;
+  background-color: #F5F5F5;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  padding: 0 2rem;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap input::placeholder {
+  color: #B8B8B8;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap input.error {
+  background-color: #FFF4FA;
+  border-color: #E9A4C7;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap .balance-ctrl {
+  text-align: right;
+  padding-top: 0.5rem;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap .balance-ctrl span {
+  font-size: 1.8rem;
+  line-height: 2.6rem;
+  color: #B8B8B8;
+  vertical-align: middle;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap .balance-ctrl button {
+  height: 2.6rem;
+  margin-left: 2rem;
+  border: none;
+  color: #B8B8B8;
+  background-color: transparent;
+  border-radius: 1rem;
+  font-size: 1.4rem;
+  font-family: "Roboto bold";
+  opacity: 0.6;
+  transition: opacity 120ms ease;
+  cursor: pointer;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap .balance-ctrl button:hover {
+  opacity: 1;
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap button.submit {
+  width: 100%;
+  margin-top: 7rem;
+  height: 7rem;
+  font-size: 4.6rem;
+  font-family: "Roboto bold";
+  color: #FFF;
+  border: none;
+  border-radius: 2rem;
+  cursor: pointer;
+  background-image: linear-gradient(115deg, #E12B7C, #323A8D);
+}
+.LiquidityList .RemoveLiquidityModal.ac .wrap button.submit:disabled {
+  background-color: #E3E3E3;
+  background-image: none;
+  cursor: not-allowed;
+}
