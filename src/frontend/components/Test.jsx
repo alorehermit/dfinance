@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { makeActorFactory, Principal } from "@dfinity/agent";
 import candid from "../utils/dtoken.did";
 import { addLiquidity, approveToken, createToken, createTokenPair, getAllTokenPairs, getAllTokens, getDTokenBalance, getLpBalance, getPair, getTokenAllowance, removeLiquidity } from "../APIs/Token.js";
+import dtoken from "ic:canisters/dtoken";
+import BigNumber from "bignumber.js";
 
 class Test extends Component {
   constructor() {
@@ -58,7 +60,7 @@ class Test extends Component {
   }
   createPair = async () => {
     try {
-      const pair = await createTokenPair(this.state.token0, this.state.token1);
+      const pair = await createTokenPair(this.state.token0.toString(), this.state.token1.toString());
       console.log("pair: ", pair);
     } catch (err) {
       console.log("err: ", err)
@@ -80,9 +82,9 @@ class Test extends Component {
       // console.log(this.state.token0)
       // console.log(this.state.token0.toString())
       // console.log(Principal.fromText(this.state.token0.toString()))
-      const val1 = await approveToken(this.state.token0.toString(), Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"), "1000");
+      const val1 = await approveToken(this.state.token0.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", "1000", "18");
       console.log("appr val1: ", val1);
-      const val2 = await approveToken(this.state.token1.toString(), Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"), "5000");
+      const val2 = await approveToken(this.state.token1.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", "5000", "18");
       console.log("appr val2: ", val2);
     } catch (err) {
       console.log("err: ", err)
@@ -90,8 +92,8 @@ class Test extends Component {
   };
   checkallowance = async () => {
     try {
-      const val = await getTokenAllowance(this.state.token0.toString(), Principal.fromText("rrkah-fqaaa-aaaaa-aaaaq-cai"));
-      console.log("allowance: ", val.toString());
+      const val = await getTokenAllowance(this.state.token0.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", "18");
+      console.log("allowance: ", val);
     } catch (err) {
       console.log("err: ", err);
     }
@@ -99,7 +101,7 @@ class Test extends Component {
   addliquidity = async () => {
     try {
       const val = await addLiquidity(
-        this.state.token0, this.state.token1, "1000", "5000"
+        this.state.token0.toString(), this.state.token1.toString(), "1000", "5000", "18", "18"
       );
       console.log("add liquidity: ", val);
     } catch (err) {
@@ -108,7 +110,7 @@ class Test extends Component {
   };
   getlpbalance = async () => {
     try {
-      const val = await getLpBalance(this.state.pair.id, Principal.fromText(localStorage.getItem("dfinance_current_user")));
+      const val = await getLpBalance(this.state.pair.id, localStorage.getItem("dfinance_current_user"));
       console.log("lp balance: ", val.toString());
     } catch (err) {
       console.log("err: ", err);
@@ -116,12 +118,21 @@ class Test extends Component {
   };
   removeliquidity = async () => {
     try {
-      const val = await removeLiquidity(this.state.token0, this.state.token1, "1");
+      const val = await removeLiquidity(this.state.token0.toString(), this.state.token1.toString(), "1");
       console.log("remove liquidity: ", val)
     } catch(err) {
       console.log("err: ", err);
     }
   };
+  gettokenbyid = () => {
+    dtoken.getTokenInfoById(new BigNumber("0"))
+      .then(res => {
+        console.log("get token by id", res)
+      })
+      .catch(err => {
+        console.log("get token by id err", err)
+      })
+  }
 
   render() {
     return (
@@ -135,6 +146,7 @@ class Test extends Component {
         <button onClick={this.addliquidity}>add liquidity</button>
         <button onClick={this.getlpbalance}>get lp balance</button>
         <button onClick={this.removeliquidity}>remove liquidity</button>
+        <button onClick={this.gettokenbyid}>get token by id</button>
       </div>
     )
   }

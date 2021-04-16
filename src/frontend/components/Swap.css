@@ -2,7 +2,7 @@
   position: fixed;
   overflow: hidden;
   width: 100%;
-  height: 100%;
+  height: calc(100% - 11rem);
   background-color: #E8E8E8;
   padding-top: 7.3rem;
 }
@@ -34,6 +34,7 @@
 .SwapExchange,
 .SwapLiquidity {
   width: 100%;
+  height: 100%;
   top: 18.3rem;
   background-color: #E8E8E8;
   overflow-y: auto;
@@ -385,6 +386,51 @@
   background-color: #E3E3E3;
   background-image: none;
   cursor: not-allowed;
+}
+.SwapExchange .SlippageTolerance .wrap .ST-btns {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+.SwapExchange .SlippageTolerance .wrap button.ST-btn {
+  width: 30%;
+  height: 5rem;
+  border: none;
+  border-radius: 2rem;
+  background-color: #E3E3E3;
+  font-size: 2.2rem;
+  font-family: "Roboto bold";
+  color: #fff;
+  cursor: pointer;
+}
+.SwapExchange .SlippageTolerance .wrap button.ST-btn.ac {
+  background-color: #5FA5E2;
+}
+.SwapExchange .SlippageTolerance .wrap .input-group {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 5.8rem;
+  border: 0.2rem solid #E3E3E3;
+  border-radius: 1rem;
+  background-color: #F5F5F5;
+  margin: 0;
+}
+.SwapExchange .SlippageTolerance .wrap .input-group input {
+  flex: 1 1;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  padding: 0 2rem;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  color: #001414;
+}
+.SwapExchange .SlippageTolerance .wrap .input-group span {
+  padding-right: 1.5rem;
+  font-size: 3.2rem;
+  font-family: "Roboto bold";
+  color: #001414;
 }
 
 .SwapLiquidity .SwapLiquidityPage0 {

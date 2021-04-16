@@ -38,7 +38,7 @@ class UserPrincipalDisplayer extends Component {
   render() {
     return (
       <div className="UserPrincipalDisplayer">
-        <input ref={this.input} value={this.state.principal} />
+        <input ref={this.input} value={this.state.principal} readOnly />
         <span className="label">{this.state.principal.substr(0, 5)}...{this.state.principal.substr(58, 62)}</span>
         <button onClick={this.onCopy}>
           <svg viewBox="-21 0 512 512" xmlns="http://www.w3.org/2000/svg">

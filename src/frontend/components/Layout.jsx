@@ -32,11 +32,13 @@ class Layout extends Component{
   }
 
   initialUserCheck = () => {
-    if (localStorage.getItem("dfinance_current_user_key") && localStorage.getItem("dfinance_current_user")) {
-      this.setState({ hasUser: true, loading: false });
-    } else {
-      this.setState({ hasUser: false, loading: false });
-    }
+    setTimeout(() => {      
+      if (localStorage.getItem("dfinance_current_user_key") && localStorage.getItem("dfinance_current_user")) {
+        this.setState({ hasUser: true, loading: false });
+      } else {
+        this.setState({ hasUser: false, loading: false });
+      }
+    }, 200);
   };
   updateAgentOnUserChange = () => {
     if (this.state.hasUser) {
@@ -87,7 +89,7 @@ class Layout extends Component{
           <ProtectedRouteWrap component={<TokenIssueForm />} access={this.state.hasUser} redirectPath="/connectwallet" />
         )} />
         <Route path="/test" exact render={() => <Test />} />
-        <Route path="/connectwallet" exact render={() => <KeyPair changeUser={val => this.setState({ hasUser: val })} />} />
+        {/* <Route path="/connectwallet" exact render={() => <KeyPair changeUser={val => this.setState({ hasUser: val })} />} /> */}
       </div>
     )
   }
