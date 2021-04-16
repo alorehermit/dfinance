@@ -183,10 +183,7 @@ class SwapExchange extends Component {
               parseFloat(reserve0) 
             );
           }
-          this.setState({ toAmount: amountOut });
-          if (this.state.toBal && parseFloat(this.state.toBal) < amountOut) {
-            this.setState({ toError: true });
-          }
+          this.setState({ toAmount: amountOut, toError: false });
         }
       }
     });
@@ -201,10 +198,9 @@ class SwapExchange extends Component {
     this.setState({ toAmount: val }, () => {
       if (this.state.pairInfo) {
         const { reserve0, reserve1 } = this.state.pairInfo;
-        console.log("6,8 : ", reserve0, "7,9 : ", reserve1)
         if (reserve0 && reserve1) {
           let amountIn;
-          if (this.state.toToken.canisterId === this.state.pairInfo.token0) {
+          if (this.state.toToken.canisterId !== this.state.pairInfo.token0) {
             amountIn = this.getAmountIn(
               parseFloat(val || "0"), 
               parseFloat(reserve0), 
@@ -225,17 +221,68 @@ class SwapExchange extends Component {
       }
     });
     if (!val || !parseFloat(val)) return this.setState({ toError: true });
-    if (this.state.toBal && parseFloat(this.state.toBal) < parseFloat(val)) return this.setState({ toError: true });
     this.setState({ toError: false });
   };
   switch = () => {
     if (!this.state.toToken) return;
-    this.setState({
-      fromAmount: this.state.toAmount,
-      fromToken: this.state.toToken,
-      toAmount: this.state.fromAmount,
-      toToken: this.state.fromToken
-    });
+    const { reserve0, reserve1 } = this.state.pairInfo;
+    if (this.state.fromAmount) {
+      this.setState({ 
+        fromAmount: "",
+        // fromAmount: this.state.toAmount,
+        fromToken: this.state.toToken,
+        toAmount: this.state.fromAmount,
+        toToken: this.state.fromToken,
+        toError: false
+      }, () => {
+        let amountIn;
+        if (this.state.toToken.canisterId !== this.state.pairInfo.token0) {
+          amountIn = this.getAmountIn(
+            parseFloat(val || "0"), 
+            parseFloat(reserve0), 
+            parseFloat(reserve1)
+          );
+        } else {
+          amountIn = this.getAmountIn(
+            parseFloat(val || "0"), 
+            parseFloat(reserve1),
+            parseFloat(reserve0) 
+          );
+        }
+        this.setState({ fromAmount: amountIn });
+      });
+    } else if (this.state.toAmount) {
+      this.setState({
+        fromAmount: this.state.toAmount,
+        fromToken: this.state.toToken,
+        toAmount: "",
+        // toAmount: this.state.fromAmount,
+        toToken: this.state.fromToken
+      }, () => {
+        let amountOut;
+        if (this.state.fromToken.canisterId === this.state.pairInfo.token0) {
+          amountOut = this.getAmountOut(
+            parseFloat(val || "0"), 
+            parseFloat(reserve0), 
+            parseFloat(reserve1)
+          );
+        } else {
+          amountOut = this.getAmountOut(
+            parseFloat(val || "0"), 
+            parseFloat(reserve1),
+            parseFloat(reserve0) 
+          );
+        }
+        this.setState({ toAmount: amountOut });
+      })
+    } else {
+      this.setState({
+        fromAmount: "",
+        fromToken: this.state.toToken,
+        toAmount: "",
+        toToken: this.state.fromToken
+      });
+    }
   };
   approve = () => {
     this.setState({ loading: "Approving..." });
@@ -871,20 +918,26 @@ class Page2 extends Component {
     if (this.props.tokens && this.props.tokens.length > 0 && !this.state.token0) {
       this.setState({ token0: this.props.tokens[0] });
     }
-    if (this.state.token0 && this.state.token1 && !this.state.approved) {
-      console.log("token0 and token1 :", this.state.token0, this.state.token1)
+    if (
+      this.state.token0 && 
+      this.state.token1 && 
+      (
+        (JSON.stringify(this.state.token0) !== JSON.stringify(prevState.token0)) ||
+        (JSON.stringify(this.state.token1) !== JSON.stringify(prevState.token1))
+      ) &&
+      !this.state.approved
+    ) {
       Promise.all([
         getTokenAllowance(this.state.token0.canisterId, DSWAP_CANISTER_ID, this.state.token0.decimals),
         getTokenAllowance(this.state.token1.canisterId, DSWAP_CANISTER_ID, this.state.token1.decimals)
       ])
         .then(([res1, res2]) => {
-          console.log("balances : ", res1, res2)
           if (parseFloat(res1) > 0 && parseFloat(res2) > 0 && this._isMounted) {
             this.setState({ approved: true });
           }
         })
         .catch(err => {
-          console.log("get token0 or token1 allowance failed")
+          console.log("get token0 or token1 allowance failed");
           console.log(err);
         });
     }

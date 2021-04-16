@@ -37,12 +37,21 @@ class Test extends Component {
     //       .catch(err => console.log("err: ", err));
     //   })
 
-    console.log(window.ic.canister, window.ic.canister.Symbol);
+    console.log(window.ic.canister);
+    getAllTokens()
+      .then(res => {
+        if (res.length >= 2) {
+          this.setState({ 
+            token0: Principal.fromText(res[0].canisterId),
+            token1: Principal.fromText(res[1].canisterId)
+          });
+        }
+      })
   }
 
   createToken0 = async () => {
     try {
-      const token0 = await createToken("a", "a", "18", "1000");
+      const token0 = await createToken("a", "a", "18", "10000000000");
       console.log("token0: ", token0);
       this.setState({ token0 });
     } catch (err) {
@@ -51,7 +60,7 @@ class Test extends Component {
   }
   createToken1 = async () => {
     try {
-      const token1 = await createToken("b", "b", "18", "5000");
+      const token1 = await createToken("b", "b", "18", "50000000000");
       console.log("token1: ", token1);
       this.setState({ token1 });
     } catch (err) {
@@ -79,12 +88,9 @@ class Test extends Component {
   }
   approveTokens = async () => {
     try {
-      // console.log(this.state.token0)
-      // console.log(this.state.token0.toString())
-      // console.log(Principal.fromText(this.state.token0.toString()))
-      const val1 = await approveToken(this.state.token0.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", "1000", "18");
+      const val1 = await approveToken(this.state.token0.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", Number.MAX_SAFE_INTEGER, "18");
       console.log("appr val1: ", val1);
-      const val2 = await approveToken(this.state.token1.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", "5000", "18");
+      const val2 = await approveToken(this.state.token1.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", Number.MAX_SAFE_INTEGER, "18");
       console.log("appr val2: ", val2);
     } catch (err) {
       console.log("err: ", err)

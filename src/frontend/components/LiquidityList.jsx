@@ -15,7 +15,8 @@ class LiquidityList extends Component {
       loading: true,
       tokens: [],
       pairs: [],
-      onRemove: ""
+      onRemove: "",
+      requireUpdateBal: ""
     };
   }
 
@@ -68,6 +69,8 @@ class LiquidityList extends Component {
               token0={tokens.filter(el => el.canisterId === i.token0)[0] || {}}
               token1={tokens.filter(el => el.canisterId === i.token1)[0] || {}}
               onRemove={() => this.setState({ onRemove: i.id }, () => console.log(this.state.onRemove))}
+              hasToUpdateBal={this.state.requireUpdateBal === i.id}
+              reset={() => this.setState({ requireUpdateBal: "" })}
             />
           ))}
           <RemoveLiquidityModal
@@ -75,6 +78,7 @@ class LiquidityList extends Component {
             pair={pairs.filter(i => i.id === onRemove)[0] || {}}
             tokens={tokens}
             close={() => this.setState({ onRemove: "" })}
+            triggerUpdate={() => this.setState({ requireUpdateBal: onRemove })}
           />
         </div>
       </div>
@@ -96,10 +100,17 @@ class LiquidityItem extends Component {
   componentDidMount() {
     this._isMounted = true;
     this.getBalance();
-    console.log(this.props)
   }
   componentWillUnmount() {
     this._isMounted = false;
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevProps.hasToUpdateBal && this.props.hasToUpdateBal) {
+      this.getBalance();
+      setTimeout(() => {
+        this.props.reset();
+      }, 500);
+    }
   }
 
   getBalance = () => {
@@ -219,6 +230,7 @@ class RemoveLiquidityModal extends Component {
     const { token0, token1 } = this.props.pair;
     removeLiquidity(token0, token1, this.state.amount)
       .then(res => {
+        this.props.triggerUpdate();
         if (this._isMounted) this.updateBal();
       })
       .catch(err => {

@@ -150,7 +150,7 @@ export const getLpBalance = (
 ) => {
   const promise = new Promise((resolve, reject) => {
     dswap.balanceOf(tokenId, Principal.fromText(owner))
-      .then(res => resolve((parseInt(res) * Math.pow(10, -18)).toString()))
+      .then(res => resolve((new BigNumber(res).multipliedBy(new BigNumber("10").pow("-18"))).toString()))
       .catch(err => reject(err));
   });
   return promise;

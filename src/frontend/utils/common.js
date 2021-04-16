@@ -36,7 +36,6 @@ export const getHexFromUint8Array = arr => {
  */
  export const currencyFormat = (amount, decimals) => {
   const toFixed = parseInt(decimals) > 2 ? 2 : parseInt(decimals);
-  console.log("amount", amount)
   const [before, after] = amount.split(".");
   if (toFixed === 0) {
     const val = Array.from(after || "0")[0];
