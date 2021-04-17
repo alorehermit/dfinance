@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import TokenItem from "./TokenItem.jsx";
 import { Link } from "react-router-dom";
 import Icon from "../stuff/Icon.jsx";
-import { getTokensByUser } from "../APIs/Token.js";
+import { getTokensByUser } from "../APIs/token.js";
 import "./TokenIssue.css";
 import { Principal } from "@dfinity/agent";
 import TokenList from "./TokenList.jsx";

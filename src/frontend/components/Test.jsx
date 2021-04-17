@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { makeActorFactory, Principal } from "@dfinity/agent";
 import candid from "../utils/dtoken.did";
-import { addLiquidity, approveToken, createToken, createTokenPair, getAllTokenPairs, getAllTokens, getDTokenBalance, getLpBalance, getPair, getTokenAllowance, removeLiquidity } from "../APIs/Token.js";
+import { addLiquidity, approveToken, createToken, createTokenPair, getAllTokenPairs, getAllTokens, getDTokenBalance, getLpBalance, getPair, getTokenAllowance, removeLiquidity } from "../APIs/token.js";
 import dtoken from "ic:canisters/dtoken";
 import BigNumber from "bignumber.js";
 import canister_ids from "../utils/canister_ids.json";

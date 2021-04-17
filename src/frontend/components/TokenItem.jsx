@@ -1,7 +1,7 @@
 // import { Principal } from "@dfinity/agent";
 import classNames from "classnames";
 import React, { Component } from "react";
-import { getDTokenBalance } from "../APIs/Token.js";
+import { getDTokenBalance } from "../APIs/token.js";
 import { currencyFormat } from "../utils/common";
 import "./TokenItem.css";
 

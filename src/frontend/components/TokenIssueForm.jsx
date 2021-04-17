@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import React, { Component } from "react";
-import { createToken } from "../APIs/Token.js";
+import { createToken } from "../APIs/token.js";
 import { currencyFormat } from "../utils/common.js";
 import Header from "./Header.jsx";
 import "./TokenIssueForm.css";

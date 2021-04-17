@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAllTokens } from "../APIs/Token.js";
+import { getAllTokens } from "../APIs/token.js";
 import Icon from "../stuff/Icon.jsx";
 import TokenList from "./TokenList.jsx";
 import UserPrincipalDisplayer from "./UserPrincipalDisplayer.jsx";
