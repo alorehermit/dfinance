@@ -45,32 +45,7 @@ const toThousands = num => {
  */
  export const currencyFormat = (amount, decimals) => {
   const toFixed = parseInt(decimals) > 2 ? 2 : parseInt(decimals);
-  const [before, after] = amount.split(".");
-  let res = "";
-  if (toFixed === 0) {
-    const val = Array.from(after || "0")[0];
-    if (val >=5) {
-      res = (new BigNumber(before || "0") + 1n).toString();
-    } else {
-      res = before || "0";
-    }
-  } else {
-    if (!after) {
-      res = (before || "0") + "." + Array(toFixed).fill("0").join("");
-    } else {
-      if (after.length <= toFixed) {
-        res = (before || "0") + "." + after + Array(toFixed - after.length).fill("0").join("");
-      } else {
-        const val = after[toFixed];
-        if (val >= 5) {
-          res = (before || "0") + "." + Array.from(after).splice(0, toFixed - 1).join("") 
-            + (parseInt(Array.from(after)[toFixed - 1]) + 1).toString();  // like Math.round
-        } else {
-          res = (before || "0") + "." + Array.from(after).splice(0, toFixed).join("");
-        }
-      }
-    }
-  }
+  const res = new BigNumber(amount).toFixed(toFixed, 1);
   return toThousands(res);
 };
 
