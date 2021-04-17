@@ -137,7 +137,7 @@ export const approveLpToken = (
   amount    // string
 ) => {
   const promise = new Promise((resolve, reject) => {
-    dswap.approve(tokenId, Principal.fromText(spender), parseFloat(amount) * Math.pow(10, 4))  // todo
+    dswap.approve(tokenId, Principal.fromText(spender), parseFloat(amount) * Math.pow(10, 18))  // todo
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -150,7 +150,7 @@ export const getLpBalance = (
 ) => {
   const promise = new Promise((resolve, reject) => {
     dswap.balanceOf(tokenId, Principal.fromText(owner))
-      .then(res => resolve((new BigNumber(res).multipliedBy(new BigNumber("10").pow("-18"))).toString()))
+      .then(res => resolve(bigIntToAmountStr(res, "18")))
       .catch(err => reject(err));
   });
   return promise;
