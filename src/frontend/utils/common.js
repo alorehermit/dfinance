@@ -28,6 +28,15 @@ export const getHexFromUint8Array = arr => {
   return Buffer.from(arr).toString('hex');
 };
 
+const toThousands = num => {
+  const res = num.toString().replace(/\d+/, function(n){
+    return n.replace(/(\d)(?=(\d{3})+$)/g,function($1){
+      return $1+",";
+    });
+  });
+  return res;
+};
+
 /**
  * 
  * @param {string} amount - amount string
@@ -37,30 +46,32 @@ export const getHexFromUint8Array = arr => {
  export const currencyFormat = (amount, decimals) => {
   const toFixed = parseInt(decimals) > 2 ? 2 : parseInt(decimals);
   const [before, after] = amount.split(".");
+  let res = "";
   if (toFixed === 0) {
     const val = Array.from(after || "0")[0];
     if (val >=5) {
-      return (new BigNumber(before || "0") + 1n).toString();
+      res = (new BigNumber(before || "0") + 1n).toString();
     } else {
-      return before || "0";
+      res = before || "0";
     }
   } else {
     if (!after) {
-      return (before || "0") + "." + Array(toFixed).fill("0").join("");
+      res = (before || "0") + "." + Array(toFixed).fill("0").join("");
     } else {
       if (after.length <= toFixed) {
-        return (before || "0") + "." + after + Array(toFixed - after.length).fill("0").join("");
+        res = (before || "0") + "." + after + Array(toFixed - after.length).fill("0").join("");
       } else {
         const val = after[toFixed];
         if (val >= 5) {
-          return (before || "0") + "." + Array.from(after).splice(0, toFixed - 1).join("") 
+          res = (before || "0") + "." + Array.from(after).splice(0, toFixed - 1).join("") 
             + (parseInt(Array.from(after)[toFixed - 1]) + 1).toString();  // like Math.round
         } else {
-          return (before || "0") + "." + Array.from(after).splice(0, toFixed).join("");
+          res = (before || "0") + "." + Array.from(after).splice(0, toFixed).join("");
         }
       }
     }
   }
+  return toThousands(res);
 };
 
 /**

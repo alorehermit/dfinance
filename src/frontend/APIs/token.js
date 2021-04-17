@@ -111,7 +111,7 @@ export const transferDToken = (
       maxAttempts: 100
     });
     console.log(value, decimals, amountStrToBigInt(value, decimals), amountStrToBigInt(value, decimals))
-    actor.transfer(Principal.fromText(to), parseInt(value) * Math.pow(10, parseInt(decimals)))
+    actor.transfer(Principal.fromText(to), parseFloat(value) * Math.pow(10, parseInt(decimals)))
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -137,7 +137,7 @@ export const approveLpToken = (
   amount    // string
 ) => {
   const promise = new Promise((resolve, reject) => {
-    dswap.approve(tokenId, Principal.fromText(spender), parseInt(amount) * Math.pow(10, 18))
+    dswap.approve(tokenId, Principal.fromText(spender), parseFloat(amount) * Math.pow(10, 4))  // todo
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -224,6 +224,7 @@ export const addLiquidity = (
   decimal1
 ) => {
   const promise = new Promise((resolve, reject) => {
+    console.log("add lp inputs: ", amountStrToBigInt(amount0, decimal0).toString(), amountStrToBigInt(amount1, decimal1).toString())
     dswap.addLiquidity(
       Principal.fromText(token0), 
       Principal.fromText(token1), 
@@ -268,8 +269,8 @@ export const approveToken = (
       maxAttempts: 100
     });
     actor.approve(Principal.fromText(spender), parseFloat(value) * Math.pow(10, parseInt(decimals)))
-      .then(res => resolve(res))
-      .catch(err => reject(err));
+      .then(res => {console.log("appr_res: ", res); resolve(res)})
+      .catch(err => {console.log("appr_err: ", err); reject(err)});
   });
   return promise;
 };
@@ -299,6 +300,7 @@ export const swapToken = (
   tokenIn, tokenOut, amountIn, amountOutMin, decimalIn, decimalOut
 ) => {
   const promise = new Promise((resolve, reject) => {
+    console.log("amountOutMin : ", amountOutMin)
     dswap.swap(
       Principal.fromText(tokenIn), 
       Principal.fromText(tokenOut), 

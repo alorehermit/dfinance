@@ -4,6 +4,9 @@ import candid from "../utils/dtoken.did";
 import { addLiquidity, approveToken, createToken, createTokenPair, getAllTokenPairs, getAllTokens, getDTokenBalance, getLpBalance, getPair, getTokenAllowance, removeLiquidity } from "../APIs/Token.js";
 import dtoken from "ic:canisters/dtoken";
 import BigNumber from "bignumber.js";
+import canister_ids from "../utils/canister_ids.json";
+
+const DSWAP_CANISTER_ID = canister_ids.dswap.local;
 
 class Test extends Component {
   constructor() {
@@ -88,9 +91,9 @@ class Test extends Component {
   }
   approveTokens = async () => {
     try {
-      const val1 = await approveToken(this.state.token0.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", Number.MAX_SAFE_INTEGER, "18");
+      const val1 = await approveToken(this.state.token0.toString(), "DSWAP_CANISTER_ID", Number.MAX_SAFE_INTEGER, "18");
       console.log("appr val1: ", val1);
-      const val2 = await approveToken(this.state.token1.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", Number.MAX_SAFE_INTEGER, "18");
+      const val2 = await approveToken(this.state.token1.toString(), "DSWAP_CANISTER_ID", Number.MAX_SAFE_INTEGER, "18");
       console.log("appr val2: ", val2);
     } catch (err) {
       console.log("err: ", err)
@@ -98,7 +101,7 @@ class Test extends Component {
   };
   checkallowance = async () => {
     try {
-      const val = await getTokenAllowance(this.state.token0.toString(), "rrkah-fqaaa-aaaaa-aaaaq-cai", "18");
+      const val = await getTokenAllowance(this.state.token0.toString(), "DSWAP_CANISTER_ID", "18");
       console.log("allowance: ", val);
     } catch (err) {
       console.log("err: ", err);

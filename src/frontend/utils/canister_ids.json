@@ -1,11 +1,11 @@
 {
   "dswap": {
-    "local": "rrkah-fqaaa-aaaaa-aaaaq-cai"
-  },
-  "dtoken": {
     "local": "ryjl3-tyaaa-aaaaa-aaaba-cai"
   },
+  "dtoken": {
+    "local": "r7inp-6aaaa-aaaaa-aaabq-cai"
+  },
   "frontend": {
-    "local": "qoctq-giaaa-aaaaa-aaaea-cai"
+    "local": "rkp4c-7iaaa-aaaaa-aaaca-cai"
   }
 }
