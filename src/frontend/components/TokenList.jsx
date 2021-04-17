@@ -73,7 +73,7 @@ class TokenList extends Component {
       this.state.active.decimals
     )
       .then(res => {
-        if (this._isMounted) his.getBalance();
+        if (this._isMounted) this.getBalance();
       })
       .catch(err => {
         console.log("transfer token failed");

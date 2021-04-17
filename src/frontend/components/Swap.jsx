@@ -282,7 +282,7 @@ class SwapExchange extends Component {
         let amountIn;
         if (this.state.toToken.canisterId !== this.state.pairInfo.token0) {
           amountIn = this.getAmountIn(
-            val || "0",
+            this.state.toAmount || "0",
             this.state.fromToken.decimals, 
             this.state.toToken.decimals,
             reserve0, 
@@ -290,7 +290,7 @@ class SwapExchange extends Component {
           );
         } else {
           amountIn = this.getAmountIn(
-            val || "0",
+            this.state.toAmount || "0",
             this.state.fromToken.decimals, 
             this.state.toToken.decimals,
             reserve1, 
@@ -310,7 +310,7 @@ class SwapExchange extends Component {
         let amountOut;
         if (this.state.fromToken.canisterId === this.state.pairInfo.token0) {
           amountOut = this.getAmountOut(
-            val || "0", 
+            this.state.fromAmount || "0", 
             this.state.fromToken.decimals,
             this.state.toToken.decimals,
             reserve0, 
@@ -318,7 +318,7 @@ class SwapExchange extends Component {
           );
         } else {
           amountOut = this.getAmountOut(
-            val || "0", 
+            this.state.fromAmount || "0", 
             this.state.fromToken.decimals,
             this.state.toToken.decimals,
             reserve1,
