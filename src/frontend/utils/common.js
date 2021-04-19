@@ -56,13 +56,6 @@ const toThousands = num => {
  * @returns - BigInt
  */
 export const amountStrToBigInt = (amount, decimals) => {
-  // const [before, after] = amount.split(".");
-  // // how many 0 should be added
-  // let val = parseInt(decimals) - (after || "").length;  
-  // val = val >= 0 ? val : 0;
-  // // if there're multiple '.' in the string, ignore the characters from the second '.'.
-  // const str = (before || "") + (after || "") + Array(val).fill("0").join("");  
-  // return new BigNumber(str);
   return new BigNumber(amount).multipliedBy(new BigNumber("10").pow(parseInt(decimals)));
 };
 
@@ -73,25 +66,5 @@ export const amountStrToBigInt = (amount, decimals) => {
  * @returns 
  */
 export const bigIntToAmountStr = (value, decimals) => {
-  // if (value.toString() === "0") return "0";
-  // const arr = Array.from(value.toString());
-  // arr.reverse();
-  // // how many 0 in the end
-  // let val = 0;  
-  // for (let i = 0; i < arr.length; i++) {
-  //   if (arr[i] !== "0") {
-  //     val = i;
-  //     break;
-  //   }
-  // }
-  // // remove '0' and insert decimal point
-  // if (val >= parseInt(decimals)) {
-  //   arr.splice(0, parseInt(decimals));
-  // } else {
-  //   arr.splice(parseInt(decimals), 0, ".");
-  //   arr.splice(0, val);
-  // }
-  // arr.reverse();
-  // return arr.join("");
-  return new BigNumber(value.toString()).div(new BigNumber("10").pow(parseInt(decimals))).toString();
+  return new BigNumber(value).div(new BigNumber("10").pow(parseInt(decimals))).toFixed(parseInt(decimals));
 };

@@ -9,7 +9,7 @@ import TokenIssueForm from "./TokenIssueForm.jsx";
 import Test from "./Test.jsx";
 import KeyPair from "./KeyPair.jsx";
 import { getAgent } from "../utils/common.js";
-import Swap from "./Swap.jsx";
+import Swap from "./SwapRelated/Swap.jsx";
 import "./Layout.css";
 import ComingSoon from "./ComingSoon.jsx";
 
@@ -44,6 +44,7 @@ class Layout extends Component{
     if (this.state.hasUser) {
       if (!(window).ic) {
         const { HttpAgent, IDL, canister } = require("@dfinity/agent");
+        console.log(HttpAgent)
         console.log(canister)
         (window).ic = { agent: getAgent(), HttpAgent, IDL };
       } else {
@@ -82,7 +83,9 @@ class Layout extends Component{
         <Route path="/dtoken" exact render={() => (
           <ProtectedRouteWrap component={<TokenIssue />} access={this.state.hasUser} redirectPath="/connectwallet" />
         )} />
-        <Route path="/swap" render={() => <Swap />} />
+        <Route path="/swap" render={() => (
+          <ProtectedRouteWrap component={<Swap />} access={this.state.hasUser} redirectPath="/connectwallet" />
+        )} />
         <Route path="/DUSD" exact render={() => <ComingSoon />} />
         <Route path="/DLend" exact render={() => <ComingSoon />} />
         <Route path="/newtoken" exact render={() => (
