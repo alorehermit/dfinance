@@ -61,7 +61,7 @@ class CreatePair extends Component {
     const num = this.props.pairs.filter(i => 
       i.indexOf(token0.canisterId) > -1 && i.indexOf(this.state.token1.canisterId) > -1
     ).length;
-    if (num === 0) {
+    if (num > 0) {
       this.setState({ token1: null, token1Bal: "", bigger: false });
     }
   };
