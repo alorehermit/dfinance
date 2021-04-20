@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Ed25519KeyIdentity } from "@dfinity/authentication";
+import { Ed25519KeyIdentity } from "@dfinity/identity";
 import { getUint8ArrayFromHex } from "../utils/common";
 import classNames from "classnames";
 import { withRouter } from "react-router";

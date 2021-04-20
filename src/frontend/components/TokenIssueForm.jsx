@@ -1,6 +1,7 @@
 import classNames from "classnames";
 import React, { Component } from "react";
 import { createToken } from "../APIs/token.js";
+import Icon from "../stuff/Icon.jsx";
 import { currencyFormat } from "../utils/common.js";
 import Header from "./Header.jsx";
 import "./TokenIssueForm.css";
@@ -252,12 +253,7 @@ class Input extends Component {
         </div>
         <div className="status">
           {status.code === 1 ? 
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-              <circle id="椭圆_14" data-name="椭圆 14" cx="16" cy="16" r="16" fill="#3cad87"/>
-              <g id="组_63" data-name="组 63" transform="translate(6 10)">
-                <path id="路径_70" data-name="路径 70" d="M2440.064,3214.457h0a1.415,1.415,0,0,1-1-.416l-6.64-6.64a1.416,1.416,0,0,1,2-2l5.639,5.639,9.927-9.926a1.416,1.416,0,0,1,2,2l-10.928,10.928A1.415,1.415,0,0,1,2440.064,3214.457Z" transform="translate(-2432.009 -3200.697)" fill="#efefef"/>
-              </g>
-            </svg>
+            <Icon name="check-alt" />
           : null}
           {status.code === 0 && status.msg ? 
             <span className="err">{status.msg}</span>

@@ -1,5 +1,5 @@
 import { HttpAgent, makeExpiryTransform, makeNonceTransform } from "@dfinity/agent";
-import { Ed25519KeyIdentity } from "@dfinity/authentication";
+import { Ed25519KeyIdentity } from "@dfinity/identity";
 import BigNumber from "bignumber.js";
 
 export const getAgent = () => {

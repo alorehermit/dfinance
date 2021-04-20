@@ -311,6 +311,19 @@
     "js-sha256" "0.9.0"
     "simple-cbor" "^0.4.1"
 
+"@dfinity/agent@^0.8.0":
+  "integrity" "sha512-QUuVZV5LobY/WgraxLi3fdTe5bBC0dw97Pr4shSgb5zXjMskIYg75bGYwSrezr2Q3kpUa3naUewGee92dz3hvQ=="
+  "resolved" "https://registry.npmjs.org/@dfinity/agent/-/agent-0.8.3.tgz"
+  "version" "0.8.3"
+  dependencies:
+    "base64-arraybuffer" "^0.2.0"
+    "bignumber.js" "^9.0.0"
+    "borc" "^2.1.1"
+    "buffer" "^5.4.3"
+    "buffer-pipe" "0.0.4"
+    "js-sha256" "0.9.0"
+    "simple-cbor" "^0.4.1"
+
 "@dfinity/authentication@^0.7.1":
   "integrity" "sha512-pBqJzDqclKSZzzE/WvwR/j9kkt64ElLMiTfRBtLvmDgh0WdIBWOVHjXpvTNSxYVGD85uil0lmPzlhX4C2qkj7Q=="
   "resolved" "https://registry.npmjs.org/@dfinity/authentication/-/authentication-0.7.1.tgz"
@@ -328,6 +341,18 @@
     "crc" "3.8.0"
     "js-sha256" "0.9.0"
     "simple-cbor" "^0.4.1"
+    "tweetnacl" "^1.0.1"
+
+"@dfinity/identity@^0.8.0":
+  "integrity" "sha512-WBSSH/Z9Wrp5vmw6NZW2p2J1OPl3hheVEvMYvBfGtmA7GHbGXZr+vHaLjGSwAo78KFuQiSvMAqWrKCFBebPQxw=="
+  "resolved" "https://registry.npmjs.org/@dfinity/identity/-/identity-0.8.0.tgz"
+  "version" "0.8.0"
+  dependencies:
+    "@dfinity/agent" "^0.8.0"
+    "bip39" "^3.0.2"
+    "borc" "^2.1.1"
+    "buffer" "^5.4.3"
+    "buffer-pipe" "0.0.4"
     "tweetnacl" "^1.0.1"
 
 "@dollarshaveclub/cloudworker@^0.1.2":
