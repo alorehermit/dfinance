@@ -125,7 +125,7 @@ export const getLpAllowance = (
 ) => {
   const promise = new Promise((resolve, reject) => {
     dswap.allowance(tokenId, Principal.fromText(owner), Principal.fromText(spender))
-      .then(res => resolve(bigIntToAmountStr(res, "18")))
+      .then(res => resolve(bigIntToAmountStr(res, "8")))
       .catch(err => reject(err));
   });
   return promise;
@@ -137,7 +137,7 @@ export const approveLpToken = (
   amount    // string
 ) => {
   const promise = new Promise((resolve, reject) => {
-    dswap.approve(tokenId, Principal.fromText(spender), parseFloat(amount) * Math.pow(10, 18))  // todo
+    dswap.approve(tokenId, Principal.fromText(spender), parseFloat(amount) * Math.pow(10, 8))  // todo
       .then(res => resolve(res))
       .catch(err => reject(err));
   });
@@ -150,7 +150,7 @@ export const getLpBalance = (
 ) => {
   const promise = new Promise((resolve, reject) => {
     dswap.balanceOf(tokenId, Principal.fromText(owner))
-      .then(res => resolve(bigIntToAmountStr(res, "18")))
+      .then(res => resolve(bigIntToAmountStr(res, "8")))
       .catch(err => reject(err));
   });
   return promise;
@@ -248,7 +248,7 @@ export const removeLiquidity = (
     dswap.removeLiquidity(
       Principal.fromText(token0), 
       Principal.fromText(token1), 
-      amountStrToBigInt(lpAmount, "18")
+      amountStrToBigInt(lpAmount, "8")
     )
       .then(res => resolve(res))
       .catch(err => reject(err));

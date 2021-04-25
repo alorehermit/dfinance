@@ -2,7 +2,7 @@ import BigNumber from "bignumber.js";
 import classNames from "classnames";
 import React, { Component, useState } from "react";
 import { 
-  approveLpToken, 
+  approveToken, 
   getAllTokenPairs, 
   getAllTokens, 
   getDTokenBalance, 
@@ -321,7 +321,7 @@ class SwapExchange extends Component {
   approve = () => {
     this.setState({ loading: "Approving..." });
     const MAX_AMOUNT = Number.MAX_SAFE_INTEGER;
-    approveLpToken(this.state.fromToken.canisterId, DSWAP_CANISTER_ID, MAX_AMOUNT)
+    approveToken(this.state.fromToken.canisterId, DSWAP_CANISTER_ID, MAX_AMOUNT, this.state.fromToken.decimals)
       .then(() => {})
       .catch(err => {
         console.log("approve token failed");
