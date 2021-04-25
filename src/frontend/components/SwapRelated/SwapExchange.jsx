@@ -55,8 +55,12 @@ class SwapExchange extends Component {
         });
       getTokenAllowance(this.state.fromToken.canisterId, DSWAP_CANISTER_ID, this.state.fromToken.decimals)
         .then(res => {
-          console.log("allowance: ", res.toString())
-          if (this._isMounted && parseFloat(res) > 0) this.setState({ approved: true });
+          console.log("allowance: ", res.toString());
+          if (this._isMounted && parseFloat(res) > 0) {
+            this.setState({ approved: true });
+          } else {
+            this.setState({ approved: false });
+          }
         });
     }
     if (this.state.toToken && this.state.toToken.canisterId !== (prevState.toToken ? prevState.toToken.canisterId : "")) {

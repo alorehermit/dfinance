@@ -77,6 +77,8 @@ class AddLiquidity extends Component {
           console.log("allowance: ", res1, res2);
           if (parseFloat(res1) > 0 && parseFloat(res2) > 0 && this._isMounted) {
             this.setState({ approved: true });
+          } else {
+            this.setState({ approved: false });
           }
         })
         .catch(err => {

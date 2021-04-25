@@ -131,7 +131,7 @@ class LiquidityItem extends Component {
     return (
       <div className="LiquidityItem">
         <label>{token0.symbol || "BTC"}-{token1.symbol || "BTC"}</label>
-        <span className="bal">{bal ? `Balance: ${currencyFormat(bal, "18")}` : ""}</span>
+        <span className="bal">{bal ? `Balance: ${currencyFormat(bal, "8")}` : ""}</span>
         <span className="id">Id: {id}</span>
         <button onClick={onRemove}>Remove Liquidity</button>
       </div>
@@ -179,6 +179,8 @@ class RemoveLiquidityModal extends Component {
         .then(res => {
           if (parseFloat(res) > 0 && this._isMounted) {
             this.setState({ approved: true });
+          } else {
+            this.setState({ approved: false });
           }
         })
         .catch(err => {
@@ -279,7 +281,7 @@ class RemoveLiquidityModal extends Component {
             onChange={this.amountOnChange}
           />
           <div className="balance-ctrl">
-            <span>{bal ? `Balance: ${currencyFormat(bal, "18")}` : ""}</span>
+            <span>{bal ? `Balance: ${currencyFormat(bal, "8")}` : ""}</span>
             <button onClick={this.max}>Max</button>
           </div>
           {approved ? 
