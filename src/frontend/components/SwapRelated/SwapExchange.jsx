@@ -216,34 +216,35 @@ class SwapExchange extends Component {
     const reg = new RegExp(/^[0-9\.]*$/);
     if (val && !reg.test(val)) return;
     this.setState({ toAmount: val }, () => {
-      if (this.state.pairInfo) {
-        const { reserve0, reserve1 } = this.state.pairInfo;
-        console.log("reserves: ", reserve0, reserve1);
-        if (reserve0 && reserve1) {
-          let amountIn;
-          if (this.state.toToken.canisterId !== this.state.pairInfo.token0) {
-            amountIn = this.getAmountIn(
-              val || "0",
-              this.state.fromToken.decimals, 
-              this.state.toToken.decimals,
-              reserve0, 
-              reserve1
-            );
-          } else {
-            amountIn = this.getAmountIn(
-              val || "0", 
-              this.state.fromToken.decimals,
-              this.state.toToken.decimals,
-              reserve1,
-              reserve0 
-            );
-          }
-          this.setState({ fromAmount: amountIn });
-          if (this.state.fromBal && parseFloat(this.state.fromBal) < amountIn) {
-            this.setState({ fromError: true });
-          }
-        }
-      }
+      return;
+      // if (this.state.pairInfo) {
+      //   const { reserve0, reserve1 } = this.state.pairInfo;
+      //   console.log("reserves: ", reserve0, reserve1);
+      //   if (reserve0 && reserve1) {
+      //     let amountIn;
+      //     if (this.state.toToken.canisterId !== this.state.pairInfo.token0) {
+      //       amountIn = this.getAmountIn(
+      //         val || "0",
+      //         this.state.fromToken.decimals, 
+      //         this.state.toToken.decimals,
+      //         reserve0, 
+      //         reserve1
+      //       );
+      //     } else {
+      //       amountIn = this.getAmountIn(
+      //         val || "0", 
+      //         this.state.fromToken.decimals,
+      //         this.state.toToken.decimals,
+      //         reserve1,
+      //         reserve0 
+      //       );
+      //     }
+      //     this.setState({ fromAmount: amountIn });
+      //     if (this.state.fromBal && parseFloat(this.state.fromBal) < amountIn) {
+      //       this.setState({ fromError: true });
+      //     }
+      //   }
+      // }
     });
     if (!val || !parseFloat(val)) return this.setState({ toError: true });
     this.setState({ toError: false });
@@ -406,6 +407,7 @@ class SwapExchange extends Component {
               options={this.getTokenOptions(this.state.fromToken, this.state.tokens, this.state.pairs)}
               err={this.state.toError}
               class="to"
+              inputDisabled={true}
             /> : 
             <TokenSelect 
               label="To"

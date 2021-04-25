@@ -13,7 +13,7 @@ const InputGroup = props => {
     )}>
       <label>{props.label}</label>
       <div className="input-group">
-        <input type="text" placeholder={props.placeholder} value={props.value} onChange={props.onChange} />
+        <input type="text" placeholder={props.placeholder} value={props.value} onChange={props.onChange} disabled={props.inputDisabled} />
         <SelectGroup
           token={props.token}
           onSelect={props.onSelect}
