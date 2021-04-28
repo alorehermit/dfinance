@@ -35,7 +35,8 @@ class SwapExchange extends Component {
       bigger: false,
       loading: "",
       pairInfo: null,
-      slippageTolerance: 0.005
+      slippageTolerance: 0.005,
+      impact: ""
     };
   }
 
@@ -116,6 +117,20 @@ class SwapExchange extends Component {
         })
     }
   };
+  calculatePriceImpact = (amountIn, decimalsIn, amountOut, decimalsOut, rsv0, rsv1) => {
+    if (
+      !amountIn || !amountOut || new BigNumber(rsv1).isZero()
+    ) return "0.00";
+    // price impact = abs(reserve0/reserve1 - (reserve0 + amountIn)/(reserve1 - amountOut))
+    const aIn = new BigNumber(amountIn).multipliedBy(new BigNumber("10").pow(parseInt(decimalsIn)));
+    const aOut = new BigNumber(amountOut).multipliedBy(new BigNumber("10").pow(parseInt(decimalsOut)));
+    const a = new BigNumber(rsv0).dividedBy(new BigNumber(rsv1));
+    const b = new BigNumber(rsv0).plus(aIn);
+    const c = new BigNumber(rsv1).plus(aOut);
+    const impact = a.minus(b.dividedBy(c)).abs().multipliedBy(100).toFixed(2);
+    console.log("impact: ", impact);
+    return impact;
+  };
   getAmountOut = (amountIn, decimalsIn, decimalsOut, reserveIn, reserveOut) => {
     if (!amountIn || new BigNumber(amountIn).isZero()) return 0;
     const amountInWithFee =  // amountIn * 997;
@@ -127,7 +142,7 @@ class SwapExchange extends Component {
     const denominator =  // reserveIn * 1000 + amountInWithFee;
       new BigNumber(reserveIn).multipliedBy(new BigNumber("1000")).plus(amountInWithFee);
     return numerator.dividedBy(denominator)
-      .dividedBy(new BigNumber("10").pow(parseInt(decimalsOut)));
+      .dividedBy(new BigNumber("10").pow(parseInt(decimalsOut))).toFixed(parseInt(decimalsOut));
   };
   getAmountIn = (amountOut, decimalsIn, decimalsOut, reserveIn, reserveOut) => {
     if (!amountOut || new BigNumber(amountOut).isZero()) return 0;
@@ -191,12 +206,21 @@ class SwapExchange extends Component {
         console.log("reserves: ", reserve0, reserve1);
         if (reserve0 && reserve1) {
           let amountOut;
+          let impact;
           if (this.state.fromToken.canisterId === this.state.pairInfo.token0) {
             amountOut = this.getAmountOut(
               val || "0", 
               this.state.fromToken.decimals,
               this.state.toToken.decimals,
               reserve0, 
+              reserve1
+            );
+            impact = this.calculatePriceImpact(
+              this.state.fromAmount,
+              this.state.fromToken.decimals,
+              amountOut,
+              this.state.toToken.decimals,
+              reserve0,
               reserve1
             );
           } else {
@@ -207,8 +231,16 @@ class SwapExchange extends Component {
               reserve1,
               reserve0 
             );
+            impact = this.calculatePriceImpact(
+              this.state.fromAmount,
+              this.state.fromToken.decimals,
+              amountOut,
+              this.state.toToken.decimals,
+              reserve1,
+              reserve0
+            );
           }
-          this.setState({ toAmount: amountOut, toError: false });
+          this.setState({ toAmount: amountOut, impact, toError: false });
         }
       }
     });
@@ -421,6 +453,9 @@ class SwapExchange extends Component {
               setBigger={bigger => this.setState({ bigger })}
             />
           }
+          {this.state.impact ?
+            <div className="impact">Price impact: {this.state.impact}%</div>
+          : null}
           {!this.state.bigger || this.state.toToken ? 
             <div className={classNames(
               "swap-info",

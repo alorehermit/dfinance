@@ -365,6 +365,13 @@
   color: #595959;
   pointer-events: none;
 }
+.SwapExchange .wrap .impact {
+  float: left;
+  font-size: 1.8rem;
+  color: #595959;
+  padding-top: 0.3rem;
+  cursor: default;
+}
 .SwapExchange .wrap .swap-info.muted {
   opacity: 0;
 }
