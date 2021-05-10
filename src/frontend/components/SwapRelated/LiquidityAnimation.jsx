@@ -38,7 +38,7 @@ class LiquidityAnimation extends Component {
   onResize = () => {
     if (this.props.pairs && this.props.pairs.length === 0) return;
     // right
-    const right = window.innerWidth - document.getElementsByClassName("SwapExchange")[0].clientWidth;
+    const right = window.innerWidth - document.getElementsByClassName("SwapLiquidity")[0].clientWidth;
     this.setState({ right: `${right}px` });
   };
   render() {

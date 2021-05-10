@@ -5,8 +5,7 @@ class SwapAnimation extends Component {
   constructor() {
     super();
     this.state = {
-      right: "0px",
-      bottom: "0px"
+      right: "0px"
     };
   }
   container = createRef();
@@ -15,9 +14,6 @@ class SwapAnimation extends Component {
     // right
     const right = window.innerWidth - document.getElementsByClassName("SwapExchange")[0].clientWidth;
     this.setState({ right: `${right}px` });
-    // bottem
-    const bottom = document.getElementsByClassName("SwapExchange")[0].offsetTop + document.getElementsByClassName("Swap")[0].offsetTop;
-    this.setState({ bottom: `-${bottom}px`})
     // animation
     const animation = Lottie.loadAnimation({
       container: this.container.current,
@@ -37,13 +33,10 @@ class SwapAnimation extends Component {
     // right
     const right = window.innerWidth - document.getElementsByClassName("SwapExchange")[0].clientWidth;
     this.setState({ right: `${right}px` });
-    // bottem
-    const bottom = document.getElementsByClassName("SwapExchange")[0].offsetTop + document.getElementsByClassName("Swap")[0].offsetTop;
-    this.setState({ bottom: `-${bottom}px`})
   };
   render() {
     return (
-      <div className="SwapAnimation" style={{ right: this.state.right, bottom: this.state.bottom }}>
+      <div className="SwapAnimation" style={{ right: this.state.right, bottom: "auto" }}>
         <div className="container" ref={this.container}></div>
       </div>
     )
