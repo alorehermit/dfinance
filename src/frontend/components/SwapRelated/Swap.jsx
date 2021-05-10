@@ -8,6 +8,7 @@ import AddLiquidity from "./AddLiquidity.jsx";
 import CreatePair from "./CreatePair.jsx";
 import SwapExchange from "./SwapExchange.jsx";
 import "./Swap.css";
+import LiquidityAnimation from "./LiquidityAnimation.jsx";
 
 const Swap = () => {
   return (
@@ -81,6 +82,7 @@ class SwapLiquidity extends Component {
   render() {
     return (
       <div className="SwapLiquidity">
+        <LiquidityAnimation pairs={this.state.pairs} />
         {this.state.page === 0 ? 
           <Page0 goPage={page => this.setState({ page })} />
         : null}

@@ -13,6 +13,7 @@ import {
 import canister_ids from "../../utils/canister_ids.json";
 import InputGroup from "../Inputs/InputGroup.jsx";
 import TokenSelect from "../Inputs/TokenSelect.jsx";
+import SwapAnimation from "./SwapAnimation.jsx";
 
 const DSWAP_CANISTER_ID = canister_ids.dswap.local;
 
@@ -406,6 +407,7 @@ class SwapExchange extends Component {
   render() {
     return (
       <div className="SwapExchange">
+        <SwapAnimation />
         <div className="wrap">
           <label className="label">Exchange</label>
           <InputGroup

@@ -2,6 +2,7 @@
   width: 100%;
   margin-top: 6rem;
   margin-bottom: 6rem;
+  background-color: rgba(232, 232, 232, 0.6);
 }
 .LiquidityList .scroll-wrap {
   width: calc(100% + 2rem);
