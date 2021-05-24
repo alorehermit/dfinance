@@ -3,7 +3,7 @@
   overflow: hidden;
   width: 100%;
   height: calc(100% - 11rem);
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   padding-top: 7.3rem;
 }
 .Swap .SwapHeader {
@@ -13,7 +13,7 @@
   top: 0;
   left: 0;
   padding: 0 10rem;
-  background-color: #EEE;
+  background-color: #eee;
   box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.14),
     0rem 0.3rem 1.2rem rgba(0, 0, 0, 0.14) inset;
   z-index: 100;
@@ -37,7 +37,7 @@
   width: 100%;
   height: 100%;
   top: 18.3rem;
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   overflow-y: auto;
 }
 /* .SwapExchange::-webkit-scrollbar,
@@ -53,7 +53,7 @@
   width: 66rem;
   margin: 7.7rem auto;
   border-radius: 3rem;
-  background-color: #FFF;
+  background-color: #fff;
   box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.3);
   padding: 3.5rem 7rem 5rem 7rem;
   transition: all 120ms ease-out;
@@ -96,15 +96,15 @@
   align-items: center;
   width: 100%;
   height: 5.8rem;
-  border: 0.2rem solid #E3E3E3;
+  border: 0.2rem solid #e3e3e3;
   border-radius: 1rem;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   margin: 0;
 }
 .SwapExchange .SwapExchangeInputGroup.err .input-group,
 .SwapLiquidity .SwapExchangeInputGroup.err .input-group {
-  border-color: #E9A4C7;
-  background-color: #FFF4FA;
+  border-color: #e9a4c7;
+  background-color: #fff4fa;
 }
 .SwapExchange .SwapExchangeInputGroup .input-group input,
 .SwapLiquidity .SwapExchangeInputGroup .input-group input {
@@ -123,7 +123,7 @@
 }
 .SwapExchange .SwapExchangeInputGroup .input-group input::placeholder,
 .SwapLiquidity .SwapExchangeInputGroup .input-group input::placeholder {
-  color: #B8B8B8;
+  color: #b8b8b8;
 }
 .SwapExchange .SwapExchangeInputGroup .input-group .select-group,
 .SwapLiquidity .SwapExchangeInputGroup .input-group .select-group {
@@ -137,7 +137,11 @@
   padding-left: 1rem;
 }
 .SwapExchange .SwapExchangeInputGroup .input-group .select-group button.select,
-.SwapLiquidity .SwapExchangeInputGroup .input-group .select-group button.select {
+.SwapLiquidity
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  button.select {
   display: flex;
   align-items: center;
   width: 100%;
@@ -148,23 +152,53 @@
   text-align: left;
   cursor: pointer;
 }
-.SwapExchange .SwapExchangeInputGroup .input-group .select-group button.select span.token-icon,
-.SwapLiquidity .SwapExchangeInputGroup .input-group .select-group button.select span.token-icon {
+.SwapExchange
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  button.select
+  span.token-icon,
+.SwapLiquidity
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  button.select
+  span.token-icon {
   width: 3.6rem;
   height: 3.6rem;
   border-radius: 50%;
-  background-color: #B8B8B8;
+  background-color: #b8b8b8;
   margin-right: 0.7rem;
 }
-.SwapExchange .SwapExchangeInputGroup .input-group .select-group button.select span.token-name,
-.SwapLiquidity .SwapExchangeInputGroup .input-group .select-group button.select span.token-name {
+.SwapExchange
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  button.select
+  span.token-name,
+.SwapLiquidity
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  button.select
+  span.token-name {
   flex: 1;
   font-size: 2.4rem;
   font-family: "Roboto bold";
   color: #001414;
 }
-.SwapExchange .SwapExchangeInputGroup .input-group .select-group button.select svg,
-.SwapLiquidity .SwapExchangeInputGroup .input-group .select-group button.select svg {
+.SwapExchange
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  button.select
+  svg,
+.SwapLiquidity
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  button.select
+  svg {
   width: 1.4rem;
   height: 0.8rem;
 }
@@ -173,26 +207,56 @@
   position: absolute;
   width: 100%;
   max-height: 16rem;
-  border: 0.1rem solid #E8E8E8;
+  border: 0.1rem solid #e8e8e8;
   box-shadow: 0 0.2rem 0.6rem rgba(0, 0, 0, 0.14);
   border-bottom-right-radius: 1.2rem;
   border-bottom-left-radius: 1.2rem;
   padding-bottom: 1.2rem;
-  background-color: #FFF;
+  background-color: #fff;
   z-index: 1000;
 }
-.SwapExchange .SwapExchangeInputGroup .input-group .select-group .option-wrap .scroll-wrap,
-.SwapLiquidity .SwapExchangeInputGroup .input-group .select-group .option-wrap .scroll-wrap {
+.SwapExchange
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  .option-wrap
+  .scroll-wrap,
+.SwapLiquidity
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  .option-wrap
+  .scroll-wrap {
   max-height: 14.8rem;
   overflow-y: auto;
 }
-.SwapExchange .SwapExchangeInputGroup .input-group .select-group .option-wrap .scroll-wrap::-webkit-scrollbar,
-.SwapLiquidity .SwapExchangeInputGroup .input-group .select-group .option-wrap .scroll-wrap::-webkit-scrollbar {
+.SwapExchange
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  .option-wrap
+  .scroll-wrap::-webkit-scrollbar,
+.SwapLiquidity
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  .option-wrap
+  .scroll-wrap::-webkit-scrollbar {
   width: 0.6rem;
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
 }
-.SwapExchange .SwapExchangeInputGroup .input-group .select-group .option-wrap button,
-.SwapLiquidity .SwapExchangeInputGroup .input-group .select-group .option-wrap button {
+.SwapExchange
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  .option-wrap
+  button,
+.SwapLiquidity
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  .option-wrap
+  button {
   width: 100%;
   border: none;
   background-color: transparent;
@@ -202,8 +266,18 @@
   font-size: 2rem;
   padding-left: 2rem;
 }
-.SwapExchange .SwapExchangeInputGroup .input-group .select-group .option-wrap button:hover,
-.SwapLiquidity .SwapExchangeInputGroup .input-group .select-group .option-wrap button:hover {
+.SwapExchange
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  .option-wrap
+  button:hover,
+.SwapLiquidity
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  .option-wrap
+  button:hover {
   background-color: rgba(245, 245, 220, 0.5);
 }
 .SwapExchange .SwapExchangeInputGroup span.balance,
@@ -258,20 +332,20 @@
   height: 5.8rem;
   border: none;
   border-radius: 1rem;
-  background-color: #BADFFF;
-  color: #FFF;
+  background-color: #badfff;
+  color: #fff;
   font-size: 3.2rem;
   font-family: "Roboto bold";
   cursor: pointer;
 }
 .SwapExchange .wrap .TokenOptionList button.trigger:hover,
 .SwapLiquidity .TokenOptionList button.trigger:hover {
-  background-color: #5FA5E2;
+  background-color: #5fa5e2;
 }
 .SwapExchange .wrap .TokenOptionList button.trigger:disabled,
 .SwapLiquidity .TokenOptionList button.trigger:disabled {
   cursor: not-allowed;
-  background-color: #BADFFF;
+  background-color: #badfff;
 }
 .SwapExchange .wrap .TokenOptionList .option-wrap,
 .SwapLiquidity .TokenOptionList .option-wrap {
@@ -286,30 +360,30 @@
   width: 100%;
   text-align: center;
   font-size: 1.8rem;
-  color: #B8B8B8;
+  color: #b8b8b8;
 }
 .SwapExchange .wrap .TokenOptionList .option-wrap::-webkit-scrollbar,
 .SwapLiquidity .TokenOptionList .option-wrap::-webkit-scrollbar {
   width: 0.9rem;
   border-radius: 3rem;
-  background-color: #E3E3E3;
+  background-color: #e3e3e3;
   padding: 0.2rem;
 }
 .SwapExchange .wrap .TokenOptionList .option-wrap::-webkit-scrollbar-thumb,
 .SwapLiquidity .TokenOptionList .option-wrap::-webkit-scrollbar-thumb {
   border-radius: 3rem;
-  background-color: #B8B8B8;
+  background-color: #b8b8b8;
   box-shadow: 0 0.1rem 0.4rem rgba(0, 0, 0, 0.3);
 }
 .SwapExchange .wrap .TokenOptionList .options .btn-wrap,
 .SwapLiquidity .TokenOptionList .options .btn-wrap {
   width: 100%;
   padding: 1rem 0;
-  border-bottom: 0.1rem solid #E3E3E3;
+  border-bottom: 0.1rem solid #e3e3e3;
 }
 .SwapExchange .wrap .TokenOptionList .options .btn-wrap:first-child,
 .SwapLiquidity .TokenOptionList .options .btn-wrap:first-child {
-  border-top: 0.1rem solid #E3E3E3;
+  border-top: 0.1rem solid #e3e3e3;
 }
 .SwapExchange .wrap .TokenOptionList .options .btn-wrap button,
 .SwapLiquidity .TokenOptionList .options .btn-wrap button {
@@ -326,7 +400,7 @@
 }
 .SwapExchange .wrap .TokenOptionList .options .btn-wrap button:hover,
 .SwapLiquidity .TokenOptionList .options .btn-wrap button:hover {
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
 }
 .SwapExchange .wrap .TokenOptionList .options .btn-wrap button span.token-icon,
 .SwapLiquidity .TokenOptionList .options .btn-wrap button span.token-icon {
@@ -334,10 +408,16 @@
   width: 4rem;
   height: 4rem;
   border-radius: 50%;
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   margin-left: 0.6rem;
 }
-.SwapExchange .wrap .TokenOptionList .options .btn-wrap button span.token-symbol,
+.SwapExchange
+  .wrap
+  .TokenOptionList
+  .options
+  .btn-wrap
+  button
+  span.token-symbol,
 .SwapLiquidity .TokenOptionList .options .btn-wrap button span.token-symbol {
   position: absolute;
   display: block;
@@ -352,14 +432,20 @@
   flex: 1;
   padding: 1.6rem;
   font-size: 1.8rem;
-  color: #B8B8B8;
+  color: #b8b8b8;
   text-align: left;
   transform: translateY(1.2rem);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.SwapExchange .wrap .TokenOptionList .options .btn-wrap button span.token-balance ,
+.SwapExchange
+  .wrap
+  .TokenOptionList
+  .options
+  .btn-wrap
+  button
+  span.token-balance,
 .SwapLiquidity .TokenOptionList .options .btn-wrap button span.token-balance {
   display: block;
   padding-right: 2rem;
@@ -390,16 +476,16 @@
   height: 8.6rem;
   border: none;
   border-radius: 2rem;
-  color: #FFF;
+  color: #fff;
   font-size: 4.6rem;
   font-family: "Roboto bold";
-  background-image: linear-gradient(115deg, #E12B7C, #323A8D);
+  background-image: linear-gradient(115deg, #e12b7c, #323a8d);
   margin-top: 1.5rem;
   cursor: pointer;
 }
 .SwapExchange .wrap button.submit:disabled,
 .SwapLiquidity button.submit:disabled {
-  background-color: #E3E3E3;
+  background-color: #e3e3e3;
   background-image: none;
   cursor: not-allowed;
 }
@@ -413,23 +499,23 @@
   height: 5rem;
   border: none;
   border-radius: 2rem;
-  background-color: #E3E3E3;
+  background-color: #e3e3e3;
   font-size: 2.2rem;
   font-family: "Roboto bold";
   color: #fff;
   cursor: pointer;
 }
 .SwapExchange .SlippageTolerance .wrap button.ST-btn.ac {
-  background-color: #5FA5E2;
+  background-color: #5fa5e2;
 }
 .SwapExchange .SlippageTolerance .wrap .input-group {
   display: flex;
   align-items: center;
   width: 100%;
   height: 5.8rem;
-  border: 0.2rem solid #E3E3E3;
+  border: 0.2rem solid #e3e3e3;
   border-radius: 1rem;
-  background-color: #F5F5F5;
+  background-color: #f5f5f5;
   margin: 0;
 }
 .SwapExchange .SlippageTolerance .wrap .input-group input {
@@ -491,7 +577,7 @@
   cursor: pointer;
 }
 .SwapLiquidity .SwapLiquidityPage0 .page-cards .page-card-1 {
-  background-color: #B7B7B7;
+  background-color: #b7b7b7;
 }
 .SwapLiquidity .SwapLiquidityPage0 .page-cards .page-card-1 .accessory-1 {
   position: absolute;
@@ -513,7 +599,7 @@
   top: -6.5rem;
   left: -7.5rem;
   border-radius: 2rem;
-  background-image: linear-gradient(140deg, #E12B7C, #323A8D);
+  background-image: linear-gradient(140deg, #e12b7c, #323a8d);
   box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.25);
   transition: all 200ms ease-out;
   pointer-events: none;
@@ -529,7 +615,7 @@
   bottom: -5.8rem;
   right: -7.5rem;
   border-radius: 2rem;
-  background-image: linear-gradient(140deg, #E12B7C, #323A8D);
+  background-image: linear-gradient(140deg, #e12b7c, #323a8d);
   box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.25);
   transition: all 200ms ease-out;
   pointer-events: none;
@@ -539,7 +625,7 @@
   right: -3.1rem;
 }
 .SwapLiquidity .SwapLiquidityPage0 .page-cards .page-card-2 {
-  background-color: #87C6FE;
+  background-color: #87c6fe;
 }
 .SwapLiquidity .SwapLiquidityPage0 .page-cards .page-card-2 .accessory-1 {
   position: absolute;
@@ -561,7 +647,7 @@
   bottom: 2.4rem;
   right: 6.3rem;
   border-radius: 50%;
-  background-image: linear-gradient(140deg, #E12B7C, #323A8D);
+  background-image: linear-gradient(140deg, #e12b7c, #323a8d);
   box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.25);
   transition: all 200ms ease-out;
   pointer-events: none;
@@ -577,7 +663,7 @@
   bottom: 2.4rem;
   right: 6.3rem;
   border-radius: 50%;
-  background-image: linear-gradient(140deg, #E12B7C, #323A8D);
+  background-image: linear-gradient(140deg, #e12b7c, #323a8d);
   box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.25);
   transition: all 200ms ease-out;
   pointer-events: none;
@@ -593,7 +679,7 @@
   bottom: 6.7rem;
   right: -5rem;
   border-radius: 2rem;
-  background-image: linear-gradient(140deg, #E12B7C, #323A8D);
+  background-image: linear-gradient(140deg, #e12b7c, #323a8d);
   box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.25);
   transition: all 200ms ease-out;
   pointer-events: none;
@@ -611,7 +697,7 @@
   bottom: -6.5rem;
   left: 5rem;
   border-radius: 2rem;
-  background-image: linear-gradient(140deg, #E12B7C, #323A8D);
+  background-image: linear-gradient(140deg, #e12b7c, #323a8d);
   box-shadow: 0 0.3rem 1.2rem rgba(0, 0, 0, 0.25);
   transition: all 200ms ease-out;
   pointer-events: none;
