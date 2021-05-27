@@ -1,23 +1,26 @@
-// import { Principal } from "@dfinity/agent";
 import classNames from "classnames";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { getDTokenBalance } from "../APIs/token.js";
 import { currencyFormat } from "../utils/common";
 import "./TokenItem.css";
 
 const TokenItem = (props) => {
   const [balance, setBalance] = useState("");
+  const selected = useSelector((state) => state.selected);
+
   useEffect(() => {
     let _isMounted = true;
-    getDTokenBalance(props.canisterId, props.decimals)
-      .then((res) => {
-        if (_isMounted) setBalance(res);
-      })
-      .catch((err) => console.log(err));
+    if (selected)
+      getDTokenBalance(props.canisterId, props.decimals)
+        .then((res) => {
+          if (_isMounted) setBalance(res);
+        })
+        .catch((err) => console.log(err));
     return () => {
       _isMounted = false;
     };
-  }, []);
+  }, [selected]);
 
   return (
     <div className="Token">

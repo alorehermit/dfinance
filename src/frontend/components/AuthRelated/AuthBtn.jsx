@@ -37,7 +37,8 @@ const AuthBtn = (props) => {
   };
   const login = async () => {
     authClient.login({
-      identityProvider: `http://localhost:8000/?canisterId=${canister_ids.dev_internet_identity.local}`, // "https://identity.ic0.app/",
+      // identityProvider: `http://localhost:8000/?canisterId=${canister_ids.dev_internet_identity.local}`,
+      identityProvider: "https://identity.ic0.app/",
       onSuccess: () => update(),
     });
   };

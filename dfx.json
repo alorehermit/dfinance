@@ -7,9 +7,7 @@
       "main": "src/dswap/src/dswap.mo"
     },
     "frontend": {
-      "dependencies": [
-        "dtoken", "dswap"
-      ],
+      "dependencies": ["dtoken", "dswap"],
       "frontend": {
         "entrypoint": "src/frontend/index.jsx"
       },
@@ -21,6 +19,7 @@
       "packtool": ""
     }
   },
+  "dfx": "0.7.0",
   "networks": {
     "prod": {
       "providers": [],

@@ -16,12 +16,12 @@ class TokenList extends Component {
       amount: "",
       amountError: false,
       balance: "",
-      loading: false
-    }
+      loading: false,
+    };
   }
 
   _isMounted = false;
-  componentDidMount () {
+  componentDidMount() {
     this._isMounted = true;
   }
   componentWillUnmount() {
@@ -35,56 +35,57 @@ class TokenList extends Component {
 
   getBalance = () => {
     getDTokenBalance(this.state.active.canisterId, this.state.active.decimals)
-      .then(balance => {
+      .then((balance) => {
         if (this._isMounted) this.setState({ balance });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   };
-  spenderOnChange = e => {
+  spenderOnChange = (e) => {
     const val = e.target.value;
     this.setState({ spender: val, spenderError: !val ? true : false });
   };
-  amountOnChange = e => {
+  amountOnChange = (e) => {
     const val = e.target.value;
     const reg = new RegExp(/^[0-9\.]*$/);
     if (val && !reg.test(val)) return;
     this.setState({ amount: val, amountError: !val ? true : false });
   };
   max = () => {
-    this.setState({ amount: this.state.balance || "0" });
+    this.setState({ amount: this.state.balance || "0", amountError: false });
   };
   close = () => {
-    this.setState({ 
+    this.setState({
       active: null,
       spender: "",
       spenderError: false,
       amount: "",
       amountError: false,
       balance: "",
-      loading: false
+      loading: false,
     });
   };
   submit = () => {
     this.setState({ loading: "Transferring..." });
     transferDToken(
-      this.state.active.canisterId, 
-      this.state.spender, 
+      this.state.active.canisterId,
+      this.state.spender,
       this.state.amount,
       this.state.active.decimals
     )
-      .then(res => {
+      .then((res) => {
         if (this._isMounted) this.getBalance();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("transfer token failed");
         console.log(err);
       })
       .finally(() => {
-        if (this._isMounted) this.setState({ loading: "Done" }, () => {
-          setTimeout(() => {
-            if (this._isMounted) this.setState({ loading: "" });
-          }, 1500);
-        })
+        if (this._isMounted)
+          this.setState({ loading: "Done" }, () => {
+            setTimeout(() => {
+              if (this._isMounted) this.setState({ loading: "" });
+            }, 1500);
+          });
       });
   };
 
@@ -98,48 +99,72 @@ class TokenList extends Component {
               className="TokenItemWrap"
               onClick={() => this.setState({ active: i })}
             >
-              <TokenItem {...i} owned={i.owner === localStorage.getItem("dfinance_current_user")} />
+              <TokenItem {...i} owned={i.owner === this.props.user} />
             </div>
           ))}
         </div>
-        <div className={classNames("TokenListModal", {ac: this.state.active})}>
+        <div
+          className={classNames("TokenListModal", { ac: this.state.active })}
+        >
           <div className="bg"></div>
           <div className="wrap">
             <button className="close" onClick={this.close}>
               <Icon name="close" />
             </button>
-            <label className="label">Transfer {this.state.active ? this.state.active.symbol : ""}</label>
+            <label className="label">
+              Transfer {this.state.active ? this.state.active.symbol : ""}
+            </label>
             <label className="sub-label">To</label>
-            <input 
+            <input
               className={classNames({ err: this.state.spenderError })}
-              type="text" 
-              placeholder="Spender" 
-              value={this.state.spender} 
-              onChange={this.spenderOnChange} 
+              type="text"
+              placeholder="Spender"
+              value={this.state.spender}
+              onChange={this.spenderOnChange}
             />
             <label className="sub-label">Amount</label>
-            <input 
+            <input
               className={classNames({ err: this.state.amountError })}
-              type="text" 
-              placeholder="0.00" 
-              value={this.state.amount} 
-              onChange={this.amountOnChange} 
+              type="text"
+              placeholder="0.00"
+              value={this.state.amount}
+              onChange={this.amountOnChange}
             />
             <div className="balance-ctrl">
-              <span>{this.state.balance ? `Balance: ${currencyFormat(this.state.balance, this.state.active ? this.state.active.decimals : "2")}` : ""}</span>
+              <span>
+                {this.state.balance
+                  ? `Balance: ${currencyFormat(
+                      this.state.balance,
+                      this.state.active ? this.state.active.decimals : "2"
+                    )}`
+                  : ""}
+              </span>
               <button onClick={this.max}>Max</button>
             </div>
-            {this.state.loading ?
-              <button className="submit" disabled>{this.state.loading}</button> :
-              <button className="submit" onClick={this.submit} disabled={
-                !this.state.active || !this.state.spender || !this.state.amount ? true : false
-              }>Transfer</button>
-            }
+            {this.state.loading ? (
+              <button className="submit" disabled>
+                {this.state.loading}
+              </button>
+            ) : (
+              <button
+                className="submit"
+                onClick={this.submit}
+                disabled={
+                  !this.state.active ||
+                  !this.state.spender ||
+                  !this.state.amount
+                    ? true
+                    : false
+                }
+              >
+                Transfer
+              </button>
+            )}
           </div>
         </div>
       </div>
-    )
+    );
   }
-};
+}
 
 export default TokenList;

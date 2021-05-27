@@ -1,10 +1,18 @@
 import classNames from "classnames";
-import React, { Component } from "react";
-import { approveLpToken, getAllTokenPairs, getAllTokens, getLpAllowance, getLpBalance, removeLiquidity } from "../../APIs/token.js";
+import React, { Component, useEffect, useState } from "react";
+import {
+  approveLpToken,
+  getAllTokenPairs,
+  getAllTokens,
+  getLpAllowance,
+  getLpBalance,
+  removeLiquidity,
+} from "../../APIs/token.js";
 import Icon from "../../stuff/Icon.jsx";
 import { currencyFormat } from "../../utils/common.js";
 import canister_ids from "../../utils/canister_ids.json";
 import "./LiquidityList.css";
+import { useSelector } from "react-redux";
 
 const DSWAP_CANISTER_ID = canister_ids.dswap.local;
 
@@ -16,7 +24,7 @@ class LiquidityList extends Component {
       tokens: [],
       pairs: [],
       onRemove: "",
-      requireUpdateBal: ""
+      requireUpdateBal: "",
     };
   }
 
@@ -30,18 +38,16 @@ class LiquidityList extends Component {
   }
 
   initial = async () => {
-    Promise.all([
-      getAllTokens(),
-      getAllTokenPairs()
-    ])
+    Promise.all([getAllTokens(), getAllTokenPairs()])
       .then(([res1, res2]) => {
-        console.log(res1, res2)
-        if (this._isMounted) this.setState({ 
-          tokens: res1 || [], 
-          pairs: res2 || [] 
-        });
+        console.log(res1, res2);
+        if (this._isMounted)
+          this.setState({
+            tokens: res1 || [],
+            pairs: res2 || [],
+          });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("fetch tokens or pairs failed");
         console.log(err);
       })
@@ -56,87 +62,91 @@ class LiquidityList extends Component {
       <div className="LiquidityList">
         <div className="scroll-wrap">
           <label className="main-title">Liquidity</label>
-          {loading ? 
-            <Icon name="spinner" spin />
-          : null}
-          {!loading && !pairs.length ? 
+          {loading ? <Icon name="spinner" spin /> : null}
+          {!loading && !pairs.length ? (
             <span className="no-pair">No token-pair yet</span>
-          : null}
+          ) : null}
           {pairs.map((i, index) => (
             <LiquidityItem
               key={index}
               {...i}
-              token0={tokens.filter(el => el.canisterId === i.token0)[0] || {}}
-              token1={tokens.filter(el => el.canisterId === i.token1)[0] || {}}
-              onRemove={() => this.setState({ onRemove: i.id }, () => console.log(this.state.onRemove))}
+              token0={
+                tokens.filter((el) => el.canisterId === i.token0)[0] || {}
+              }
+              token1={
+                tokens.filter((el) => el.canisterId === i.token1)[0] || {}
+              }
+              onRemove={() =>
+                this.setState({ onRemove: i.id }, () =>
+                  console.log(this.state.onRemove)
+                )
+              }
               hasToUpdateBal={this.state.requireUpdateBal === i.id}
               reset={() => this.setState({ requireUpdateBal: "" })}
             />
           ))}
           <RemoveLiquidityModal
             ac={onRemove ? true : false}
-            pair={pairs.filter(i => i.id === onRemove)[0] || {}}
+            pair={pairs.filter((i) => i.id === onRemove)[0] || {}}
             tokens={tokens}
             close={() => this.setState({ onRemove: "" })}
             triggerUpdate={() => this.setState({ requireUpdateBal: onRemove })}
           />
         </div>
       </div>
-    ) 
+    );
   }
 }
 
 export default LiquidityList;
 
-class LiquidityItem extends Component {
-  constructor() {
-    super();
-    this.state = {
-      bal: ""
+const LiquidityItem = (props) => {
+  const [bal, setBal] = useState("");
+  const selected = useSelector((state) => state.selected);
+
+  useEffect(() => {
+    let _isMounted = true;
+    if (selected) getBalance(_isMounted);
+    return () => {
+      _isMounted = false;
     };
-  }
+  }, [selected]);
+  useEffect(() => {
+    let _isMounted = true;
+    getBalance(_isMounted);
+    setTimeout(() => {
+      props.reset();
+    }, 500);
+    return () => {
+      _isMounted = false;
+    };
+  }, [props.hasToUpdateBal, props.reset]);
 
-  _isMounted = false;
-  componentDidMount() {
-    this._isMounted = true;
-    this.getBalance();
-  }
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevProps.hasToUpdateBal && this.props.hasToUpdateBal) {
-      this.getBalance();
-      setTimeout(() => {
-        this.props.reset();
-      }, 500);
-    }
-  }
-
-  getBalance = () => {
-    getLpBalance(this.props.id, localStorage.getItem("dfinance_current_user"))
-      .then(bal => {
-        console.log("lp balance: ", bal);
-        if (this._isMounted) this.setState({ bal });
+  const getBalance = (_isMounted) => {
+    getLpBalance(props.id, selected.principal)
+      .then((res) => {
+        console.log("lp balance: ", res);
+        if (_isMounted) setBal(res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("get lp balance failed");
         console.log(err);
       });
   };
 
-  render() {
-    const { id, token0, token1, onRemove } = this.props;  
-    const { bal } = this.state;
-    return (
-      <div className="LiquidityItem">
-        <label>{token0.symbol || "BTC"}-{token1.symbol || "BTC"}</label>
-        <span className="bal">{bal ? `Balance: ${currencyFormat(bal, "8")}` : ""}</span>
-        <span className="id">Id: {id}</span>
-        <button onClick={onRemove}>Remove Liquidity</button>
-      </div>
-    )
-  }
+  const { id, token0, token1, onRemove } = props;
+  return (
+    <div className="LiquidityItem">
+      <label>
+        {token0.symbol || "BTC"}-{token1.symbol || "BTC"}
+      </label>
+      <span className="bal">
+        {bal ? `Balance: ${currencyFormat(bal, "8")}` : ""}
+      </span>
+      <span className="id">Id: {id}</span>
+      <button onClick={onRemove}>Remove Liquidity</button>
+    </div>
+  );
 };
 
 class RemoveLiquidityModal extends Component {
@@ -147,7 +157,7 @@ class RemoveLiquidityModal extends Component {
       approved: false,
       bal: "",
       amount: "",
-      error: false
+      error: false,
     };
   }
 
@@ -156,7 +166,7 @@ class RemoveLiquidityModal extends Component {
     this._isMounted = true;
     this.initial();
   }
-  componentWillUnmount () {
+  componentWillUnmount() {
     this._isMounted = false;
   }
   componentDidUpdate(prevProps, prevState) {
@@ -167,45 +177,58 @@ class RemoveLiquidityModal extends Component {
 
   initial = () => {
     if (this.props.pair.id) {
-      getLpBalance(this.props.pair.id, localStorage.getItem("dfinance_current_user"))
-        .then(bal => {
+      getLpBalance(
+        this.props.pair.id,
+        JSON.parse(localStorage.getItem("selected")).principal
+      )
+        .then((bal) => {
           if (this._isMounted) this.setState({ bal });
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("get lp token balance failed");
           console.log(err);
         });
-      getLpAllowance(this.props.pair.id, localStorage.getItem("dfinance_current_user"), DSWAP_CANISTER_ID)
-        .then(res => {
+      getLpAllowance(
+        this.props.pair.id,
+        JSON.parse(localStorage.getItem("selected")).principal,
+        DSWAP_CANISTER_ID
+      )
+        .then((res) => {
           if (parseFloat(res) > 0 && this._isMounted) {
             this.setState({ approved: true });
           } else {
             this.setState({ approved: false });
           }
         })
-        .catch(err => {
+        .catch((err) => {
           console.log("get lp token allowance failed");
           console.log(err);
         });
     }
   };
   updateBal = () => {
-    getLpBalance(this.props.pair.id, localStorage.getItem("dfinance_current_user"))
-      .then(bal => {
+    getLpBalance(
+      this.props.pair.id,
+      JSON.parse(localStorage.getItem("selected")).principal
+    )
+      .then((bal) => {
         if (this._isMounted) this.setState({ bal });
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("get lp token balance failed");
         console.log(err);
       });
   };
-  amountOnChange = e => {
+  amountOnChange = (e) => {
     const val = e.target.value;
     const reg = new RegExp(/^[0-9\.]*$/);
     if (val && !reg.test(val)) return;
-    this.setState({ 
-      amount: val, 
-      error: !val || parseFloat(val) > parseFloat(this.state.bal || "0") ? true : false 
+    this.setState({
+      amount: val,
+      error:
+        !val || parseFloat(val) > parseFloat(this.state.bal || "0")
+          ? true
+          : false,
     });
   };
   max = () => {
@@ -213,57 +236,60 @@ class RemoveLiquidityModal extends Component {
   };
   approve = () => {
     this.setState({ loading: "Approving..." });
-    const MAX_AMOUNT = Number.MAX_SAFE_INTEGER;  // TODO
+    const MAX_AMOUNT = Number.MAX_SAFE_INTEGER; // TODO
     approveLpToken(this.props.pair.id, DSWAP_CANISTER_ID, MAX_AMOUNT) // TODO
       .then(() => {})
-      .catch(err => {
+      .catch((err) => {
         console.log("approve lp token failed");
         console.log(err);
       })
       .finally(() => {
-        if (this._isMounted) this.setState({ loading: "Done" }, () => {
-          setTimeout(() => {
-            if (this._isMounted) this.setState({ loading: "", approved: true });
-          }, 1500);
-        });
+        if (this._isMounted)
+          this.setState({ loading: "Done" }, () => {
+            setTimeout(() => {
+              if (this._isMounted)
+                this.setState({ loading: "", approved: true });
+            }, 1500);
+          });
       });
   };
   remove = () => {
     this.setState({ loading: "Removing..." });
     const { token0, token1 } = this.props.pair;
     removeLiquidity(token0, token1, this.state.amount)
-      .then(res => {
+      .then((res) => {
         this.props.triggerUpdate();
         if (this._isMounted) this.updateBal();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log("remove liquidity failed");
         console.log(err);
       })
       .finally(() => {
-        if (this._isMounted) this.setState({ loading: "Done" }, () => {
-          setTimeout(() => {
-            if (this._isMounted) this.setState({ loading: "" });
-          }, 1500);
-        })
+        if (this._isMounted)
+          this.setState({ loading: "Done" }, () => {
+            setTimeout(() => {
+              if (this._isMounted) this.setState({ loading: "" });
+            }, 1500);
+          });
       });
   };
   close = () => {
-    this.setState({ 
+    this.setState({
       loading: "",
       approved: false,
       bal: "",
       amount: "",
-      error: false
+      error: false,
     });
     this.props.close();
   };
-  
-  render () {
+
+  render() {
     const { bal, approved, amount, error, loading } = this.state;
     const { ac, tokens, pair } = this.props;
-    const token0 = tokens.filter(i => i.canisterId === pair.token0)[0] || {};
-    const token1 = tokens.filter(i => i.canisterId === pair.token1)[0] || {};
+    const token0 = tokens.filter((i) => i.canisterId === pair.token0)[0] || {};
+    const token1 = tokens.filter((i) => i.canisterId === pair.token1)[0] || {};
     return (
       <div className={classNames("RemoveLiquidityModal", { ac })}>
         <div className="bg"></div>
@@ -272,8 +298,10 @@ class RemoveLiquidityModal extends Component {
             <Icon name="close" />
           </button>
           <label className="label">Remove Liquidity</label>
-          <label className="sub-label">{token0.symbol}-{token1.symbol}</label>
-          <input 
+          <label className="sub-label">
+            {token0.symbol}-{token1.symbol}
+          </label>
+          <input
             className={classNames({ error })}
             type="text"
             placeholder="0.00"
@@ -284,17 +312,35 @@ class RemoveLiquidityModal extends Component {
             <span>{bal ? `Balance: ${currencyFormat(bal, "8")}` : ""}</span>
             <button onClick={this.max}>Max</button>
           </div>
-          {approved ? 
-            loading ? 
-              <button className="submit" disabled>{loading}</button> :
-              <button className="submit" disabled={!amount || error} onClick={this.remove}>Remove</button>
-          : 
-            loading ? 
-              <button className="submit" disabled>{loading}</button> :
-              <button className="submit" disabled={!pair || !amount || error} onClick={this.approve}>Approve</button>
-          }
+          {approved ? (
+            loading ? (
+              <button className="submit" disabled>
+                {loading}
+              </button>
+            ) : (
+              <button
+                className="submit"
+                disabled={!amount || error}
+                onClick={this.remove}
+              >
+                Remove
+              </button>
+            )
+          ) : loading ? (
+            <button className="submit" disabled>
+              {loading}
+            </button>
+          ) : (
+            <button
+              className="submit"
+              disabled={!pair || !amount || error}
+              onClick={this.approve}
+            >
+              Approve
+            </button>
+          )}
         </div>
       </div>
-    )
+    );
   }
 }

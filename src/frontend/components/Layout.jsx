@@ -9,15 +9,11 @@ import TokenIssueForm from "./TokenIssueForm.jsx";
 import Test from "./Test.jsx";
 import Swap from "./SwapRelated/Swap.jsx";
 import ComingSoon from "./ComingSoon.jsx";
-import { Ed25519KeyIdentity } from "@dfinity/identity";
 import { useDispatch, useSelector } from "react-redux";
-import { HttpAgent } from "@dfinity/agent";
 import { updateSelected } from "../redux/features/selected.js";
 import { updateAccounts } from "../redux/features/accounts.js";
 import ImportKeyPair from "./AuthRelated/ImportKeyPair.jsx";
 import CreateKeyPair from "./AuthRelated/CreateKeyPair.jsx";
-import { getHexFromUint8Array } from "../utils/common.js";
-import { AuthClient } from "@dfinity/auth-client";
 import "./Layout.css";
 
 const Layout = (props) => {
@@ -33,12 +29,6 @@ const Layout = (props) => {
     if (selected) {
       if (selected.type === "Ed25519KeyIdentity") {
         localStorage.setItem("selected", JSON.stringify(selected));
-        const keyIdentity = Ed25519KeyIdentity.fromParsedJson(selected.keys);
-        const agent = new HttpAgent({
-          host: "http://localhost:8000/",
-          identity: keyIdentity,
-        });
-        window.ic = { agent };
       } else if (selected.type === "DelegationIdentity") {
         localStorage.setItem("selected", JSON.stringify(selected));
         localStorage.setItem("ic-identity", JSON.stringify(selected.keys));
@@ -46,30 +36,11 @@ const Layout = (props) => {
           "ic-delegation",
           JSON.stringify(selected.delegationChain)
         );
-        setTimeout(async () => {
-          const authClient = await AuthClient.create();
-          const identity = authClient.getIdentity();
-          console.log(
-            "account principal: ",
-            identity.getPrincipal().toString()
-          );
-          console.log(
-            "account public key: ",
-            getHexFromUint8Array(identity.getPublicKey().toDer())
-          );
-          const agent = new HttpAgent({
-            host: "http://localhost:8000/",
-            identity,
-          });
-          window.ic = { agent };
-        }, 200);
       } else {
         localStorage.removeItem("selected");
-        window.ic = { agent: null };
       }
     } else {
       localStorage.removeItem("selected");
-      window.ic = { agent: null };
     }
   }, [selected]);
   useEffect(() => {

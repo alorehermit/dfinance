@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { Route } from "react-router-dom";
 import { getAllTokenPairs, getAllTokens } from "../../APIs/token.js";
 import ComingSoon from "../ComingSoon.jsx";
@@ -9,12 +9,18 @@ import CreatePair from "./CreatePair.jsx";
 import SwapExchange from "./SwapExchange.jsx";
 import LiquidityAnimation from "./LiquidityAnimation.jsx";
 import "./Swap.css";
+import { useSelector } from "react-redux";
 
 const Swap = () => {
+  const selected = useSelector((state) => state.selected);
+
   return (
     <div className="Swap">
       <SwapHeader />
-      <Route path="/swap/exchange" render={() => <SwapExchange />} />
+      <Route
+        path="/swap/exchange"
+        render={() => <SwapExchange selected={selected} />}
+      />
       <Route path="/swap/liquidity" render={() => <SwapLiquidity />} />
       <Route path="/swap/info" render={() => <SwapInfo />} />
     </div>
@@ -49,83 +55,65 @@ const SwapHeader = () => {
   );
 };
 
-class SwapLiquidity extends Component {
-  constructor() {
-    super();
-    this.state = {
-      page: 0,
-      tokens: [],
-      pairs: [],
+const SwapLiquidity = () => {
+  const [page, setPage] = useState(0);
+  const [tokens, setTokens] = useState([]);
+  const [pairs, setPairs] = useState([]);
+  const selected = useSelector((state) => state.selected);
+
+  useEffect(() => {
+    let _isMounted = true;
+    if (selected) initial(_isMounted);
+    return () => {
+      _isMounted = false;
     };
-  }
+  }, [selected, page]);
 
-  _isMounted = false;
-  componentDidMount() {
-    this._isMounted = true;
-    this.initial();
-  }
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.page !== prevState.page) {
-      this.initial();
-    }
-  }
-
-  initial = async () => {
+  const initial = async (_isMounted) => {
     try {
       const val1 = await getAllTokens();
       const val2 = await getAllTokenPairs();
       console.log("pair: 2", val2);
-      if (this._isMounted)
-        this.setState({
-          tokens: val1,
-          pairs: val2.map((i) => [i.token0.toString(), i.token1.toString()]),
-        });
+      if (_isMounted) {
+        setTokens(val1);
+        setPairs(val2.map((i) => [i.token0.toString(), i.token1.toString()]));
+      }
     } catch (err) {
       console.log(err);
     }
   };
-  updatePairs = async () => {
+  const updatePairs = async () => {
     try {
       const val = await getAllTokenPairs();
       console.log("pair: 3", val);
-      if (this._isMounted)
-        this.setState({
-          pairs: val.map((i) => [i.token0.toString(), i.token1.toString()]),
-        });
+      setPairs(val.map((i) => [i.token0.toString(), i.token1.toString()]));
     } catch (err) {
       console.log(err);
     }
   };
 
-  render() {
-    return (
-      <div className="SwapLiquidity">
-        <LiquidityAnimation pairs={this.state.pairs} />
-        {this.state.page === 0 ? (
-          <Page0 goPage={(page) => this.setState({ page })} />
-        ) : null}
-        {this.state.page === 1 ? (
-          <CreatePair
-            goPage={(page) => this.setState({ page })}
-            tokens={this.state.tokens}
-            pairs={this.state.pairs}
-            updatePairs={this.updatePairs}
-          />
-        ) : null}
-        {this.state.page === 2 ? (
-          <AddLiquidity
-            goPage={(page) => this.setState({ page })}
-            tokens={this.state.tokens}
-            pairs={this.state.pairs}
-          />
-        ) : null}
-      </div>
-    );
-  }
-}
+  return (
+    <div className="SwapLiquidity">
+      <LiquidityAnimation pairs={pairs} />
+      {page === 0 ? <Page0 goPage={(page) => setPage(page)} /> : null}
+      {page === 1 ? (
+        <CreatePair
+          goPage={(page) => setPage(page)}
+          tokens={tokens}
+          pairs={pairs}
+          updatePairs={updatePairs}
+        />
+      ) : null}
+      {page === 2 ? (
+        <AddLiquidity
+          goPage={(page) => setPage(page)}
+          tokens={tokens}
+          pairs={pairs}
+        />
+      ) : null}
+    </div>
+  );
+};
 
 const Page0 = (props) => {
   return (
@@ -145,7 +133,7 @@ const Page0 = (props) => {
               gradientUnits="objectBoundingBox"
             >
               <stop offset="0" stopColor="#3dc4ed" />
-              <stop offset="1" stopColor="#2976ba" />
+              <stop offset="1" stopColor="#2976 selected={selected}" />
             </linearGradient>
             <linearGradient
               id="linear-gradient-2"

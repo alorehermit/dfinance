@@ -3,7 +3,6 @@ import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateSelected } from "../../redux/features/selected";
-import { AuthClient } from "@dfinity/auth-client";
 import { withRouter } from "react-router";
 
 const AccountSelector = (props) => {

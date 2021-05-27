@@ -1,109 +1,100 @@
 import classNames from "classnames";
-import React, { Component, createRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import Icon from "../stuff/Icon.jsx";
 import "./UserPrincipalDisplayer.css";
 
-class UserPrincipalDisplayer extends Component {
-  constructor() {
-    super();
-    const selected = JSON.parse(localStorage.getItem("selected"));
-    this.state = {
-      copied: false,
-      principal: selected ? selected.principal : "",
-      publicKey: selected && selected.keys ? selected.keys[0] : "",
-      privateKey: selected && selected.keys ? selected.keys[1] : "",
-      show: false,
-    };
-  }
+const UserPrincipalDisplayer = () => {
+  const selected = useSelector((state) => state.selected);
+  const [principal, setPrincipal] = useState(
+    selected && selected.principal ? selected.principal : ""
+  );
+  const [publicKey, setPublicKey] = useState(
+    selected && selected.keys ? selected.keys[0] : ""
+  );
+  const [privateKey, setPrivateKey] = useState(
+    selected && selected.keys ? selected.keys[1] : ""
+  );
+  const [show, setShow] = useState(false);
+  const principalDom = useRef();
+  const publicDom = useRef();
+  const privateDom = useRef();
 
-  principal = createRef();
-  publicKey = createRef();
-  privateKey = createRef();
+  useEffect(() => {
+    setPrincipal(selected && selected.principal ? selected.principal : "");
+    setPublicKey(selected && selected.keys ? selected.keys[0] : "");
+    setPrivateKey(selected && selected.keys ? selected.keys[1] : "");
+  }, [selected]);
 
-  principalOnCopy = () => {
-    if (this.principal.current) {
-      this.principal.current.select();
-      this.principal.current.setSelectionRange(0, 99999);
+  const principalOnCopy = () => {
+    if (principalDom.current) {
+      principalDom.current.select();
+      principalDom.current.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      this.principal.current.blur();
+      principalDom.current.blur();
     }
   };
-  publicKeyOnCopy = () => {
-    if (this.publicKey.current) {
-      this.publicKey.current.select();
-      this.publicKey.current.setSelectionRange(0, 99999);
+  const publicKeyOnCopy = () => {
+    if (publicDom.current) {
+      publicDom.current.select();
+      publicDom.current.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      this.publicKey.current.blur();
+      publicDom.current.blur();
     }
   };
-  privateKeyOnCopy = () => {
-    if (this.privateKey.current) {
-      this.privateKey.current.select();
-      this.privateKey.current.setSelectionRange(0, 99999);
+  const privateKeyOnCopy = () => {
+    if (privateDom.current) {
+      privateDom.current.select();
+      privateDom.current.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      this.privateKey.current.blur();
+      privateDom.current.blur();
     }
   };
 
-  render() {
-    return (
-      <div className="UserPrincipalDisplayer">
-        <input ref={this.principal} value={this.state.principal} readOnly />
-        <div className="group">
-          <span className="label">
-            {this.state.principal.substr(0, 5)}...
-            {this.state.principal.substr(58, 5)}
-          </span>
-          <CopyBtn onCopy={this.principalOnCopy} />
-          <button onClick={() => this.setState({ show: true })}>
-            <Icon name="export" />
-          </button>
-        </div>
-        {this.state.show ? (
-          <div
-            className={classNames("ExportWalletModal", { ac: this.state.show })}
-          >
-            <div className="bg"></div>
-            <div className="wrap">
-              <button
-                className="close"
-                onClick={() => this.setState({ show: false })}
-              >
-                <Icon name="close" />
-              </button>
-              <input
-                ref={this.publicKey}
-                value={this.state.publicKey}
-                readOnly
-              />
-              <input
-                ref={this.privateKey}
-                value={this.state.privateKey}
-                readOnly
-              />
-              <label className="label">Wallet</label>
-              <label className="sub-label">Principal :</label>
-              <div className="input-group">
-                <span>{this.state.principal}</span>
-                <CopyBtn onCopy={this.principalOnCopy} />
-              </div>
-              <label className="sub-label">Public Key :</label>
-              <div className="input-group">
-                <span>{this.state.publicKey}</span>
-                <CopyBtn onCopy={this.publicKeyOnCopy} />
-              </div>
-              <label className="sub-label">Private Key :</label>
-              <div className="input-group">
-                <span>{this.state.privateKey}</span>
-                <CopyBtn onCopy={this.privateKeyOnCopy} />
-              </div>
+  return (
+    <div className="UserPrincipalDisplayer">
+      <input ref={principalDom} value={principal} readOnly />
+      <div className="group">
+        <span className="label">
+          {principal.substr(0, 5)}...
+          {principal.substr(58, 5)}
+        </span>
+        <CopyBtn onCopy={principalOnCopy} />
+        <button onClick={() => setShow(true)}>
+          <Icon name="export" />
+        </button>
+      </div>
+      {show ? (
+        <div className={classNames("ExportWalletModal", { ac: show })}>
+          <div className="bg"></div>
+          <div className="wrap">
+            <button className="close" onClick={() => setShow(false)}>
+              <Icon name="close" />
+            </button>
+            <input ref={publicDom} value={publicKey} readOnly />
+            <input ref={privateDom} value={privateKey} readOnly />
+            <label className="label">Wallet</label>
+            <label className="sub-label">Principal :</label>
+            <div className="input-group">
+              <span>{principal}</span>
+              <CopyBtn onCopy={principalOnCopy} />
+            </div>
+            <label className="sub-label">Public Key :</label>
+            <div className="input-group">
+              <span>{publicKey}</span>
+              <CopyBtn onCopy={publicKeyOnCopy} />
+            </div>
+            <label className="sub-label">Private Key :</label>
+            <div className="input-group">
+              <span>{privateKey}</span>
+              <CopyBtn onCopy={privateKeyOnCopy} />
             </div>
           </div>
-        ) : null}
-      </div>
-    );
-  }
-}
+        </div>
+      ) : null}
+    </div>
+  );
+};
 
 export default UserPrincipalDisplayer;
 

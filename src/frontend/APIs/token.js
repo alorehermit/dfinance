@@ -1,27 +1,62 @@
-import { Actor, Principal } from "@dfinity/agent";
+import { Actor, HttpAgent, Principal } from "@dfinity/agent";
 import CommonTokenIdlFactory from "../utils/token.did";
 import DTokenIdlFactory from "../utils/dtoken.did";
 import DSwapIdlFactory from "../utils/dswap.did";
-import { bigIntToAmountStr } from "../utils/common";
+import { bigIntToAmountStr, getHexFromUint8Array } from "../utils/common";
+import store from "../redux/store";
+import { AuthClient } from "@dfinity/auth-client";
+import { Ed25519KeyIdentity } from "@dfinity/identity";
 
-// import dSwapCandid from "../utils/dswap.did";
-// import dTokenCandid from "../utils/dtoken.did";
+let authClient;
+AuthClient.create().then((res) => {
+  authClient = res;
+});
 
-const dTokenActor = () =>
+const getAgent = async () => {
+  const state = store.getState();
+  const selected = state.selected;
+  if (selected) {
+    if (selected.type === "Ed25519KeyIdentity") {
+      const keyIdentity = Ed25519KeyIdentity.fromParsedJson(selected.keys);
+      return new HttpAgent({
+        host: "http://localhost:8000/",
+        identity: keyIdentity,
+      });
+    } else if (selected.type === "DelegationIdentity") {
+      console.log(await authClient.isAuthenticated());
+      const identity = authClient.getIdentity();
+      console.log("account principal: ", identity.getPrincipal().toString());
+      console.log(
+        "account public key: ",
+        getHexFromUint8Array(identity.getPublicKey().toDer())
+      );
+      return new HttpAgent({
+        host: "http://localhost:8000/",
+        identity,
+      });
+    } else {
+      return null;
+    }
+  } else {
+    return null;
+  }
+};
+
+const dTokenActor = async () =>
   Actor.createActor(DTokenIdlFactory, {
-    agent: window.ic.agent,
+    agent: await getAgent(),
     maxAttempts: 100,
     canisterId: "ryjl3-tyaaa-aaaaa-aaaba-cai",
   });
-const dSwapActor = () =>
+const dSwapActor = async () =>
   Actor.createActor(DSwapIdlFactory, {
-    agent: window.ic.agent,
+    agent: await getAgent(),
     maxAttempts: 100,
     canisterId: "rrkah-fqaaa-aaaaa-aaaaq-cai",
   });
-const getTokenActor = (canisterId) =>
+const getTokenActor = async (canisterId) =>
   Actor.createActor(CommonTokenIdlFactory, {
-    agent: window.ic.agent,
+    agent: await getAgent(),
     maxAttempts: 100,
     canisterId,
   });
@@ -37,17 +72,14 @@ export const createToken = (name, symbol, decimals, totalSupply) => {
       )
       .then((res) => resolve(res.toString()))
       .catch((err) => reject(err));
-    // dtoken.createToken(
-    //   name, symbol, new BigNumber(decimals), new BigNumber(totalSupply).multipliedBy(new BigNumber("10").pow(parseInt(decimals)))
-    // )
-    //   .then(res => resolve(res.toString()))
-    //   .catch(err => reject(err));
   });
   return promise;
 };
 
 export const getAllTokens = () => {
   const promise = new Promise((resolve, reject) => {
+    const selected = store.getState().selected;
+    if (!selected || !selected.principal) return resolve([]);
     dTokenActor()
       .getTokenList()
       .then((res) => {
@@ -102,14 +134,13 @@ export const getDTokenBalance = (
   tokenCanisterId, // string
   decimals // string
 ) => {
-  const promise = new Promise((resolve, reject) => {
+  const promise = new Promise(async (resolve, reject) => {
+    const selected = store.getState().selected;
+    if (!selected || !selected.principal) return resolve("0");
     const actor = getTokenActor(tokenCanisterId);
+    const owner = selected.principal;
     actor
-      .balanceOf(
-        Principal.fromText(
-          JSON.parse(localStorage.getItem("selected")).principal
-        )
-      )
+      .balanceOf(Principal.fromText(owner))
       .then((res) => resolve(bigIntToAmountStr(res, decimals)))
       .catch((err) => reject(err));
   });
@@ -219,6 +250,8 @@ export const getPair = (token0, token1) => {
 
 export const getAllTokenPairs = () => {
   const promise = new Promise((resolve, reject) => {
+    const selected = store.getState().selected;
+    if (!selected || !selected.principal) return resolve([]);
     dSwapActor()
       .getAllPairs()
       .then((res) => {
@@ -303,15 +336,13 @@ export const approveToken = (tokenCanisterId, spender, value, decimals) => {
 };
 
 export const getTokenAllowance = (tokenCanisterId, spender, decimals) => {
-  const promise = new Promise((resolve, reject) => {
+  const promise = new Promise(async (resolve, reject) => {
+    const selected = store.getState().selected;
+    if (!selected || !selected.principal) return resolve("0");
+    const owner = selected.principal;
     const actor = getTokenActor(tokenCanisterId);
     actor
-      .allowance(
-        Principal.fromText(
-          JSON.parse(localStorage.getItem("selected")).principal
-        ),
-        Principal.fromText(spender)
-      )
+      .allowance(Principal.fromText(owner), Principal.fromText(spender))
       .then((res) => resolve(bigIntToAmountStr(res, decimals)))
       .catch((err) => reject(err));
   });
