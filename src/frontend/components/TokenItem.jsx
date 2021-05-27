@@ -1,48 +1,40 @@
 // import { Principal } from "@dfinity/agent";
 import classNames from "classnames";
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import { getDTokenBalance } from "../APIs/token.js";
 import { currencyFormat } from "../utils/common";
 import "./TokenItem.css";
 
-class TokenItem extends Component {
-  constructor() {
-    super();
-    this.state = {
-      balance: ""
-    };
-  }
-  _isMounted = false;
-  componentDidMount() {
-    this._isMounted = true;
-    console.log("token: ", this.props)
-    getDTokenBalance(this.props.canisterId, this.props.decimals)
-      .then(balance => {
-        if (this._isMounted) this.setState({ balance });
+const TokenItem = (props) => {
+  const [balance, setBalance] = useState("");
+  useEffect(() => {
+    let _isMounted = true;
+    getDTokenBalance(props.canisterId, props.decimals)
+      .then((res) => {
+        if (_isMounted) setBalance(res);
       })
-      .catch(err => console.log(err));
-  }
-  componentWillUnmount() {
-    this._isMounted = false;
-  }
-  render() {
-    return (
-      <div className="Token">
-        <div className={classNames("bg", {owned: this.props.owned})}></div>
-        <div className="wrap">
-          {this.props.owned ? <span className="owned">You Issued</span> : null}
-          <p className="token-name">
-            <span className="symbol">{this.props.symbol}</span>
-            <span className="name">/ {this.props.name}</span>
-          </p>
-          <p className="token-amount">
-            <label>Amount</label>
-            <span>{currencyFormat(this.state.balance, this.props.decimals)}</span>
-          </p>
-        </div>
+      .catch((err) => console.log(err));
+    return () => {
+      _isMounted = false;
+    };
+  }, []);
+
+  return (
+    <div className="Token">
+      <div className={classNames("bg", { owned: props.owned })}></div>
+      <div className="wrap">
+        {props.owned ? <span className="owned">You Issued</span> : null}
+        <p className="token-name">
+          <span className="symbol">{props.symbol}</span>
+          <span className="name">/ {props.name}</span>
+        </p>
+        <p className="token-amount">
+          <label>Amount</label>
+          <span>{currencyFormat(balance, props.decimals)}</span>
+        </p>
       </div>
-    )
-  }
-}
+    </div>
+  );
+};
 
 export default TokenItem;

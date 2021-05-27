@@ -1,20 +1,51 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { AuthClient } from "@dfinity/auth-client";
+import { DelegationIdentity } from "@dfinity/identity";
+import { addNewAccount } from "../../redux/features/accounts";
+import { getHexFromUint8Array } from "../../utils/common";
+import { withRouter } from "react-router";
+import canister_ids from "../../utils/canister_ids.json";
 
-const AuthBtn = () => {
-  const identity = useSelector((state) => state.identity);
-  const onClick = async () => {
-    (await AuthClient.create()).login({
-      identityProvider: "https://identity.ic0.app/",
-      onSuccess: () => console.log("hahaha"),
+const AuthBtn = (props) => {
+  const [authClient, setAuthClient] = useState(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const func = async () => {
+      setAuthClient(await AuthClient.create());
+    };
+    func();
+  }, []);
+
+  const update = async () => {
+    let userIdentity = await authClient.getIdentity();
+    if (userIdentity instanceof DelegationIdentity) {
+      dispatch(
+        addNewAccount({
+          type: "DelegationIdentity",
+          principal: userIdentity.getPrincipal().toString(),
+          publicKey: getHexFromUint8Array(userIdentity.getPublicKey().toDer()),
+          keys: JSON.parse(JSON.stringify(userIdentity))._inner,
+          delegationChain: JSON.parse(JSON.stringify(userIdentity))._delegation,
+        })
+      );
+      props.history.push("/");
+    } else {
+      alert("Sorry, invalid internet identity.");
+    }
+  };
+  const login = async () => {
+    authClient.login({
+      identityProvider: `http://localhost:8000/?canisterId=${canister_ids.dev_internet_identity.local}`, // "https://identity.ic0.app/",
+      onSuccess: () => update(),
     });
   };
   return (
-    <div>
-      <button onClick={onClick}>Login</button>
-    </div>
+    <button class="login" onClick={login}>
+      Login with Dfinity
+    </button>
   );
 };
 
-export default AuthBtn;
+export default withRouter(AuthBtn);

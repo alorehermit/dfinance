@@ -29,9 +29,10 @@ class SwapAnimation extends Component {
     window.addEventListener("resize", this.onResize);
   }
   onMouseMove = (e) => {
-    this.state.animation.goToAndStop(
-      (4000 * (e.clientX || e.pageX)) / window.innerWidth
-    );
+    if (this.state.animation)
+      this.state.animation.goToAndStop(
+        (4000 * (e.clientX || e.pageX)) / window.innerWidth
+      );
   };
   onResize = (e) => {
     // right

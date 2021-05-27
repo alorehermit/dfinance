@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Nav from "./Nav.jsx";
+import AuthMenu from "./AuthRelated/AuthMenu.jsx";
 import "./Header.css";
-import AuthBtn from "./AuthRelated/AuthBtn.jsx";
 
 class Header extends Component {
   render() {
@@ -129,7 +129,7 @@ class Header extends Component {
               />
             </div>
           ) : null}
-          <AuthBtn />
+          <AuthMenu />
         </div>
       </div>
     );

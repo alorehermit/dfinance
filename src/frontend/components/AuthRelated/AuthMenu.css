@@ -1,0 +1,56 @@
+.AuthMenu {
+  display: inline-block;
+}
+.AuthMenu .selector {
+  position: relative;
+  border-radius: 4vw;
+  z-index: 100;
+}
+.AuthMenu .selector:hover {
+  box-shadow: 0 0 12px #5fa5e2;
+}
+.AuthMenu .selector button.label {
+  width: 11vw;
+  height: 2.2vw;
+  border: none;
+  border-radius: 4vw;
+  background-image: linear-gradient(#5fa5e2, #323a8d);
+  color: #fff;
+  font-size: 1.2vw;
+  font-weight: 700;
+  cursor: pointer;
+}
+.AuthMenu .selector .options {
+  position: absolute;
+  display: none;
+  width: calc(100% - 1vw);
+  left: 0.5vw;
+  top: 1.1vw;
+  background-color: #fff;
+  box-shadow: 0 3px 12px #b8b8b8;
+  padding-top: 1vw;
+  padding-bottom: 0.5vw;
+  border-bottom-right-radius: 0.5vw;
+  border-bottom-left-radius: 0.5vw;
+  z-index: -10;
+}
+.AuthMenu .selector .options.show {
+  display: block;
+}
+.AuthMenu .selector .options button {
+  width: 100%;
+  height: 2.2vw;
+  border: none;
+  background-color: transparent;
+  text-align: left;
+  color: #444;
+  font-size: 0.8vw;
+  padding: 0 1vw;
+  cursor: pointer;
+}
+.AuthMenu .selector .options button.ac {
+  opacity: 0.8;
+}
+.AuthMenu .selector .options button:hover {
+  background-color: #00000024;
+}

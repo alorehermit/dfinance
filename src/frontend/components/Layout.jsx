@@ -7,70 +7,91 @@ import Wallet from "./Wallet.jsx";
 import TokenIssue from "./TokenIssue.jsx";
 import TokenIssueForm from "./TokenIssueForm.jsx";
 import Test from "./Test.jsx";
-import KeyPair from "./KeyPair.jsx";
-import { getAgent } from "../utils/common.js";
 import Swap from "./SwapRelated/Swap.jsx";
 import ComingSoon from "./ComingSoon.jsx";
+import { Ed25519KeyIdentity } from "@dfinity/identity";
+import { useDispatch, useSelector } from "react-redux";
+import { HttpAgent } from "@dfinity/agent";
+import { updateSelected } from "../redux/features/selected.js";
+import { updateAccounts } from "../redux/features/accounts.js";
+import ImportKeyPair from "./AuthRelated/ImportKeyPair.jsx";
+import CreateKeyPair from "./AuthRelated/CreateKeyPair.jsx";
+import { getHexFromUint8Array } from "../utils/common.js";
 import { AuthClient } from "@dfinity/auth-client";
 import "./Layout.css";
-import { DelegationIdentity } from "@dfinity/identity";
-import { useDispatch } from "react-redux";
-import { updateIdentity } from "../redux/features/identity.js";
 
 const Layout = (props) => {
-  const [hasUser, setHasUser] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const accounts = useSelector((state) => state.accounts);
+  const selected = useSelector((state) => state.selected);
   const dispatch = useDispatch();
 
   useEffect(() => {
     initialUserCheck();
   }, []);
   useEffect(() => {
-    updateAgentOnUserChange();
-  }, [hasUser]);
-
-  const initialUserCheck = async () => {
-    let authClient = await AuthClient.create();
-    const identity = authClient.getIdentity();
-    if (identity instanceof DelegationIdentity) {
-    } else {
-      dispatch(updateIdentity(null));
-    }
-
-    // console.log(identity);
-    // console.log(identity instanceof DelegationIdentity);
-    // console.log(identity.getDelegation());
-    // console.log(
-    //   JSON.stringify(identity.getDelegation().toJSON(), undefined, 2)
-    // );
-    // console.log(identity.getDelegation().delegations);
-
-    // setTimeout(() => {
-    //   if (localStorage.getItem("dfinance_current_user_key") && localStorage.getItem("dfinance_current_user")) {
-    //     this.setState({ hasUser: true, loading: false });
-    //   } else {
-    //     this.setState({ hasUser: false, loading: false });
-    //   }
-    // }, 200);
-  };
-  const updateAgentOnUserChange = () => {
-    if (hasUser) {
-      if (!window.ic) {
-        const { HttpAgent, IDL, canister } = require("@dfinity/agent");
-        console.log(HttpAgent);
-        console.log(canister)(window).ic = {
-          agent: getAgent(),
-          HttpAgent,
-          IDL,
-        };
+    if (selected) {
+      if (selected.type === "Ed25519KeyIdentity") {
+        localStorage.setItem("selected", JSON.stringify(selected));
+        const keyIdentity = Ed25519KeyIdentity.fromParsedJson(selected.keys);
+        const agent = new HttpAgent({
+          host: "http://localhost:8000/",
+          identity: keyIdentity,
+        });
+        window.ic = { agent };
+      } else if (selected.type === "DelegationIdentity") {
+        localStorage.setItem("selected", JSON.stringify(selected));
+        localStorage.setItem("ic-identity", JSON.stringify(selected.keys));
+        localStorage.setItem(
+          "ic-delegation",
+          JSON.stringify(selected.delegationChain)
+        );
+        setTimeout(async () => {
+          const authClient = await AuthClient.create();
+          const identity = authClient.getIdentity();
+          console.log(
+            "account principal: ",
+            identity.getPrincipal().toString()
+          );
+          console.log(
+            "account public key: ",
+            getHexFromUint8Array(identity.getPublicKey().toDer())
+          );
+          const agent = new HttpAgent({
+            host: "http://localhost:8000/",
+            identity,
+          });
+          window.ic = { agent };
+        }, 200);
       } else {
-        window.ic.agent = getAgent();
-        console.log("window.ic:", window.ic);
+        localStorage.removeItem("selected");
+        window.ic = { agent: null };
       }
     } else {
-      window.ic.agent = null;
-      props.history.push("/connectwallet");
+      localStorage.removeItem("selected");
+      window.ic = { agent: null };
     }
+  }, [selected]);
+  useEffect(() => {
+    if (accounts.length > 0) {
+      localStorage.setItem("accounts", JSON.stringify(accounts));
+      dispatch(updateSelected(accounts[accounts.length - 1]));
+    }
+  }, [accounts]);
+
+  const initialUserCheck = async () => {
+    // check on whether any key pair found locally
+    const localSelected = localStorage.getItem("selected");
+    if (localSelected) {
+      dispatch(updateSelected(JSON.parse(localSelected)));
+    }
+    const localAccounts = localStorage.getItem("accounts");
+    if (localAccounts) {
+      dispatch(updateAccounts(JSON.parse(localAccounts)));
+    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 200);
   };
 
   return (
@@ -121,8 +142,8 @@ const Layout = (props) => {
             render={() => (
               <ProtectedRouteWrap
                 component={<Wallet />}
-                access={hasUser}
-                redirectPath="/connectwallet"
+                access={selected}
+                redirectPath="/createkeypair"
               />
             )}
           />
@@ -132,8 +153,8 @@ const Layout = (props) => {
             render={() => (
               <ProtectedRouteWrap
                 component={<TokenIssue />}
-                access={hasUser}
-                redirectPath="/connectwallet"
+                access={selected}
+                redirectPath="/createkeypair"
               />
             )}
           />
@@ -142,8 +163,8 @@ const Layout = (props) => {
             render={() => (
               <ProtectedRouteWrap
                 component={<Swap />}
-                access={hasUser}
-                redirectPath="/connectwallet"
+                access={selected}
+                redirectPath="/createkeypair"
               />
             )}
           />
@@ -155,19 +176,15 @@ const Layout = (props) => {
             render={() => (
               <ProtectedRouteWrap
                 component={<TokenIssueForm />}
-                access={hasUser}
-                redirectPath="/connectwallet"
+                access={selected}
+                redirectPath="/createkeypair"
               />
             )}
           />
-          {/* <Route path="/test" exact render={() => <Test />} /> */}
-          <Route
-            path="/connectwallet"
-            exact
-            render={() => (
-              <KeyPair changeUser={(val) => this.setState({ hasUser: val })} />
-            )}
-          />
+          <Route path="/test" exact render={() => <Test />} />
+          {/* <Route path="/createkeypair" exact render={() => <KeyPair />} /> */}
+          <Route path="/importkeypair" exact render={() => <ImportKeyPair />} />
+          <Route path="/createkeypair" exact render={() => <CreateKeyPair />} />
         </>
       )}
     </div>
