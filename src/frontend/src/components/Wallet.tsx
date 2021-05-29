@@ -31,6 +31,11 @@ const Wallet = () => {
       initial(_isMounted);
       const theOne = accounts.find((i) => i.publicKey === selected);
       setPrincipal(theOne ? theOne.principal : "");
+    } else {
+      setBalance("");
+      setTokens([]);
+      setPrincipal("");
+      setLoading(false);
     }
     return () => {
       _isMounted = false;

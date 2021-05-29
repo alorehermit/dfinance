@@ -15,7 +15,6 @@ const CreatePair = (props: Props) => {
   const [token0, setToken0] = useState<Token | null>(null);
   const [token1Bal, setToken1Bal] = useState("");
   const [token1, setToken1] = useState<Token | null>(null);
-  const [showTokenList, setShowTokenList] = useState(false);
   const [bigger, setBigger] = useState(false);
   const [loading, setLoading] = useState("");
   const dom = useRef<HTMLDivElement>(null);

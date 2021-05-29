@@ -17,7 +17,13 @@ const TokenIssue = () => {
 
   useEffect(() => {
     let _isMounted = true;
-    if (selected) initial(_isMounted);
+    if (selected) {
+      initial(_isMounted);
+    } else {
+      setTokens([]);
+      setLoading(false);
+      setPrincipal("");
+    }
     return () => {
       _isMounted = false;
     };
@@ -42,7 +48,10 @@ const TokenIssue = () => {
   return (
     <div className="TokenIssue">
       <div className="more">
-        <Link className="more-link" to="/newtoken"></Link>
+        <Link
+          className="more-link"
+          to={selected ? "/newtoken" : "/connectwallet"}
+        ></Link>
         <div className="accessory-1"></div>
         <div className="accessory-2"></div>
         <div className="accessory-3">Issue a new token</div>

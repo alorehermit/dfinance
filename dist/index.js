@@ -91741,8 +91741,6 @@ const App = (props) => {
     const dispatch = react_redux_1.useDispatch();
     react_1.useEffect(() => {
         initialUserCheck();
-        console.log("111: ", "r7inp-6aaaa-aaaaa-aaabq-cai");
-        console.log("222: ", "http://localhost:8000/?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai");
     }, []);
     react_1.useEffect(() => {
         const theSelectedOne = accounts.find((i) => i.publicKey === selected);
@@ -92637,7 +92635,6 @@ const CreatePair = (props) => {
     const [token0, setToken0] = react_1.useState(null);
     const [token1Bal, setToken1Bal] = react_1.useState("");
     const [token1, setToken1] = react_1.useState(null);
-    const [showTokenList, setShowTokenList] = react_1.useState(false);
     const [bigger, setBigger] = react_1.useState(false);
     const [loading, setLoading] = react_1.useState("");
     const dom = react_1.useRef(null);
@@ -93163,14 +93160,19 @@ const LiquidityAnimation_1 = __importDefault(__webpack_require__(/*! ./Liquidity
 const LiquidityList_1 = __importDefault(__webpack_require__(/*! ./LiquidityList */ "./src/frontend/src/components/SwapRelated/LiquidityList.tsx"));
 const SwapExchange_1 = __importDefault(__webpack_require__(/*! ./SwapExchange */ "./src/frontend/src/components/SwapRelated/SwapExchange.tsx"));
 __webpack_require__(/*! ./Swap.css */ "./src/frontend/src/components/SwapRelated/Swap.css");
-const Swap = () => {
+const Swap = (props) => {
     const selected = react_redux_1.useSelector((state) => state.selected);
+    react_1.useEffect(() => {
+        if (!selected) {
+            props.history.push("/connectwallet");
+        }
+    }, [selected]);
     return (jsx_runtime_1.jsxs("div", Object.assign({ className: "Swap" }, { children: [jsx_runtime_1.jsx(SwapHeader, {}, void 0),
             jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/swap/exchange", render: () => jsx_runtime_1.jsx(SwapExchange_1.default, { selected: selected }, void 0) }, void 0),
             jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/swap/liquidity", render: () => jsx_runtime_1.jsx(SwapLiquidity, {}, void 0) }, void 0),
             jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/swap/info", render: () => jsx_runtime_1.jsx(SwapInfo, {}, void 0) }, void 0)] }), void 0));
 };
-exports.default = Swap;
+exports.default = react_router_dom_1.withRouter(Swap);
 const SwapHeader = () => {
     return (jsx_runtime_1.jsx("div", Object.assign({ className: "SwapHeader" }, { children: jsx_runtime_1.jsx(Nav_1.default, { list: [
                 {
@@ -94024,8 +94026,14 @@ const TokenIssue = () => {
     const accounts = react_redux_1.useSelector((state) => state.accounts);
     react_1.useEffect(() => {
         let _isMounted = true;
-        if (selected)
+        if (selected) {
             initial(_isMounted);
+        }
+        else {
+            setTokens([]);
+            setLoading(false);
+            setPrincipal("");
+        }
         return () => {
             _isMounted = false;
         };
@@ -94048,7 +94056,7 @@ const TokenIssue = () => {
                 setLoading(false);
         });
     };
-    return (jsx_runtime_1.jsxs("div", Object.assign({ className: "TokenIssue" }, { children: [jsx_runtime_1.jsxs("div", Object.assign({ className: "more" }, { children: [jsx_runtime_1.jsx(react_router_dom_1.Link, { className: "more-link", to: "/newtoken" }, void 0),
+    return (jsx_runtime_1.jsxs("div", Object.assign({ className: "TokenIssue" }, { children: [jsx_runtime_1.jsxs("div", Object.assign({ className: "more" }, { children: [jsx_runtime_1.jsx(react_router_dom_1.Link, { className: "more-link", to: selected ? "/newtoken" : "/connectwallet" }, void 0),
                     jsx_runtime_1.jsx("div", { className: "accessory-1" }, void 0),
                     jsx_runtime_1.jsx("div", { className: "accessory-2" }, void 0),
                     jsx_runtime_1.jsx("div", Object.assign({ className: "accessory-3" }, { children: "Issue a new token" }), void 0)] }), void 0),
@@ -94545,6 +94553,12 @@ const Wallet = () => {
             initial(_isMounted);
             const theOne = accounts.find((i) => i.publicKey === selected);
             setPrincipal(theOne ? theOne.principal : "");
+        }
+        else {
+            setBalance("");
+            setTokens([]);
+            setPrincipal("");
+            setLoading(false);
         }
         return () => {
             _isMounted = false;

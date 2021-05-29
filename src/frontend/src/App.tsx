@@ -15,8 +15,8 @@ import CreateKeyPair from "./components/AuthRelated/CreateKeyPair";
 import Swap from "./components/SwapRelated/Swap";
 import ConnectWallet from "./components/ConnectWallet";
 import Test from "./components/Test";
-import "./App.css";
 import { Account } from "./global";
+import "./App.css";
 
 interface Props extends RouteComponentProps {}
 const App = (props: Props) => {

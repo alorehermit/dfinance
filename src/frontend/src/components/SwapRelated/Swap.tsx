@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Route } from "react-router-dom";
+import { Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { getAllTokenPairs, getAllTokens } from "../../apis/token";
 import { RootState } from "../../redux/store";
 import ComingSoon from "../ComingSoon";
@@ -12,8 +12,15 @@ import LiquidityList from "./LiquidityList";
 import SwapExchange from "./SwapExchange";
 import "./Swap.css";
 
-const Swap = () => {
+interface Props extends RouteComponentProps {}
+const Swap = (props: Props) => {
   const selected = useSelector((state: RootState) => state.selected);
+
+  useEffect(() => {
+    if (!selected) {
+      props.history.push("/connectwallet");
+    }
+  }, [selected]);
 
   return (
     <div className="Swap">
@@ -28,7 +35,7 @@ const Swap = () => {
   );
 };
 
-export default Swap;
+export default withRouter(Swap);
 
 const SwapHeader = () => {
   return (
@@ -118,10 +125,10 @@ const SwapLiquidity = () => {
   );
 };
 
-interface Props {
+interface Page0Props {
   goPage: (page: number) => void;
 }
-const Page0 = (props: Props) => {
+const Page0 = (props: Page0Props) => {
   return (
     <div className="SwapLiquidityPage SwapLiquidityPage0">
       <div className="brand">
