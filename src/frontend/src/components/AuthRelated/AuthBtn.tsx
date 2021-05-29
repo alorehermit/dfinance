@@ -46,8 +46,7 @@ const AuthBtn = (props: Props) => {
   };
   const login = async () => {
     authClient!.login({
-      // identityProvider: `http://localhost:8000/?canisterId=${canister_ids.dev_internet_identity.local}`,
-      identityProvider: "https://identity.ic0.app/",
+      identityProvider: process.env.INTERNET_IDENTITY_CANISTER_URL, // "https://identity.ic0.app/",
       onSuccess: () => update(),
     });
   };
