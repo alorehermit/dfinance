@@ -17,7 +17,6 @@ import ConnectWallet from "./components/ConnectWallet";
 import Test from "./components/Test";
 import "./App.css";
 import { Account } from "./global";
-import { HttpAgent } from "@dfinity/agent";
 
 interface Props extends RouteComponentProps {}
 const App = (props: Props) => {
@@ -28,9 +27,6 @@ const App = (props: Props) => {
 
   useEffect(() => {
     initialUserCheck();
-
-    const agent = new HttpAgent();
-    console.log("agent", agent);
   }, []);
   useEffect(() => {
     const theSelectedOne = accounts.find((i) => i.publicKey === selected);

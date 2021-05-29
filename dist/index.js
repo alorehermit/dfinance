@@ -91734,7 +91734,6 @@ const Swap_1 = __importDefault(__webpack_require__(/*! ./components/SwapRelated/
 const ConnectWallet_1 = __importDefault(__webpack_require__(/*! ./components/ConnectWallet */ "./src/frontend/src/components/ConnectWallet.tsx"));
 const Test_1 = __importDefault(__webpack_require__(/*! ./components/Test */ "./src/frontend/src/components/Test.tsx"));
 __webpack_require__(/*! ./App.css */ "./src/frontend/src/App.css");
-const agent_1 = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
 const App = (props) => {
     const [loading, setLoading] = react_1.useState(true);
     const accounts = react_redux_1.useSelector((state) => state.accounts);
@@ -91742,8 +91741,8 @@ const App = (props) => {
     const dispatch = react_redux_1.useDispatch();
     react_1.useEffect(() => {
         initialUserCheck();
-        const agent = new agent_1.HttpAgent();
-        console.log("agent", agent);
+        console.log("111: ", "r7inp-6aaaa-aaaaa-aaabq-cai");
+        console.log("222: ", "http://localhost:8000/?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai");
     }, []);
     react_1.useEffect(() => {
         const theSelectedOne = accounts.find((i) => i.publicKey === selected);
@@ -91873,7 +91872,6 @@ const Item = (props) => {
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
-/* provided dependency */ var process = __webpack_require__(/*! ./node_modules/process/browser.js */ "./node_modules/process/browser.js");
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
@@ -91916,7 +91914,8 @@ const AuthBtn = (props) => {
     };
     const login = async () => {
         authClient.login({
-            identityProvider: process.env.INTERNET_IDENTITY_CANISTER_URL,
+            identityProvider: "http://localhost:8000/?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai" ||
+                0,
             onSuccess: () => update(),
         });
     };
@@ -92288,7 +92287,6 @@ class TokenSelectOptionItem extends react_1.Component {
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-/* provided dependency */ var process = __webpack_require__(/*! ./node_modules/process/browser.js */ "./node_modules/process/browser.js");
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -92300,7 +92298,7 @@ const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js"
 const token_1 = __webpack_require__(/*! ../../apis/token */ "./src/frontend/src/apis/token.js");
 const InputGroup_1 = __importDefault(__webpack_require__(/*! ../Inputs/InputGroup */ "./src/frontend/src/components/Inputs/InputGroup.tsx"));
 const TokenSelect_1 = __importDefault(__webpack_require__(/*! ../Inputs/TokenSelect */ "./src/frontend/src/components/Inputs/TokenSelect.tsx"));
-const DSWAP_CANISTER_ID = process.env.DSWAP_CANISTER_ID;
+const DSWAP_CANISTER_ID = "rrkah-fqaaa-aaaaa-aaaaq-cai";
 const AddLiquidity = (props) => {
     const [approved, setApproved] = react_1.useState(false);
     const [token0Amount, setToken0Amount] = react_1.useState("");
@@ -92953,7 +92951,6 @@ exports.default = LiquidityList;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-/* provided dependency */ var process = __webpack_require__(/*! ./node_modules/process/browser.js */ "./node_modules/process/browser.js");
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -92993,7 +92990,7 @@ const RemoveLiquidityModal = (props) => {
                 console.log("get lp token balance failed");
                 console.log(err);
             });
-            token_1.getLpAllowance(props.pair.id, JSON.parse(localStorage.getItem("selected") || "").principal, process.env.DSWAP_CANISTER_ID)
+            token_1.getLpAllowance(props.pair.id, JSON.parse(localStorage.getItem("selected") || "").principal, "rrkah-fqaaa-aaaaa-aaaaq-cai")
                 .then((res) => {
                 if (parseFloat(res) > 0 && dom.current) {
                     setApproved(true);
@@ -93034,7 +93031,7 @@ const RemoveLiquidityModal = (props) => {
     const approve = () => {
         setLoading("Approving...");
         const MAX_AMOUNT = Number.MAX_SAFE_INTEGER; // TODO
-        token_1.approveLpToken(props.pair.id, process.env.DSWAP_CANISTER_ID, MAX_AMOUNT) // TODO
+        token_1.approveLpToken(props.pair.id, "rrkah-fqaaa-aaaaa-aaaaq-cai", MAX_AMOUNT) // TODO
             .then(() => { })
             .catch((err) => {
             console.log("approve lp token failed");
@@ -93339,7 +93336,6 @@ exports.default = SwapAnimation;
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
-/* provided dependency */ var process = __webpack_require__(/*! ./node_modules/process/browser.js */ "./node_modules/process/browser.js");
 
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
@@ -93614,7 +93610,7 @@ class SwapExchange extends react_1.Component {
                 return;
             this.setState({ loading: "Approving..." });
             const MAX_AMOUNT = Number.MAX_SAFE_INTEGER;
-            token_1.approveToken(this.state.fromToken.canisterId, process.env.DSWAP_CANISTER_ID, MAX_AMOUNT, this.state.fromToken.decimals)
+            token_1.approveToken(this.state.fromToken.canisterId, "rrkah-fqaaa-aaaaa-aaaaq-cai", MAX_AMOUNT, this.state.fromToken.decimals)
                 .then(() => { })
                 .catch((err) => {
                 console.log("approve token failed");
@@ -93694,7 +93690,7 @@ class SwapExchange extends react_1.Component {
                 if (this._isMounted)
                     this.setState({ fromBal: res });
             });
-            token_1.getTokenAllowance(this.state.fromToken.canisterId, process.env.DSWAP_CANISTER_ID, this.state.fromToken.decimals).then((res) => {
+            token_1.getTokenAllowance(this.state.fromToken.canisterId, "rrkah-fqaaa-aaaaa-aaaaq-cai", this.state.fromToken.decimals).then((res) => {
                 console.log("allowance: ", res.toString());
                 if (this._isMounted && parseFloat(res) > 0) {
                     this.setState({ approved: true });

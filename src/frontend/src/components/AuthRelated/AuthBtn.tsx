@@ -46,7 +46,9 @@ const AuthBtn = (props: Props) => {
   };
   const login = async () => {
     authClient!.login({
-      identityProvider: process.env.INTERNET_IDENTITY_CANISTER_URL, // "https://identity.ic0.app/",
+      identityProvider:
+        process.env.INTERNET_IDENTITY_CANISTER_URL ||
+        "https://identity.ic0.app/",
       onSuccess: () => update(),
     });
   };
