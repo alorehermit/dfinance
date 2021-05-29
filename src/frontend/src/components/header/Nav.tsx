@@ -20,6 +20,16 @@ const Nav = (props: Props) => {
       window.removeEventListener("resize", initial);
     };
   }, []);
+  useEffect(() => {
+    let val = -1;
+    for (let i = 0; i < props.list.length; i++) {
+      if (props.list[i].match(props.history.location.pathname)) {
+        val = i;
+        break;
+      }
+    }
+    moveAccessory(val);
+  }, [props.list, props.history.location.pathname]);
 
   const navs = props.list.map(() => useRef<HTMLDivElement>(null));
 
@@ -42,6 +52,11 @@ const Nav = (props: Props) => {
     }
   };
   const moveAccessory = (val: number) => {
+    if (val === -1) {
+      setLeft(0);
+      setWidth(0);
+      return;
+    }
     const arr = navs;
     const dom = arr[val];
     if (dom.current) {
@@ -60,7 +75,6 @@ const Nav = (props: Props) => {
               active: i.match(props.history.location.pathname),
             })}
             to={i.path}
-            onClick={() => moveAccessory(index)}
           >
             {i.name}
           </NavLink>

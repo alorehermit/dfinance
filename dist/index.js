@@ -94683,6 +94683,14 @@ const Nav = (props) => {
             window.removeEventListener("resize", initial);
         };
     }, []);
+    react_1.useEffect(() => {
+        for (let i = 0; i < props.list.length; i++) {
+            if (props.list[i].match(props.history.location.pathname)) {
+                moveAccessory(i);
+                break;
+            }
+        }
+    }, [props.list, props.history.location.pathname]);
     const navs = props.list.map(() => react_1.useRef(null));
     const initial = () => {
         const path = props.history.location.pathname;
@@ -94713,7 +94721,7 @@ const Nav = (props) => {
     };
     return (jsx_runtime_1.jsxs("div", Object.assign({ className: "Nav" }, { children: [props.list.map((i, index) => (jsx_runtime_1.jsx("div", Object.assign({ className: "nav", ref: navs[index] }, { children: jsx_runtime_1.jsx(react_router_dom_1.NavLink, Object.assign({ exact: true, className: classnames_1.default({
                         active: i.match(props.history.location.pathname),
-                    }), to: i.path, onClick: () => moveAccessory(index) }, { children: i.name }), void 0) }), index))),
+                    }), to: i.path }, { children: i.name }), void 0) }), index))),
             jsx_runtime_1.jsx("div", { className: "accessory", style: {
                     left: `${left}px`,
                     width: `${width}px`,
