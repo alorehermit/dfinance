@@ -52,7 +52,7 @@ const dTokenActor = async () => {
   return Actor.createActor(DTokenIdlFactory, {
     agent,
     // maxAttempts: 100,
-    canisterId: "ryjl3-tyaaa-aaaaa-aaaba-cai",
+    canisterId: process.env.DTOKEN_CANISTER_ID,
   });
 };
 const dSwapActor = async () => {
@@ -60,7 +60,7 @@ const dSwapActor = async () => {
   return Actor.createActor(DSwapIdlFactory, {
     agent,
     // maxAttempts: 100,
-    canisterId: "rrkah-fqaaa-aaaaa-aaaaq-cai",
+    canisterId: process.env.DSWAP_CANISTER_ID,
   });
 };
 const getTokenActor = async (canisterId) => {

@@ -106,6 +106,7 @@ function generateWebpackConfigForCanister(name, info) {
         path: require.resolve("path"),
       }),
       new webpack.EnvironmentPlugin([
+        "DTOKEN_CANISTER_ID",
         "FRONTEND_CANISTER_ID",
         "DSWAP_CANISTER_ID",
         "INTERNET_IDENTITY_CANISTER_URL",

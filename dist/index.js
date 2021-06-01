@@ -94684,12 +94684,14 @@ const Nav = (props) => {
         };
     }, []);
     react_1.useEffect(() => {
+        let val = -1;
         for (let i = 0; i < props.list.length; i++) {
             if (props.list[i].match(props.history.location.pathname)) {
-                moveAccessory(i);
+                val = i;
                 break;
             }
         }
+        moveAccessory(val);
     }, [props.list, props.history.location.pathname]);
     const navs = props.list.map(() => react_1.useRef(null));
     const initial = () => {
@@ -94712,6 +94714,11 @@ const Nav = (props) => {
         }
     };
     const moveAccessory = (val) => {
+        if (val === -1) {
+            setLeft(0);
+            setWidth(0);
+            return;
+        }
         const arr = navs;
         const dom = arr[val];
         if (dom.current) {
@@ -97480,6 +97487,11 @@ const getTokenActor = async (canisterId) => {
 };
 
 const createToken = (name, symbol, decimals, totalSupply) => {
+  console.log(
+    "env",
+    "ryjl3-tyaaa-aaaaa-aaaba-cai",
+    "rrkah-fqaaa-aaaaa-aaaaq-cai"
+  );
   const promise = new Promise(async (resolve, reject) => {
     (await dTokenActor())
       .createToken(
