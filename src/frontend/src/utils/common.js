@@ -1,21 +1,5 @@
-import {
-  HttpAgent,
-  makeExpiryTransform,
-  makeNonceTransform,
-} from "@dfinity/agent";
-import { DelegationIdentity, Ed25519KeyIdentity } from "@dfinity/identity";
+import { DelegationIdentity } from "@dfinity/identity";
 import BigNumber from "bignumber.js";
-
-export const getAgent = () => {
-  const keyIdentity = Ed25519KeyIdentity.fromParsedJson(
-    JSON.parse(localStorage.getItem("selected")).keys
-  );
-  console.log("keyIdentity: ", keyIdentity);
-  const agent = new HttpAgent({ identity: keyIdentity });
-  agent.addTransform(makeNonceTransform());
-  agent.addTransform(makeExpiryTransform(5 * 60 * 1000));
-  return agent;
-};
 
 /**
  * @param {String} str - hex string

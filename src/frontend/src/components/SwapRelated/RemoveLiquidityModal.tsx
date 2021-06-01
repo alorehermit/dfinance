@@ -1,5 +1,6 @@
 import classNames from "classnames";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
 import {
   approveLpToken,
   getLpAllowance,
@@ -8,7 +9,8 @@ import {
 } from "../../apis/token";
 import { Token } from "../../global";
 import Icon from "../../icons/Icon";
-import { currencyFormat } from "../../utils/common";
+import { RootState } from "../../redux/store";
+// import { currencyFormat } from "../../utils/common";
 
 interface Props {
   pair: {
@@ -27,7 +29,10 @@ const RemoveLiquidityModal = (props: Props) => {
   const [bal, setBal] = useState("");
   const [amount, setAmount] = useState("");
   const [error, setError] = useState(false);
+  const [theOne, setTheOne] = useState(""); // user's principal
   const dom = useRef<HTMLDivElement>(null);
+  const selected = useSelector((state: RootState) => state.selected);
+  const accounts = useSelector((state: RootState) => state.accounts);
 
   useEffect(() => {
     let _isMounted = true;
@@ -36,17 +41,22 @@ const RemoveLiquidityModal = (props: Props) => {
       _isMounted = false;
     };
   }, []);
-
+  useEffect(() => {
+    const val = accounts.find((i) => i.publicKey === selected);
+    if (val) {
+      setTheOne(val.principal);
+    } else {
+      setTheOne("");
+    }
+  }, [selected, accounts]);
   useEffect(() => {
     initial();
   }, [props.pair.id]);
 
   const initial = () => {
+    if (!theOne) return;
     if (props.pair.id) {
-      getLpBalance(
-        props.pair.id,
-        JSON.parse(localStorage.getItem("selected") || "").principal
-      )
+      getLpBalance(props.pair.id, theOne)
         .then((bal) => {
           if (dom.current) setBal(bal);
         })
@@ -54,11 +64,7 @@ const RemoveLiquidityModal = (props: Props) => {
           console.log("get lp token balance failed");
           console.log(err);
         });
-      getLpAllowance(
-        props.pair.id,
-        JSON.parse(localStorage.getItem("selected") || "").principal,
-        process.env.DSWAP_CANISTER_ID
-      )
+      getLpAllowance(props.pair.id, theOne, process.env.DSWAP_CANISTER_ID)
         .then((res) => {
           if (parseFloat(res) > 0 && dom.current) {
             setApproved(true);
@@ -73,10 +79,7 @@ const RemoveLiquidityModal = (props: Props) => {
     }
   };
   const updateBal = () => {
-    getLpBalance(
-      props.pair.id,
-      JSON.parse(localStorage.getItem("selected") || "").principal
-    )
+    getLpBalance(props.pair.id, theOne)
       .then((bal) => {
         if (dom.current) setBal(bal);
       })
@@ -170,7 +173,8 @@ const RemoveLiquidityModal = (props: Props) => {
           onChange={amountOnChange}
         />
         <div className="balance-ctrl">
-          <span>{bal ? `Balance: ${currencyFormat(bal, "8")}` : ""}</span>
+          {/* <span>{bal ? `Balance: ${currencyFormat(bal, "8")}` : ""}</span> */}
+          <span>{bal ? `Balance: ${bal}` : ""}</span>
           <button onClick={max}>Max</button>
         </div>
         {approved ? (

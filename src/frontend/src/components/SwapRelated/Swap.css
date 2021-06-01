@@ -215,6 +215,14 @@
   background-color: #fff;
   z-index: 1000;
 }
+.SwapLiquidity
+  .SwapLiquidityPage1
+  .SwapExchangeInputGroup
+  .input-group
+  .select-group
+  .option-wrap {
+  margin-left: -1rem;
+}
 .SwapExchange
   .SwapExchangeInputGroup
   .input-group
