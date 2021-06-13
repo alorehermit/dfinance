@@ -101339,33 +101339,11 @@ const ConnectWallet_1 = __importDefault(__webpack_require__(/*! ./components/Con
 const Test_1 = __importDefault(__webpack_require__(/*! ./components/Test */ "./src/frontend/src/components/Test.tsx"));
 const crypto_js_1 = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
 __webpack_require__(/*! ./App.css */ "./src/frontend/src/App.css");
-const rosetta_1 = __importDefault(__webpack_require__(/*! ./apis/rosetta */ "./src/frontend/src/apis/rosetta.js"));
 const App = (props) => {
     const [loading, setLoading] = react_1.useState(true);
     const accounts = react_redux_1.useSelector((state) => state.accounts);
     const selected = react_redux_1.useSelector((state) => state.selected);
     const dispatch = react_redux_1.useDispatch();
-    react_1.useEffect(() => {
-        const rosettaAPI = new rosetta_1.default();
-        // rosettaAPI
-        //   .getAccountBalance(
-        //     "96d595f82c7fb7d19b6760be330404b7f2e0c3428523ed7a18d56a389929baae"
-        //   )
-        //   .then((res) => console.log("res1 : ", (Number(res) / 10 ** 8).toString()))
-        //   .catch((err) => console.log("err1 : ", err));
-        // rosettaAPI
-        //   .getAccountBalance(
-        //     "dd81336dbfef5c5870e84b48405c7b229c07ad999fdcacb85b9b9850bd60766f"
-        //   )
-        //   .then((res) => console.log("res2 : ", (Number(res) / 10 ** 8).toString()))
-        //   .catch((err) => console.log("err2 : ", err));
-        // rosettaAPI
-        //   .getTransactionsByAccount(
-        //     "dd81336dbfef5c5870e84b48405c7b229c07ad999fdcacb85b9b9850bd60766f"
-        //   )
-        //   .then((res) => console.log("res3 : ", res))
-        //   .catch((err) => console.log("err3 : ", err));
-    }, []);
     react_1.useEffect(() => {
         initialUserCheck();
     }, []);
@@ -103618,14 +103596,18 @@ exports.default = SwapExchange;
 /*!**********************************************!*\
   !*** ./src/frontend/src/components/Test.tsx ***!
   \**********************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
 
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const token_1 = __webpack_require__(/*! ../apis/token */ "./src/frontend/src/apis/token.js");
+const rosetta_1 = __importDefault(__webpack_require__(/*! ../apis/rosetta */ "./src/frontend/src/apis/rosetta.js"));
 const Test = () => {
     // componentDidMount() {
     // const actor = makeActorFactory(candid)({
@@ -103782,6 +103764,19 @@ const Test = () => {
     const selected = react_redux_1.useSelector((state) => state.selected);
     const accounts = react_redux_1.useSelector((state) => state.accounts);
     const test = async () => {
+        const rosettaAPI = new rosetta_1.default();
+        rosettaAPI
+            .getAccountBalance("96d595f82c7fb7d19b6760be330404b7f2e0c3428523ed7a18d56a389929baae")
+            .then((res) => console.log("res1 : ", (Number(res) / 10 ** 8).toString()))
+            .catch((err) => console.log("err1 : ", err));
+        rosettaAPI
+            .getAccountBalance("dd81336dbfef5c5870e84b48405c7b229c07ad999fdcacb85b9b9850bd60766f")
+            .then((res) => console.log("res2 : ", (Number(res) / 10 ** 8).toString()))
+            .catch((err) => console.log("err2 : ", err));
+        rosettaAPI
+            .getTransactionsByAccount("dd81336dbfef5c5870e84b48405c7b229c07ad999fdcacb85b9b9850bd60766f")
+            .then((res) => console.log("res3 : ", res))
+            .catch((err) => console.log("err3 : ", err));
         const user = accounts.find((i) => i.publicKey === selected);
         if (!user)
             return alert("CONNECT WALLET PLEASE");

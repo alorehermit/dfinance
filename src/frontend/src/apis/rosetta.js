@@ -101,7 +101,7 @@ export default class RosettaApi {
    */
   constructor() {
     this.axios = axios.create({
-      baseURL: "https://rosetta-api.internetcomputer.org/",
+      baseURL: process.env.ROSETTA_BASE_URL,
       method: "post",
       transformRequest: (data) => JSONbig.stringify(data),
       transformResponse: (data) => JSONbig.parse(data),

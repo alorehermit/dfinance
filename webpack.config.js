@@ -110,6 +110,7 @@ function generateWebpackConfigForCanister(name, info) {
         "FRONTEND_CANISTER_ID",
         "DSWAP_CANISTER_ID",
         "INTERNET_IDENTITY_CANISTER_URL",
+        "ROSETTA_BASE_URL",
       ]),
       new CopyPlugin({
         patterns: [
