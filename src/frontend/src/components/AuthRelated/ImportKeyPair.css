@@ -5,23 +5,28 @@
   margin: 10vh auto 0 auto;
   background-color: #fff;
   box-shadow: 0 3px 12px rgba(255, 255, 255, 0.2);
-  padding: 2vw;
+  padding: 6vw 2vw 2vw 2vw;
   text-align: center;
 }
 .ImportKeyPair .toggle,
 .CreateKeyPair .toggle {
   position: absolute;
+  display: flex;
   top: 0;
   right: 0;
 }
 .ImportKeyPair .toggle button,
 .CreateKeyPair .toggle button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5vw;
   border: none;
   background-color: transparent;
-  padding: none;
-  font-size: 0.5vw;
+  padding: 0;
+  font-size: 1.2vw;
   color: #8b8b8b;
-  text-decoration: underline;
+  border-bottom: 1px solid #8b8b8b;
   opacity: 0.8;
   cursor: pointer;
   margin-left: 0.5vw;
@@ -29,6 +34,17 @@
 .ImportKeyPair button.toggle:hover,
 .CreateKeyPair button.toggle:hover {
   opacity: 1;
+}
+.ImportKeyPair .toggle button span.dfinity,
+.CreateKeyPair .toggle button span.dfinity {
+  display: inline-block;
+  width: 3vw;
+  height: 3vw;
+  background-image: url(../../images/dfinity.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 0.3vw;
 }
 .ImportKeyPair h1,
 .CreateKeyPair h1 {
@@ -43,7 +59,7 @@
   background-color: transparent;
   padding: 0 8px;
   font-size: 2vw;
-  margin-bottom: 2vw;
+  margin: 2vw 0;
 }
 .ImportKeyPair .text,
 .CreateKeyPair .text {
@@ -90,6 +106,7 @@
   color: #fff;
   font-size: 1.5vw;
   font-weight: 700;
+  margin-top: 2vw;
   cursor: pointer;
   opacity: 1;
   letter-spacing: 1px;

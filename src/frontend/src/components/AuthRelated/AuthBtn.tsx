@@ -54,7 +54,7 @@ const AuthBtn = (props: Props) => {
   };
   return (
     <button className="login" onClick={login}>
-      Login with Dfinity
+      Login with <span className="dfinity"></span>
     </button>
   );
 };

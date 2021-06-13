@@ -16,6 +16,7 @@ import Swap from "./components/SwapRelated/Swap";
 import ConnectWallet from "./components/ConnectWallet";
 import Test from "./components/Test";
 import { Account } from "./global";
+import { AES, enc } from "crypto-js";
 import "./App.css";
 
 interface Props extends RouteComponentProps {}
@@ -48,8 +49,13 @@ const App = (props: Props) => {
     }
   }, [selected]);
   useEffect(() => {
-    if (accounts.length > 0) {
-      localStorage.setItem("accounts", JSON.stringify(accounts));
+    const encryptedPwd = localStorage.getItem("password");
+    if (accounts.length > 0 && encryptedPwd) {
+      const encryptedAccounts = AES.encrypt(
+        JSON.stringify(accounts),
+        encryptedPwd
+      ).toString();
+      localStorage.setItem("accounts", encryptedAccounts);
       dispatch(updateSelected(accounts[accounts.length - 1].publicKey));
     }
   }, [accounts]);
@@ -66,8 +72,12 @@ const App = (props: Props) => {
 
   const initialUserCheck = async () => {
     // check on whether any key pair found locally
-
-    const localAccounts = localStorage.getItem("accounts");
+    const encryptedPwd = localStorage.getItem("password");
+    const localAccounts =
+      AES.decrypt(
+        localStorage.getItem("accounts") || "",
+        encryptedPwd || ""
+      ).toString(enc.Utf8) || "[]";
     if (localAccounts && JSON.parse(localAccounts)[0]) {
       dispatch(updateAccounts(JSON.parse(localAccounts)));
       const localSelected = localStorage.getItem("selected");
