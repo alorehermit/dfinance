@@ -17,6 +17,7 @@ import {
   removeLiquidity,
   swapToken,
 } from "../apis/token";
+import RosettaApi from "../apis/rosetta";
 
 const Test = () => {
   // componentDidMount() {
@@ -180,6 +181,26 @@ const Test = () => {
   const accounts = useSelector((state: RootState) => state.accounts);
 
   const test = async () => {
+    const rosettaAPI = new RosettaApi();
+    rosettaAPI
+      .getAccountBalance(
+        "96d595f82c7fb7d19b6760be330404b7f2e0c3428523ed7a18d56a389929baae"
+      )
+      .then((res) => console.log("res1 : ", (Number(res) / 10 ** 8).toString()))
+      .catch((err) => console.log("err1 : ", err));
+    rosettaAPI
+      .getAccountBalance(
+        "dd81336dbfef5c5870e84b48405c7b229c07ad999fdcacb85b9b9850bd60766f"
+      )
+      .then((res) => console.log("res2 : ", (Number(res) / 10 ** 8).toString()))
+      .catch((err) => console.log("err2 : ", err));
+    rosettaAPI
+      .getTransactionsByAccount(
+        "dd81336dbfef5c5870e84b48405c7b229c07ad999fdcacb85b9b9850bd60766f"
+      )
+      .then((res) => console.log("res3 : ", res))
+      .catch((err) => console.log("err3 : ", err));
+
     const user = accounts.find((i) => i.publicKey === selected);
     if (!user) return alert("CONNECT WALLET PLEASE");
     const token1 = {

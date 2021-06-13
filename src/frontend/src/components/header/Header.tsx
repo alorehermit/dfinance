@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Nav from "./Nav";
 import AuthMenu from "../AuthRelated/AuthMenu";
 import "./Header.css";
+import ActivityModal from "../ActivityRelated/ActivityModal";
 
 interface Props {
   withNav: boolean;
@@ -130,6 +131,7 @@ const Header = (props: Props) => {
             />
           </div>
         ) : null}
+        <ActivityModal />
         <AuthMenu />
       </div>
     </div>

@@ -1,21 +1,14 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import RosettaApi from "../apis/rosetta";
 import { getAllTokens } from "../apis/token";
 import { Token } from "../global";
 import Icon from "../icons/Icon";
 import { RootState } from "../redux/store";
+import { principalToAccountIdentifier } from "../utils/common";
 import TokenList from "./TokenList";
 import UserPrincipalDisplayer from "./UserPrincipalDisplayer";
 import "./Wallet.css";
-
-const dtokenMocked = {
-  getBalance: () => {
-    let promise = new Promise((resolve, reject) => {
-      resolve("");
-    });
-    return promise;
-  },
-};
 
 const Wallet = () => {
   const [balance, setBalance] = useState("");
@@ -31,6 +24,19 @@ const Wallet = () => {
       initial(_isMounted);
       const theOne = accounts.find((i) => i.publicKey === selected);
       setPrincipal(theOne ? theOne.principal : "");
+      const rosettaAPI = new RosettaApi();
+      setBalance("...");
+      rosettaAPI
+        .getAccountBalance(
+          principalToAccountIdentifier(theOne?.principal || "", 0)
+        )
+        .then((res) => {
+          setBalance((Number(res) / 10 ** 8).toFixed(2));
+        })
+        .catch((err) => {
+          console.log(err);
+          setBalance("");
+        });
     } else {
       setBalance("");
       setTokens([]);
@@ -43,12 +49,11 @@ const Wallet = () => {
   }, [selected]);
 
   const initial = (_isMounted: boolean) => {
-    let arr = [dtokenMocked.getBalance(), getAllTokens()];
+    let arr = [getAllTokens()];
     Promise.all(arr)
-      .then(([balance, tokens]) => {
+      .then(([tokens]) => {
         console.log(tokens);
         if (_isMounted) {
-          setBalance(balance as string);
           setTokens(tokens as Token[]);
         }
       })
@@ -92,11 +97,7 @@ const Wallet = () => {
               fill="url(#linear-gradient)"
             />
           </svg>
-          {loading ? (
-            <Icon name="spinner" spin />
-          ) : (
-            <span>{balance || "0.00"}</span>
-          )}
+          <span>{balance || "0.00"}</span>
         </p>
       </div>
       <div className="tokens">

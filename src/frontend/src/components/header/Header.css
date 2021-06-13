@@ -25,6 +25,10 @@
   position: absolute;
   right: 10rem;
 }
+.Header .ActivityModal {
+  position: absolute;
+  right: 35rem;
+}
 .Nav {
   position: relative;
   height: 11rem;
