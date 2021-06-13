@@ -5,6 +5,7 @@ import { updateSelected } from "../../redux/features/selected";
 import { RouteComponentProps, withRouter } from "react-router";
 import { RootState } from "../../redux/store";
 import { Account } from "../../global";
+import { principalToAccountIdentifier } from "../../utils/common";
 
 interface Props extends RouteComponentProps {
   show: boolean;
@@ -13,22 +14,22 @@ interface Props extends RouteComponentProps {
 const AccountSelector = (props: Props) => {
   const selected = useSelector((state: RootState) => state.selected);
   const accounts = useSelector((state: RootState) => state.accounts);
-  const [principal, setPrincipal] = useState("");
+  const [aid, setAid] = useState("");
   const dispatch = useDispatch();
 
   useEffect(() => {
     const theOne = accounts.find((i) => i.publicKey === selected);
     if (selected && theOne) {
-      setPrincipal(theOne.principal || "");
+      setAid(principalToAccountIdentifier(theOne.principal || "", 0));
     } else {
-      setPrincipal("");
+      setAid("");
     }
   }, [selected]);
 
   return (
     <div className="selector">
       <button className="label" onClick={() => props.setShow(!props.show)}>
-        {principal.substr(0, 5)}...{principal.substr(length - 5, 5)}
+        {aid.substr(0, 5)}...{aid.substr(length - 5, 5)}
       </button>
       <div className={classNames("options", { show: props.show })}>
         {accounts.map((i, index) => (
@@ -62,6 +63,14 @@ interface ItemProps extends Account {
   onClick: () => void;
 }
 const Item = (props: ItemProps) => {
+  const [aid, setAid] = useState("");
+  useEffect(() => {
+    if (props.principal) {
+      setAid(principalToAccountIdentifier(props.principal, 0));
+    } else {
+      setAid("");
+    }
+  }, [props.principal]);
   return (
     <button
       className={classNames({
@@ -69,8 +78,8 @@ const Item = (props: ItemProps) => {
       })}
       onClick={props.onClick}
     >
-      {props.principal.substr(0, 5)}...
-      {props.principal.substr(length - 5, 5)}
+      {aid.substr(0, 5)}...
+      {aid.substr(length - 5, 5)}
     </button>
   );
 };

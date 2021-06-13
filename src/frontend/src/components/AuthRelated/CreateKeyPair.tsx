@@ -6,6 +6,7 @@ import { addNewAccount } from "../../redux/features/accounts";
 import AuthBtn from "./AuthBtn";
 import { RootState } from "../../redux/store";
 import PwdForm from "./PwdForm";
+import { principalToAccountIdentifier } from "../../utils/common";
 import "./ImportKeyPair.css";
 
 interface Props extends RouteComponentProps {}
@@ -50,7 +51,11 @@ const CreateKeyPair = (props: Props) => {
             Create
           </button>
         ) : null}
-        {principal ? <div className="text">Principal: {principal}</div> : null}
+        {principal ? (
+          <div className="text">
+            Account Id: {principalToAccountIdentifier(principal, 0)}
+          </div>
+        ) : null}
         {publicKey ? <div className="text">Public Key: {publicKey}</div> : null}
         {privateKey ? (
           <div className="text">Private Key: {privateKey}</div>

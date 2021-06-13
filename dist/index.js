@@ -98578,13 +98578,18 @@ const CreateKeyPair_1 = __importDefault(__webpack_require__(/*! ./components/Aut
 const Swap_1 = __importDefault(__webpack_require__(/*! ./components/SwapRelated/Swap */ "./src/frontend/src/components/SwapRelated/Swap.tsx"));
 const ConnectWallet_1 = __importDefault(__webpack_require__(/*! ./components/ConnectWallet */ "./src/frontend/src/components/ConnectWallet.tsx"));
 const Test_1 = __importDefault(__webpack_require__(/*! ./components/Test */ "./src/frontend/src/components/Test.tsx"));
-__webpack_require__(/*! ./App.css */ "./src/frontend/src/App.css");
 const crypto_js_1 = __webpack_require__(/*! crypto-js */ "./node_modules/crypto-js/index.js");
+__webpack_require__(/*! ./App.css */ "./src/frontend/src/App.css");
+const common_1 = __webpack_require__(/*! ./utils/common */ "./src/frontend/src/utils/common.js");
 const App = (props) => {
     const [loading, setLoading] = react_1.useState(true);
     const accounts = react_redux_1.useSelector((state) => state.accounts);
     const selected = react_redux_1.useSelector((state) => state.selected);
     const dispatch = react_redux_1.useDispatch();
+    react_1.useEffect(() => {
+        const val = common_1.principalToAccountIdentifier("nnwzf-5jxlx-wu47e-ajarg-ghcuc-zpolc-gjnxx-oggo6-epycv-wbpqj-bqe", 0);
+        console.log("aaaa: ", val);
+    }, []);
     react_1.useEffect(() => {
         initialUserCheck();
     }, []);
@@ -98624,8 +98629,6 @@ const App = (props) => {
         // check on whether any key pair found locally
         const encryptedPwd = localStorage.getItem("password");
         const localAccounts = crypto_js_1.AES.decrypt(localStorage.getItem("accounts") || "", encryptedPwd || "").toString(crypto_js_1.enc.Utf8) || "[]";
-        console.log(localAccounts);
-        console.log("aaaa: ", JSON.parse(localAccounts));
         if (localAccounts && JSON.parse(localAccounts)[0]) {
             dispatch(accounts_1.updateAccounts(JSON.parse(localAccounts)));
             const localSelected = localStorage.getItem("selected");
@@ -98680,21 +98683,22 @@ const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js"
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const selected_1 = __webpack_require__(/*! ../../redux/features/selected */ "./src/frontend/src/redux/features/selected.ts");
 const react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+const common_1 = __webpack_require__(/*! ../../utils/common */ "./src/frontend/src/utils/common.js");
 const AccountSelector = (props) => {
     const selected = react_redux_1.useSelector((state) => state.selected);
     const accounts = react_redux_1.useSelector((state) => state.accounts);
-    const [principal, setPrincipal] = react_1.useState("");
+    const [aid, setAid] = react_1.useState("");
     const dispatch = react_redux_1.useDispatch();
     react_1.useEffect(() => {
         const theOne = accounts.find((i) => i.publicKey === selected);
         if (selected && theOne) {
-            setPrincipal(theOne.principal || "");
+            setAid(common_1.principalToAccountIdentifier(theOne.principal || "", 0));
         }
         else {
-            setPrincipal("");
+            setAid("");
         }
     }, [selected]);
-    return (jsx_runtime_1.jsxs("div", Object.assign({ className: "selector" }, { children: [jsx_runtime_1.jsxs("button", Object.assign({ className: "label", onClick: () => props.setShow(!props.show) }, { children: [principal.substr(0, 5), "...", principal.substr(length - 5, 5)] }), void 0),
+    return (jsx_runtime_1.jsxs("div", Object.assign({ className: "selector" }, { children: [jsx_runtime_1.jsxs("button", Object.assign({ className: "label", onClick: () => props.setShow(!props.show) }, { children: [aid.substr(0, 5), "...", aid.substr(length - 5, 5)] }), void 0),
             jsx_runtime_1.jsxs("div", Object.assign({ className: classnames_1.default("options", { show: props.show }) }, { children: [accounts.map((i, index) => (jsx_runtime_1.jsx(Item, Object.assign({}, i, { matched: i.publicKey === selected, onClick: () => {
                             dispatch(selected_1.updateSelected(i.publicKey));
                             props.setShow(false);
@@ -98706,9 +98710,13 @@ const AccountSelector = (props) => {
 };
 exports.default = react_router_1.withRouter(AccountSelector);
 const Item = (props) => {
+    const [aid, setAid] = react_1.useState("");
+    react_1.useEffect(() => {
+        setAid(common_1.principalToAccountIdentifier(props.principal, 0));
+    }, [props.principal]);
     return (jsx_runtime_1.jsxs("button", Object.assign({ className: classnames_1.default({
             ac: props.matched,
-        }), onClick: props.onClick }, { children: [props.principal.substr(0, 5), "...", props.principal.substr(length - 5, 5)] }), void 0));
+        }), onClick: props.onClick }, { children: [aid.substr(0, 5), "...", aid.substr(length - 5, 5)] }), void 0));
 };
 
 
@@ -98846,6 +98854,7 @@ const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/rea
 const accounts_1 = __webpack_require__(/*! ../../redux/features/accounts */ "./src/frontend/src/redux/features/accounts.ts");
 const AuthBtn_1 = __importDefault(__webpack_require__(/*! ./AuthBtn */ "./src/frontend/src/components/AuthRelated/AuthBtn.tsx"));
 const PwdForm_1 = __importDefault(__webpack_require__(/*! ./PwdForm */ "./src/frontend/src/components/AuthRelated/PwdForm.tsx"));
+const common_1 = __webpack_require__(/*! ../../utils/common */ "./src/frontend/src/utils/common.js");
 __webpack_require__(/*! ./ImportKeyPair.css */ "./src/frontend/src/components/AuthRelated/ImportKeyPair.css");
 const CreateKeyPair = (props) => {
     const [principal, setPrincipal] = react_1.useState("");
@@ -98874,7 +98883,7 @@ const CreateKeyPair = (props) => {
                         jsx_runtime_1.jsx("button", Object.assign({ onClick: () => props.history.push("/importkeypair") }, { children: "Import One" }), void 0)] }), void 0),
                 jsx_runtime_1.jsx("h1", { children: "Create New Idenity" }, void 0),
                 !privateKey ? (jsx_runtime_1.jsx("button", Object.assign({ className: "btn", onClick: createWallet }, { children: "Create" }), void 0)) : null,
-                principal ? jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Principal: ", principal] }), void 0) : null,
+                principal ? (jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Account Id: ", common_1.principalToAccountIdentifier(principal, 0)] }), void 0)) : null,
                 publicKey ? jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Public Key: ", publicKey] }), void 0) : null,
                 privateKey ? (jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Private Key: ", privateKey] }), void 0)) : null,
                 privateKey ? (jsx_runtime_1.jsx("button", Object.assign({ className: "btn", onClick: submit }, { children: "Next" }), void 0)) : null] }), void 0));
@@ -98945,7 +98954,7 @@ const ImportKeyPair = (props) => {
                         jsx_runtime_1.jsx("button", Object.assign({ onClick: () => props.history.push("/createkeypair") }, { children: "Create One" }), void 0)] }), void 0),
                 jsx_runtime_1.jsx("h1", { children: "Import Idenity from Private Key" }, void 0),
                 jsx_runtime_1.jsx("input", { type: "text", placeholder: "Private Key", value: privateKey, onChange: (e) => setPrivateKey(e.target.value) }, void 0),
-                principal ? jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Principal: ", principal] }), void 0) : null,
+                principal ? (jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Account Id: ", common_1.principalToAccountIdentifier(principal, 0)] }), void 0)) : null,
                 publicKey ? jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Public Key: ", publicKey] }), void 0) : null,
                 jsx_runtime_1.jsxs("div", Object.assign({ className: "btns" }, { children: [jsx_runtime_1.jsx("button", Object.assign({ onClick: importWallet, disabled: principal ? true : false }, { children: "Import" }), void 0),
                         jsx_runtime_1.jsx("button", Object.assign({ onClick: confirm, disabled: !principal }, { children: "Next" }), void 0)] }), void 0)] }), void 0));
@@ -101382,6 +101391,7 @@ const classnames_1 = __importDefault(__webpack_require__(/*! classnames */ "./no
 const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const Icon_1 = __importDefault(__webpack_require__(/*! ../icons/Icon */ "./src/frontend/src/icons/Icon.tsx"));
+const common_1 = __webpack_require__(/*! ../utils/common */ "./src/frontend/src/utils/common.js");
 __webpack_require__(/*! ./UserPrincipalDisplayer.css */ "./src/frontend/src/components/UserPrincipalDisplayer.css");
 const UserPrincipalDisplayer = () => {
     const selected = react_redux_1.useSelector((state) => state.selected);
@@ -101393,6 +101403,16 @@ const UserPrincipalDisplayer = () => {
     const principalDom = react_1.useRef(null);
     const publicDom = react_1.useRef(null);
     const privateDom = react_1.useRef(null);
+    const [aid, setAid] = react_1.useState("");
+    react_1.useEffect(() => {
+        if (principal) {
+            console.log("bbb : ", principal);
+            setAid(common_1.principalToAccountIdentifier(principal, 0));
+        }
+        else {
+            setAid("");
+        }
+    }, [principal]);
     react_1.useEffect(() => {
         const theOne = accounts.find((i) => i.publicKey === selected);
         if (selected && theOne) {
@@ -101431,7 +101451,7 @@ const UserPrincipalDisplayer = () => {
         }
     };
     return (jsx_runtime_1.jsxs("div", Object.assign({ className: "UserPrincipalDisplayer" }, { children: [jsx_runtime_1.jsx("input", { ref: principalDom, value: principal, readOnly: true }, void 0),
-            jsx_runtime_1.jsxs("div", Object.assign({ className: "group" }, { children: [jsx_runtime_1.jsxs("span", Object.assign({ className: "label" }, { children: [principal.substr(0, 5), "...", principal.substr(58, 5)] }), void 0),
+            jsx_runtime_1.jsxs("div", Object.assign({ className: "group" }, { children: [jsx_runtime_1.jsxs("span", Object.assign({ className: "label" }, { children: [aid.substr(0, 5), "...", aid.substr(58, 5)] }), void 0),
                     jsx_runtime_1.jsx(CopyBtn, { onCopy: principalOnCopy }, void 0),
                     jsx_runtime_1.jsx("button", Object.assign({ onClick: () => setShow(true) }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "export" }, void 0) }), void 0)] }), void 0),
             show ? (jsx_runtime_1.jsxs("div", Object.assign({ className: classnames_1.default("ExportWalletModal", { ac: show }) }, { children: [jsx_runtime_1.jsx("div", { className: "bg" }, void 0),
@@ -101439,8 +101459,8 @@ const UserPrincipalDisplayer = () => {
                             jsx_runtime_1.jsx("input", { ref: publicDom, value: publicKey, readOnly: true }, void 0),
                             jsx_runtime_1.jsx("input", { ref: privateDom, value: privateKey, readOnly: true }, void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "label" }, { children: "Wallet" }), void 0),
-                            jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "Principal :" }), void 0),
-                            jsx_runtime_1.jsxs("div", Object.assign({ className: "input-group" }, { children: [jsx_runtime_1.jsx("span", { children: principal }, void 0),
+                            jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "Account Id :" }), void 0),
+                            jsx_runtime_1.jsxs("div", Object.assign({ className: "input-group" }, { children: [jsx_runtime_1.jsx("span", { children: common_1.principalToAccountIdentifier(principal, 0) }, void 0),
                                     jsx_runtime_1.jsx(CopyBtn, { onCopy: principalOnCopy }, void 0)] }), void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "Public Key :" }), void 0),
                             jsx_runtime_1.jsxs("div", Object.assign({ className: "input-group" }, { children: [jsx_runtime_1.jsx("span", { children: publicKey }, void 0),
@@ -104808,12 +104828,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "currencyFormat": () => (/* binding */ currencyFormat),
 /* harmony export */   "amountStrToBigInt": () => (/* binding */ amountStrToBigInt),
 /* harmony export */   "bigIntToAmountStr": () => (/* binding */ bigIntToAmountStr),
-/* harmony export */   "isDelegateByAccount": () => (/* binding */ isDelegateByAccount)
+/* harmony export */   "isDelegateByAccount": () => (/* binding */ isDelegateByAccount),
+/* harmony export */   "principalToAccountIdentifier": () => (/* binding */ principalToAccountIdentifier)
 /* harmony export */ });
 /* harmony import */ var _dfinity_identity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @dfinity/identity */ "./node_modules/@dfinity/identity/lib/esm/index.js");
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bignumber.js */ "./node_modules/bignumber.js/bignumber.js");
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(bignumber_js__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _dfinity_agent_lib_esm_utils_getCrc__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @dfinity/agent/lib/esm/utils/getCrc */ "./node_modules/@dfinity/agent/lib/esm/utils/getCrc.js");
+/* harmony import */ var _dfinity_agent_lib_esm_utils_sha224__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @dfinity/agent/lib/esm/utils/sha224 */ "./node_modules/@dfinity/agent/lib/esm/utils/sha224.js");
+/* harmony import */ var _dfinity_agent__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
 /* provided dependency */ var Buffer = __webpack_require__(/*! ./node_modules/buffer/index.js */ "./node_modules/buffer/index.js")["Buffer"];
+
+
+
 
 
 
@@ -104892,6 +104919,40 @@ const isDelegateByAccount = (principal, delegationIdentityAccount) => {
     .getPublicKey()
     .toDer();
   return publicKey === delegationIdentityAccount.publicKey;
+};
+
+/**
+ *
+ * @param {string} principal
+ * @param {*} s
+ * @returns
+ */
+const principalToAccountIdentifier = (principal, s) => {
+  const padding = Buffer("\x0Aaccount-id");
+  const array = new Uint8Array([
+    ...padding,
+    ..._dfinity_agent__WEBPACK_IMPORTED_MODULE_4__.Principal.fromText(principal).toBlob(),
+    ...getSubAccountArray(s),
+  ]);
+  const hash = (0,_dfinity_agent_lib_esm_utils_sha224__WEBPACK_IMPORTED_MODULE_3__.sha224)(array);
+  const checksum = to32bits((0,_dfinity_agent_lib_esm_utils_getCrc__WEBPACK_IMPORTED_MODULE_2__.getCrc32)(hash));
+  const array2 = new Uint8Array([...checksum, ...hash]);
+  return toHexString(array2);
+};
+const getSubAccountArray = (s) => {
+  return Array(28)
+    .fill(0)
+    .concat(to32bits(s ? s : 0));
+};
+const to32bits = (num) => {
+  let b = new ArrayBuffer(4);
+  new DataView(b).setUint32(0, num);
+  return Array.from(new Uint8Array(b));
+};
+const toHexString = (byteArray) => {
+  return Array.from(byteArray, function (byte) {
+    return ("0" + (byte & 0xff).toString(16)).slice(-2);
+  }).join("");
 };
 
 

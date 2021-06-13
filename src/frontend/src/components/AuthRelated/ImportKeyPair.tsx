@@ -3,7 +3,10 @@ import { Ed25519KeyIdentity } from "@dfinity/identity";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { addNewAccount } from "../../redux/features/accounts";
-import { getUint8ArrayFromHex } from "../../utils/common";
+import {
+  getUint8ArrayFromHex,
+  principalToAccountIdentifier,
+} from "../../utils/common";
 import AuthBtn from "./AuthBtn";
 import "./ImportKeyPair.css";
 import { RootState } from "../../redux/store";
@@ -58,7 +61,11 @@ const ImportKeyPair = (props: Props) => {
           value={privateKey}
           onChange={(e) => setPrivateKey(e.target.value)}
         />
-        {principal ? <div className="text">Principal: {principal}</div> : null}
+        {principal ? (
+          <div className="text">
+            Account Id: {principalToAccountIdentifier(principal, 0)}
+          </div>
+        ) : null}
         {publicKey ? <div className="text">Public Key: {publicKey}</div> : null}
         <div className="btns">
           <button onClick={importWallet} disabled={principal ? true : false}>

@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Icon from "../icons/Icon";
 import { RootState } from "../redux/store";
+import { principalToAccountIdentifier } from "../utils/common";
 import "./UserPrincipalDisplayer.css";
 
 const UserPrincipalDisplayer = () => {
@@ -15,6 +16,15 @@ const UserPrincipalDisplayer = () => {
   const principalDom = useRef<HTMLInputElement>(null);
   const publicDom = useRef<HTMLInputElement>(null);
   const privateDom = useRef<HTMLInputElement>(null);
+  const [aid, setAid] = useState("");
+
+  useEffect(() => {
+    if (principal) {
+      setAid(principalToAccountIdentifier(principal, 0));
+    } else {
+      setAid("");
+    }
+  }, [principal]);
 
   useEffect(() => {
     const theOne = accounts.find((i) => i.publicKey === selected);
@@ -59,8 +69,8 @@ const UserPrincipalDisplayer = () => {
       <input ref={principalDom} value={principal} readOnly />
       <div className="group">
         <span className="label">
-          {principal.substr(0, 5)}...
-          {principal.substr(58, 5)}
+          {aid.substr(0, 5)}...
+          {aid.substr(58, 5)}
         </span>
         <CopyBtn onCopy={principalOnCopy} />
         <button onClick={() => setShow(true)}>
@@ -77,9 +87,9 @@ const UserPrincipalDisplayer = () => {
             <input ref={publicDom} value={publicKey} readOnly />
             <input ref={privateDom} value={privateKey} readOnly />
             <label className="label">Wallet</label>
-            <label className="sub-label">Principal :</label>
+            <label className="sub-label">Account Id :</label>
             <div className="input-group">
-              <span>{principal}</span>
+              <span>{principalToAccountIdentifier(principal, 0)}</span>
               <CopyBtn onCopy={principalOnCopy} />
             </div>
             <label className="sub-label">Public Key :</label>
