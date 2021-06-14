@@ -43747,7 +43747,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".TokenList {\n  width: calc(100% + 4rem);\n  margin-left: -2rem;\n}\n.TokenList .TokenItemWrap {\n  display: inline-block;\n  vertical-align: top;\n  width: 25%;\n  padding: 0 2rem;\n}\n.TokenListModal {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  pointer-events: none;\n}\n.TokenListModal.ac {\n  pointer-events: all;\n}\n.TokenListModal .bg {\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.4);\n  opacity: 0;\n  transition: opacity 180ms ease;\n}\n.TokenListModal.ac .bg {\n  opacity: 1;\n}\n.TokenListModal .wrap {\n  position: absolute;\n  width: 66rem;\n  height: 58rem;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  transition: transform 200ms ease-out,\n    opacity 180ms ease;\n  border-radius: 3rem;\n  background-color: #FFF;\n  box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.5);\n  padding: 3.5rem 7rem 3rem 7rem;\n  opacity: 0;\n}\n.TokenListModal.ac .wrap {\n  opacity: 1;\n  transform: translate(-55%, -50%);\n}\n.TokenListModal .wrap button.close {\n  position: absolute;\n  top: 3rem;\n  right: 3rem;\n  width: 2.5rem;\n  height: 2.5rem;\n  background-color: transparent;\n  border: none;\n  padding: 0;\n  cursor: pointer;\n  opacity: 0.3;\n  transition: opacity 120ms ease;\n}\n.TokenListModal .wrap button.close:hover {\n  opacity: 0.6;\n}\n.TokenListModal .wrap label.label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  margin-left: -3.5rem;\n  color: #001414;\n}\n.TokenListModal .wrap label.sub-label {\n  display: block;\n  font-size: 1.8rem;\n  font-family: \"Roboto bold\";\n  margin-top: 3.5rem;\n  margin-bottom: 1rem;\n  color: #001414;\n}\n.TokenListModal .wrap input {\n  width: 100%;\n  height: 5.8rem;\n  border: 0.2rem solid #E3E3E3;\n  border-radius: 1rem;\n  background-color: #F5F5F5;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  padding: 0 2rem;\n}\n.TokenListModal .wrap input::placeholder {\n  color: #B8B8B8;\n}\n.TokenListModal .wrap input.err {\n  background-color: #FFF4FA;\n  border-color: #E9A4C7;\n}\n.TokenListModal .wrap .balance-ctrl {\n  text-align: right;\n  padding-top: 0.5rem;\n}\n.TokenListModal .wrap .balance-ctrl span {\n  font-size: 1.8rem;\n  line-height: 2.6rem;\n  color: #B8B8B8;\n  vertical-align: middle;\n}\n.TokenListModal .wrap .balance-ctrl button {\n  height: 2.6rem;\n  margin-left: 2rem;\n  border: none;\n  color: #B8B8B8;\n  background-color: transparent;\n  border-radius: 1rem;\n  font-size: 1.4rem;\n  font-family: \"Roboto bold\";\n  opacity: 0.6;\n  transition: opacity 120ms ease;\n  cursor: pointer;\n}\n.TokenListModal .wrap .balance-ctrl button:hover {\n  opacity: 1;\n}\n.TokenListModal .wrap button.submit {\n  width: 100%;\n  margin-top: 7rem;\n  height: 7rem;\n  font-size: 4.6rem;\n  font-family: \"Roboto bold\";\n  color: #FFF;\n  border: none;\n  border-radius: 2rem;\n  cursor: pointer;\n  background-image: linear-gradient(115deg, #E12B7C, #323A8D);\n}\n.TokenListModal .wrap button.submit:disabled {\n  background-color: #E3E3E3;\n  background-image: none;\n  cursor: not-allowed;\n}\n", "",{"version":3,"sources":["webpack://./src/frontend/src/components/TokenList.css"],"names":[],"mappings":"AAAA;EACE,wBAAwB;EACxB,kBAAkB;AACpB;AACA;EACE,qBAAqB;EACrB,mBAAmB;EACnB,UAAU;EACV,eAAe;AACjB;AACA;EACE,eAAe;EACf,WAAW;EACX,YAAY;EACZ,MAAM;EACN,OAAO;EACP,oBAAoB;AACtB;AACA;EACE,mBAAmB;AACrB;AACA;EACE,WAAW;EACX,YAAY;EACZ,oCAAoC;EACpC,UAAU;EACV,8BAA8B;AAChC;AACA;EACE,UAAU;AACZ;AACA;EACE,kBAAkB;EAClB,YAAY;EACZ,aAAa;EACb,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC;sBACoB;EACpB,mBAAmB;EACnB,sBAAsB;EACtB,8CAA8C;EAC9C,8BAA8B;EAC9B,UAAU;AACZ;AACA;EACE,UAAU;EACV,gCAAgC;AAClC;AACA;EACE,kBAAkB;EAClB,SAAS;EACT,WAAW;EACX,aAAa;EACb,cAAc;EACd,6BAA6B;EAC7B,YAAY;EACZ,UAAU;EACV,eAAe;EACf,YAAY;EACZ,8BAA8B;AAChC;AACA;EACE,YAAY;AACd;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,0BAA0B;EAC1B,oBAAoB;EACpB,cAAc;AAChB;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,0BAA0B;EAC1B,kBAAkB;EAClB,mBAAmB;EACnB,cAAc;AAChB;AACA;EACE,WAAW;EACX,cAAc;EACd,4BAA4B;EAC5B,mBAAmB;EACnB,yBAAyB;EACzB,iBAAiB;EACjB,0BAA0B;EAC1B,eAAe;AACjB;AACA;EACE,cAAc;AAChB;AACA;EACE,yBAAyB;EACzB,qBAAqB;AACvB;AACA;EACE,iBAAiB;EACjB,mBAAmB;AACrB;AACA;EACE,iBAAiB;EACjB,mBAAmB;EACnB,cAAc;EACd,sBAAsB;AACxB;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,YAAY;EACZ,cAAc;EACd,6BAA6B;EAC7B,mBAAmB;EACnB,iBAAiB;EACjB,0BAA0B;EAC1B,YAAY;EACZ,8BAA8B;EAC9B,eAAe;AACjB;AACA;EACE,UAAU;AACZ;AACA;EACE,WAAW;EACX,gBAAgB;EAChB,YAAY;EACZ,iBAAiB;EACjB,0BAA0B;EAC1B,WAAW;EACX,YAAY;EACZ,mBAAmB;EACnB,eAAe;EACf,2DAA2D;AAC7D;AACA;EACE,yBAAyB;EACzB,sBAAsB;EACtB,mBAAmB;AACrB","sourcesContent":[".TokenList {\n  width: calc(100% + 4rem);\n  margin-left: -2rem;\n}\n.TokenList .TokenItemWrap {\n  display: inline-block;\n  vertical-align: top;\n  width: 25%;\n  padding: 0 2rem;\n}\n.TokenListModal {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  pointer-events: none;\n}\n.TokenListModal.ac {\n  pointer-events: all;\n}\n.TokenListModal .bg {\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.4);\n  opacity: 0;\n  transition: opacity 180ms ease;\n}\n.TokenListModal.ac .bg {\n  opacity: 1;\n}\n.TokenListModal .wrap {\n  position: absolute;\n  width: 66rem;\n  height: 58rem;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  transition: transform 200ms ease-out,\n    opacity 180ms ease;\n  border-radius: 3rem;\n  background-color: #FFF;\n  box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.5);\n  padding: 3.5rem 7rem 3rem 7rem;\n  opacity: 0;\n}\n.TokenListModal.ac .wrap {\n  opacity: 1;\n  transform: translate(-55%, -50%);\n}\n.TokenListModal .wrap button.close {\n  position: absolute;\n  top: 3rem;\n  right: 3rem;\n  width: 2.5rem;\n  height: 2.5rem;\n  background-color: transparent;\n  border: none;\n  padding: 0;\n  cursor: pointer;\n  opacity: 0.3;\n  transition: opacity 120ms ease;\n}\n.TokenListModal .wrap button.close:hover {\n  opacity: 0.6;\n}\n.TokenListModal .wrap label.label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  margin-left: -3.5rem;\n  color: #001414;\n}\n.TokenListModal .wrap label.sub-label {\n  display: block;\n  font-size: 1.8rem;\n  font-family: \"Roboto bold\";\n  margin-top: 3.5rem;\n  margin-bottom: 1rem;\n  color: #001414;\n}\n.TokenListModal .wrap input {\n  width: 100%;\n  height: 5.8rem;\n  border: 0.2rem solid #E3E3E3;\n  border-radius: 1rem;\n  background-color: #F5F5F5;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  padding: 0 2rem;\n}\n.TokenListModal .wrap input::placeholder {\n  color: #B8B8B8;\n}\n.TokenListModal .wrap input.err {\n  background-color: #FFF4FA;\n  border-color: #E9A4C7;\n}\n.TokenListModal .wrap .balance-ctrl {\n  text-align: right;\n  padding-top: 0.5rem;\n}\n.TokenListModal .wrap .balance-ctrl span {\n  font-size: 1.8rem;\n  line-height: 2.6rem;\n  color: #B8B8B8;\n  vertical-align: middle;\n}\n.TokenListModal .wrap .balance-ctrl button {\n  height: 2.6rem;\n  margin-left: 2rem;\n  border: none;\n  color: #B8B8B8;\n  background-color: transparent;\n  border-radius: 1rem;\n  font-size: 1.4rem;\n  font-family: \"Roboto bold\";\n  opacity: 0.6;\n  transition: opacity 120ms ease;\n  cursor: pointer;\n}\n.TokenListModal .wrap .balance-ctrl button:hover {\n  opacity: 1;\n}\n.TokenListModal .wrap button.submit {\n  width: 100%;\n  margin-top: 7rem;\n  height: 7rem;\n  font-size: 4.6rem;\n  font-family: \"Roboto bold\";\n  color: #FFF;\n  border: none;\n  border-radius: 2rem;\n  cursor: pointer;\n  background-image: linear-gradient(115deg, #E12B7C, #323A8D);\n}\n.TokenListModal .wrap button.submit:disabled {\n  background-color: #E3E3E3;\n  background-image: none;\n  cursor: not-allowed;\n}\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".TokenList {\n  width: calc(100% + 4rem);\n  margin-left: -2rem;\n}\n.TokenList .TokenItemWrap {\n  display: inline-block;\n  vertical-align: top;\n  width: 25%;\n  padding: 0 2rem;\n}\n.TokenListModal {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  pointer-events: none;\n}\n.TokenListModal.ac {\n  pointer-events: all;\n  z-index: 100;\n}\n.TokenListModal .bg {\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.4);\n  opacity: 0;\n  transition: opacity 180ms ease;\n}\n.TokenListModal.ac .bg {\n  opacity: 1;\n}\n.TokenListModal .wrap {\n  position: absolute;\n  width: 66rem;\n  height: 58rem;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  transition: transform 200ms ease-out, opacity 180ms ease;\n  border-radius: 3rem;\n  background-color: #fff;\n  box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.5);\n  padding: 3.5rem 7rem 3rem 7rem;\n  opacity: 0;\n}\n.TokenListModal.ac .wrap {\n  opacity: 1;\n  transform: translate(-55%, -50%);\n}\n.TokenListModal .wrap button.close {\n  position: absolute;\n  top: 3rem;\n  right: 3rem;\n  width: 2.5rem;\n  height: 2.5rem;\n  background-color: transparent;\n  border: none;\n  padding: 0;\n  cursor: pointer;\n  opacity: 0.3;\n  transition: opacity 120ms ease;\n}\n.TokenListModal .wrap button.close:hover {\n  opacity: 0.6;\n}\n.TokenListModal .wrap label.label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  margin-left: -3.5rem;\n  color: #001414;\n}\n.TokenListModal .wrap label.sub-label {\n  display: block;\n  font-size: 1.8rem;\n  font-family: \"Roboto bold\";\n  margin-top: 3.5rem;\n  margin-bottom: 1rem;\n  color: #001414;\n}\n.TokenListModal .wrap input {\n  width: 100%;\n  height: 5.8rem;\n  border: 0.2rem solid #e3e3e3;\n  border-radius: 1rem;\n  background-color: #f5f5f5;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  padding: 0 2rem;\n}\n.TokenListModal .wrap input::placeholder {\n  color: #b8b8b8;\n}\n.TokenListModal .wrap input.err {\n  background-color: #fff4fa;\n  border-color: #e9a4c7;\n}\n.TokenListModal .wrap .balance-ctrl {\n  text-align: right;\n  padding-top: 0.5rem;\n}\n.TokenListModal .wrap .balance-ctrl span {\n  font-size: 1.8rem;\n  line-height: 2.6rem;\n  color: #b8b8b8;\n  vertical-align: middle;\n}\n.TokenListModal .wrap .balance-ctrl button {\n  height: 2.6rem;\n  margin-left: 2rem;\n  border: none;\n  color: #b8b8b8;\n  background-color: transparent;\n  border-radius: 1rem;\n  font-size: 1.4rem;\n  font-family: \"Roboto bold\";\n  opacity: 0.6;\n  transition: opacity 120ms ease;\n  cursor: pointer;\n}\n.TokenListModal .wrap .balance-ctrl button:hover {\n  opacity: 1;\n}\n.TokenListModal .wrap button.submit {\n  width: 100%;\n  margin-top: 7rem;\n  height: 7rem;\n  font-size: 4.6rem;\n  font-family: \"Roboto bold\";\n  color: #fff;\n  border: none;\n  border-radius: 2rem;\n  cursor: pointer;\n  background-image: linear-gradient(115deg, #e12b7c, #323a8d);\n}\n.TokenListModal .wrap button.submit:disabled {\n  background-color: #e3e3e3;\n  background-image: none;\n  cursor: not-allowed;\n}\n", "",{"version":3,"sources":["webpack://./src/frontend/src/components/TokenList.css"],"names":[],"mappings":"AAAA;EACE,wBAAwB;EACxB,kBAAkB;AACpB;AACA;EACE,qBAAqB;EACrB,mBAAmB;EACnB,UAAU;EACV,eAAe;AACjB;AACA;EACE,eAAe;EACf,WAAW;EACX,YAAY;EACZ,MAAM;EACN,OAAO;EACP,oBAAoB;AACtB;AACA;EACE,mBAAmB;EACnB,YAAY;AACd;AACA;EACE,WAAW;EACX,YAAY;EACZ,oCAAoC;EACpC,UAAU;EACV,8BAA8B;AAChC;AACA;EACE,UAAU;AACZ;AACA;EACE,kBAAkB;EAClB,YAAY;EACZ,aAAa;EACb,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,wDAAwD;EACxD,mBAAmB;EACnB,sBAAsB;EACtB,8CAA8C;EAC9C,8BAA8B;EAC9B,UAAU;AACZ;AACA;EACE,UAAU;EACV,gCAAgC;AAClC;AACA;EACE,kBAAkB;EAClB,SAAS;EACT,WAAW;EACX,aAAa;EACb,cAAc;EACd,6BAA6B;EAC7B,YAAY;EACZ,UAAU;EACV,eAAe;EACf,YAAY;EACZ,8BAA8B;AAChC;AACA;EACE,YAAY;AACd;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,0BAA0B;EAC1B,oBAAoB;EACpB,cAAc;AAChB;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,0BAA0B;EAC1B,kBAAkB;EAClB,mBAAmB;EACnB,cAAc;AAChB;AACA;EACE,WAAW;EACX,cAAc;EACd,4BAA4B;EAC5B,mBAAmB;EACnB,yBAAyB;EACzB,iBAAiB;EACjB,0BAA0B;EAC1B,eAAe;AACjB;AACA;EACE,cAAc;AAChB;AACA;EACE,yBAAyB;EACzB,qBAAqB;AACvB;AACA;EACE,iBAAiB;EACjB,mBAAmB;AACrB;AACA;EACE,iBAAiB;EACjB,mBAAmB;EACnB,cAAc;EACd,sBAAsB;AACxB;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,YAAY;EACZ,cAAc;EACd,6BAA6B;EAC7B,mBAAmB;EACnB,iBAAiB;EACjB,0BAA0B;EAC1B,YAAY;EACZ,8BAA8B;EAC9B,eAAe;AACjB;AACA;EACE,UAAU;AACZ;AACA;EACE,WAAW;EACX,gBAAgB;EAChB,YAAY;EACZ,iBAAiB;EACjB,0BAA0B;EAC1B,WAAW;EACX,YAAY;EACZ,mBAAmB;EACnB,eAAe;EACf,2DAA2D;AAC7D;AACA;EACE,yBAAyB;EACzB,sBAAsB;EACtB,mBAAmB;AACrB","sourcesContent":[".TokenList {\n  width: calc(100% + 4rem);\n  margin-left: -2rem;\n}\n.TokenList .TokenItemWrap {\n  display: inline-block;\n  vertical-align: top;\n  width: 25%;\n  padding: 0 2rem;\n}\n.TokenListModal {\n  position: fixed;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n  pointer-events: none;\n}\n.TokenListModal.ac {\n  pointer-events: all;\n  z-index: 100;\n}\n.TokenListModal .bg {\n  width: 100%;\n  height: 100%;\n  background-color: rgba(0, 0, 0, 0.4);\n  opacity: 0;\n  transition: opacity 180ms ease;\n}\n.TokenListModal.ac .bg {\n  opacity: 1;\n}\n.TokenListModal .wrap {\n  position: absolute;\n  width: 66rem;\n  height: 58rem;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  transition: transform 200ms ease-out, opacity 180ms ease;\n  border-radius: 3rem;\n  background-color: #fff;\n  box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.5);\n  padding: 3.5rem 7rem 3rem 7rem;\n  opacity: 0;\n}\n.TokenListModal.ac .wrap {\n  opacity: 1;\n  transform: translate(-55%, -50%);\n}\n.TokenListModal .wrap button.close {\n  position: absolute;\n  top: 3rem;\n  right: 3rem;\n  width: 2.5rem;\n  height: 2.5rem;\n  background-color: transparent;\n  border: none;\n  padding: 0;\n  cursor: pointer;\n  opacity: 0.3;\n  transition: opacity 120ms ease;\n}\n.TokenListModal .wrap button.close:hover {\n  opacity: 0.6;\n}\n.TokenListModal .wrap label.label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  margin-left: -3.5rem;\n  color: #001414;\n}\n.TokenListModal .wrap label.sub-label {\n  display: block;\n  font-size: 1.8rem;\n  font-family: \"Roboto bold\";\n  margin-top: 3.5rem;\n  margin-bottom: 1rem;\n  color: #001414;\n}\n.TokenListModal .wrap input {\n  width: 100%;\n  height: 5.8rem;\n  border: 0.2rem solid #e3e3e3;\n  border-radius: 1rem;\n  background-color: #f5f5f5;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  padding: 0 2rem;\n}\n.TokenListModal .wrap input::placeholder {\n  color: #b8b8b8;\n}\n.TokenListModal .wrap input.err {\n  background-color: #fff4fa;\n  border-color: #e9a4c7;\n}\n.TokenListModal .wrap .balance-ctrl {\n  text-align: right;\n  padding-top: 0.5rem;\n}\n.TokenListModal .wrap .balance-ctrl span {\n  font-size: 1.8rem;\n  line-height: 2.6rem;\n  color: #b8b8b8;\n  vertical-align: middle;\n}\n.TokenListModal .wrap .balance-ctrl button {\n  height: 2.6rem;\n  margin-left: 2rem;\n  border: none;\n  color: #b8b8b8;\n  background-color: transparent;\n  border-radius: 1rem;\n  font-size: 1.4rem;\n  font-family: \"Roboto bold\";\n  opacity: 0.6;\n  transition: opacity 120ms ease;\n  cursor: pointer;\n}\n.TokenListModal .wrap .balance-ctrl button:hover {\n  opacity: 1;\n}\n.TokenListModal .wrap button.submit {\n  width: 100%;\n  margin-top: 7rem;\n  height: 7rem;\n  font-size: 4.6rem;\n  font-family: \"Roboto bold\";\n  color: #fff;\n  border: none;\n  border-radius: 2rem;\n  cursor: pointer;\n  background-image: linear-gradient(115deg, #e12b7c, #323a8d);\n}\n.TokenListModal .wrap button.submit:disabled {\n  background-color: #e3e3e3;\n  background-image: none;\n  cursor: not-allowed;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -43801,7 +43801,34 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".Wallet {\n  position: relative;\n  width: 100%;\n  padding-top: 11.5rem;\n}\n.Wallet .UserPrincipalDisplayer {\n  position: absolute;\n  top: 3rem;\n  right: 5rem\n}\n.Wallet .balance {\n  margin-left: 34rem;\n  margin-bottom: 12rem;\n}\n.Wallet .balance label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto blod\";\n  color: #595959;\n  padding-bottom: 1.9rem;\n}\n.Wallet .balance p {\n  position: relative;\n  margin: 0;\n}\n.Wallet .balance p svg.dollar {\n  display: inline-block;\n  width: 1.4rem;\n  height: 2.8rem;\n  vertical-align: top;\n  margin-top: 1.2rem;\n}\n.Wallet .balance p svg.spinner {\n  position: absolute;\n  width: 5rem;\n  height: 5rem;\n  top: 1.2rem;\n  left: 4rem;\n  opacity: 0.7;\n  transform: translate(2rem, 1.5rem);\n  animation: spin 1500ms linear infinite;\n}\n.Wallet .balance p span {\n  padding-left: 1rem;\n  font-size: 6.4rem;\n  font-family: \"Roboto bold\";\n  color: #001414;\n}\n.Wallet .tokens {\n  width: 100%;\n  padding: 0 17.6rem;\n}\n.Wallet .tokens label.tokens-label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  color: #595959;\n  padding-bottom: 6rem;\n}\n/* .Wallet .tokens .tokens-list {\n  display: flex;\n  justify-content: space-between;\n  flex-flow: row wrap;\n} */\n.Wallet .tokens .tokens-list svg.spinner {\n  display: block;\n  width: 5rem;\n  height: 5rem;\n  margin: 6rem auto;\n  opacity: 0.7;\n  animation: spin 1500ms linear infinite;\n}\n@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.Wallet .tokens .tokens-list .zero {\n  width: 100%;\n  font-size: 3.2rem;\n  text-align: center;\n  color: #595959;\n  opacity: 0.5;\n  cursor: default;\n}", "",{"version":3,"sources":["webpack://./src/frontend/src/components/Wallet.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,WAAW;EACX,oBAAoB;AACtB;AACA;EACE,kBAAkB;EAClB,SAAS;EACT;AACF;AACA;EACE,kBAAkB;EAClB,oBAAoB;AACtB;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,0BAA0B;EAC1B,cAAc;EACd,sBAAsB;AACxB;AACA;EACE,kBAAkB;EAClB,SAAS;AACX;AACA;EACE,qBAAqB;EACrB,aAAa;EACb,cAAc;EACd,mBAAmB;EACnB,kBAAkB;AACpB;AACA;EACE,kBAAkB;EAClB,WAAW;EACX,YAAY;EACZ,WAAW;EACX,UAAU;EACV,YAAY;EACZ,kCAAkC;EAClC,sCAAsC;AACxC;AACA;EACE,kBAAkB;EAClB,iBAAiB;EACjB,0BAA0B;EAC1B,cAAc;AAChB;AACA;EACE,WAAW;EACX,kBAAkB;AACpB;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,0BAA0B;EAC1B,cAAc;EACd,oBAAoB;AACtB;AACA;;;;GAIG;AACH;EACE,cAAc;EACd,WAAW;EACX,YAAY;EACZ,iBAAiB;EACjB,YAAY;EACZ,sCAAsC;AACxC;AACA;EACE;IACE,uBAAuB;EACzB;EACA;IACE,yBAAyB;EAC3B;AACF;AACA;EACE,WAAW;EACX,iBAAiB;EACjB,kBAAkB;EAClB,cAAc;EACd,YAAY;EACZ,eAAe;AACjB","sourcesContent":[".Wallet {\n  position: relative;\n  width: 100%;\n  padding-top: 11.5rem;\n}\n.Wallet .UserPrincipalDisplayer {\n  position: absolute;\n  top: 3rem;\n  right: 5rem\n}\n.Wallet .balance {\n  margin-left: 34rem;\n  margin-bottom: 12rem;\n}\n.Wallet .balance label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto blod\";\n  color: #595959;\n  padding-bottom: 1.9rem;\n}\n.Wallet .balance p {\n  position: relative;\n  margin: 0;\n}\n.Wallet .balance p svg.dollar {\n  display: inline-block;\n  width: 1.4rem;\n  height: 2.8rem;\n  vertical-align: top;\n  margin-top: 1.2rem;\n}\n.Wallet .balance p svg.spinner {\n  position: absolute;\n  width: 5rem;\n  height: 5rem;\n  top: 1.2rem;\n  left: 4rem;\n  opacity: 0.7;\n  transform: translate(2rem, 1.5rem);\n  animation: spin 1500ms linear infinite;\n}\n.Wallet .balance p span {\n  padding-left: 1rem;\n  font-size: 6.4rem;\n  font-family: \"Roboto bold\";\n  color: #001414;\n}\n.Wallet .tokens {\n  width: 100%;\n  padding: 0 17.6rem;\n}\n.Wallet .tokens label.tokens-label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  color: #595959;\n  padding-bottom: 6rem;\n}\n/* .Wallet .tokens .tokens-list {\n  display: flex;\n  justify-content: space-between;\n  flex-flow: row wrap;\n} */\n.Wallet .tokens .tokens-list svg.spinner {\n  display: block;\n  width: 5rem;\n  height: 5rem;\n  margin: 6rem auto;\n  opacity: 0.7;\n  animation: spin 1500ms linear infinite;\n}\n@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.Wallet .tokens .tokens-list .zero {\n  width: 100%;\n  font-size: 3.2rem;\n  text-align: center;\n  color: #595959;\n  opacity: 0.5;\n  cursor: default;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".Wallet {\n  position: relative;\n  width: 100%;\n  padding-top: 11.5rem;\n}\n.Wallet .UserPrincipalDisplayer {\n  position: absolute;\n  top: 3rem;\n  right: 5rem;\n}\n.Wallet .balance {\n  margin-left: 34rem;\n  margin-bottom: 12rem;\n}\n.Wallet .balance label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto blod\";\n  color: #595959;\n  padding-bottom: 1.9rem;\n}\n.Wallet .balance p {\n  position: relative;\n  margin: 0;\n}\n.Wallet .balance p svg.dollar {\n  display: inline-block;\n  width: 1.4rem;\n  height: 2.8rem;\n  vertical-align: top;\n  margin-top: 1.2rem;\n}\n.Wallet .balance p svg.spinner {\n  position: absolute;\n  width: 5rem;\n  height: 5rem;\n  top: 1.2rem;\n  left: 4rem;\n  opacity: 0.7;\n  transform: translate(2rem, 1.5rem);\n  animation: spin 1500ms linear infinite;\n}\n.Wallet .balance p span {\n  padding-left: 1rem;\n  font-size: 6.4rem;\n  font-family: \"Roboto bold\";\n  color: #001414;\n}\n.Wallet .tokens {\n  width: 100%;\n  padding: 0 17.6rem;\n}\n.Wallet .tokens label.tokens-label {\n  display: inline-block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  color: #595959;\n  padding-bottom: 6rem;\n}\n/* .Wallet .tokens .tokens-list {\n  display: flex;\n  justify-content: space-between;\n  flex-flow: row wrap;\n} */\n.Wallet .tokens .tokens-list svg.spinner {\n  display: block;\n  width: 5rem;\n  height: 5rem;\n  margin: 6rem auto;\n  opacity: 0.7;\n  animation: spin 1500ms linear infinite;\n}\n@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.Wallet .tokens .AddTokenToListModal {\n  display: inline-block;\n  margin-left: 2vw;\n}\n.Wallet .tokens .tokens-list .zero {\n  width: 100%;\n  font-size: 3.2rem;\n  text-align: center;\n  color: #595959;\n  opacity: 0.5;\n  cursor: default;\n}\n", "",{"version":3,"sources":["webpack://./src/frontend/src/components/Wallet.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,WAAW;EACX,oBAAoB;AACtB;AACA;EACE,kBAAkB;EAClB,SAAS;EACT,WAAW;AACb;AACA;EACE,kBAAkB;EAClB,oBAAoB;AACtB;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,0BAA0B;EAC1B,cAAc;EACd,sBAAsB;AACxB;AACA;EACE,kBAAkB;EAClB,SAAS;AACX;AACA;EACE,qBAAqB;EACrB,aAAa;EACb,cAAc;EACd,mBAAmB;EACnB,kBAAkB;AACpB;AACA;EACE,kBAAkB;EAClB,WAAW;EACX,YAAY;EACZ,WAAW;EACX,UAAU;EACV,YAAY;EACZ,kCAAkC;EAClC,sCAAsC;AACxC;AACA;EACE,kBAAkB;EAClB,iBAAiB;EACjB,0BAA0B;EAC1B,cAAc;AAChB;AACA;EACE,WAAW;EACX,kBAAkB;AACpB;AACA;EACE,qBAAqB;EACrB,iBAAiB;EACjB,0BAA0B;EAC1B,cAAc;EACd,oBAAoB;AACtB;AACA;;;;GAIG;AACH;EACE,cAAc;EACd,WAAW;EACX,YAAY;EACZ,iBAAiB;EACjB,YAAY;EACZ,sCAAsC;AACxC;AACA;EACE;IACE,uBAAuB;EACzB;EACA;IACE,yBAAyB;EAC3B;AACF;AACA;EACE,qBAAqB;EACrB,gBAAgB;AAClB;AACA;EACE,WAAW;EACX,iBAAiB;EACjB,kBAAkB;EAClB,cAAc;EACd,YAAY;EACZ,eAAe;AACjB","sourcesContent":[".Wallet {\n  position: relative;\n  width: 100%;\n  padding-top: 11.5rem;\n}\n.Wallet .UserPrincipalDisplayer {\n  position: absolute;\n  top: 3rem;\n  right: 5rem;\n}\n.Wallet .balance {\n  margin-left: 34rem;\n  margin-bottom: 12rem;\n}\n.Wallet .balance label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto blod\";\n  color: #595959;\n  padding-bottom: 1.9rem;\n}\n.Wallet .balance p {\n  position: relative;\n  margin: 0;\n}\n.Wallet .balance p svg.dollar {\n  display: inline-block;\n  width: 1.4rem;\n  height: 2.8rem;\n  vertical-align: top;\n  margin-top: 1.2rem;\n}\n.Wallet .balance p svg.spinner {\n  position: absolute;\n  width: 5rem;\n  height: 5rem;\n  top: 1.2rem;\n  left: 4rem;\n  opacity: 0.7;\n  transform: translate(2rem, 1.5rem);\n  animation: spin 1500ms linear infinite;\n}\n.Wallet .balance p span {\n  padding-left: 1rem;\n  font-size: 6.4rem;\n  font-family: \"Roboto bold\";\n  color: #001414;\n}\n.Wallet .tokens {\n  width: 100%;\n  padding: 0 17.6rem;\n}\n.Wallet .tokens label.tokens-label {\n  display: inline-block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  color: #595959;\n  padding-bottom: 6rem;\n}\n/* .Wallet .tokens .tokens-list {\n  display: flex;\n  justify-content: space-between;\n  flex-flow: row wrap;\n} */\n.Wallet .tokens .tokens-list svg.spinner {\n  display: block;\n  width: 5rem;\n  height: 5rem;\n  margin: 6rem auto;\n  opacity: 0.7;\n  animation: spin 1500ms linear infinite;\n}\n@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.Wallet .tokens .AddTokenToListModal {\n  display: inline-block;\n  margin-left: 2vw;\n}\n.Wallet .tokens .tokens-list .zero {\n  width: 100%;\n  font-size: 3.2rem;\n  text-align: center;\n  color: #595959;\n  opacity: 0.5;\n  cursor: default;\n}\n"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/cjs.js!./src/frontend/src/components/WalletRelated/AddTokenToListModal.css":
+/*!*****************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./src/frontend/src/components/WalletRelated/AddTokenToListModal.css ***!
+  \*****************************************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".AddTokenToListModal button.trigger {\n  width: 2vw;\n  height: 2vw;\n  vertical-align: text-bottom;\n  border: none;\n  border-radius: 2vw;\n  background-image: linear-gradient(#5fa5e2, #323a8d);\n  cursor: pointer;\n  opacity: 0.8;\n}\n.AddTokenToListModal button.trigger:hover {\n  opacity: 1;\n}\n.AddTokenToListModal button.trigger svg {\n  width: 0.8vw;\n  height: 0.8vw;\n  transform: rotate(45deg);\n  color: #fff;\n}\n\n.AddTokenToListModal .modal {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 1000;\n}\n.AddTokenToListModal .modal .card {\n  position: relative;\n  width: 46vw;\n  height: 16vw;\n  border-radius: 1vw;\n  background-color: #fff;\n  margin: 12vw auto 0 auto;\n  padding: 3vw 2vw 2vw 2vw;\n}\n.AddTokenToListModal .modal .card button.close {\n  position: absolute;\n  top: 1vw;\n  right: 1vw;\n  width: 1vw;\n  height: 1vw;\n  padding: 0;\n  border: none;\n  background-color: transparent;\n  cursor: pointer;\n  opacity: 0.5;\n}\n.AddTokenToListModal .modal .card button.close:hover {\n  opacity: 0.7;\n}\n\n.AddTokenToListModal .form label {\n  display: block;\n  font-size: 1.2vw;\n  font-weight: 700;\n  color: #444;\n  margin-bottom: 1.8vw;\n}\n.AddTokenToListModal .form input {\n  display: block;\n  width: 100%;\n  height: 2.2vw;\n  border: 1px solid rgb(0 0 0 / 20%);\n  border-radius: 5px;\n  background-color: transparent;\n  padding: 0 8px;\n  font-size: 1.2vw;\n}\n.AddTokenToListModal .error {\n  color: tomato;\n  font-size: 1vw;\n  height: 1vw;\n}\n.AddTokenToListModal button.submit {\n  width: 6vw;\n  height: 2.6vw;\n  border: none;\n  border-radius: 15px;\n  background-image: linear-gradient(#5fa5e2, #323a8d);\n  color: #fff;\n  font-size: 1.5vw;\n  font-weight: 700;\n  margin-top: 1.5vw;\n  cursor: pointer;\n  opacity: 1;\n  letter-spacing: 1px;\n  transition: box-shadow 120ms ease-out;\n}\n.AddTokenToListModal button.submit:hover {\n  box-shadow: 0 0 12px #5fa5e2;\n}\n.AddTokenToListModal button.submit:disabled {\n  cursor: not-allowed;\n  opacity: 0.8;\n}\n.AddTokenToListModal button.submit svg {\n  width: 1.8vw;\n  height: 1.8vw;\n}\n", "",{"version":3,"sources":["webpack://./src/frontend/src/components/WalletRelated/AddTokenToListModal.css"],"names":[],"mappings":"AAAA;EACE,UAAU;EACV,WAAW;EACX,2BAA2B;EAC3B,YAAY;EACZ,kBAAkB;EAClB,mDAAmD;EACnD,eAAe;EACf,YAAY;AACd;AACA;EACE,UAAU;AACZ;AACA;EACE,YAAY;EACZ,aAAa;EACb,wBAAwB;EACxB,WAAW;AACb;;AAEA;EACE,eAAe;EACf,MAAM;EACN,SAAS;EACT,OAAO;EACP,QAAQ;EACR,oCAAoC;EACpC,aAAa;AACf;AACA;EACE,kBAAkB;EAClB,WAAW;EACX,YAAY;EACZ,kBAAkB;EAClB,sBAAsB;EACtB,wBAAwB;EACxB,wBAAwB;AAC1B;AACA;EACE,kBAAkB;EAClB,QAAQ;EACR,UAAU;EACV,UAAU;EACV,WAAW;EACX,UAAU;EACV,YAAY;EACZ,6BAA6B;EAC7B,eAAe;EACf,YAAY;AACd;AACA;EACE,YAAY;AACd;;AAEA;EACE,cAAc;EACd,gBAAgB;EAChB,gBAAgB;EAChB,WAAW;EACX,oBAAoB;AACtB;AACA;EACE,cAAc;EACd,WAAW;EACX,aAAa;EACb,kCAAkC;EAClC,kBAAkB;EAClB,6BAA6B;EAC7B,cAAc;EACd,gBAAgB;AAClB;AACA;EACE,aAAa;EACb,cAAc;EACd,WAAW;AACb;AACA;EACE,UAAU;EACV,aAAa;EACb,YAAY;EACZ,mBAAmB;EACnB,mDAAmD;EACnD,WAAW;EACX,gBAAgB;EAChB,gBAAgB;EAChB,iBAAiB;EACjB,eAAe;EACf,UAAU;EACV,mBAAmB;EACnB,qCAAqC;AACvC;AACA;EACE,4BAA4B;AAC9B;AACA;EACE,mBAAmB;EACnB,YAAY;AACd;AACA;EACE,YAAY;EACZ,aAAa;AACf","sourcesContent":[".AddTokenToListModal button.trigger {\n  width: 2vw;\n  height: 2vw;\n  vertical-align: text-bottom;\n  border: none;\n  border-radius: 2vw;\n  background-image: linear-gradient(#5fa5e2, #323a8d);\n  cursor: pointer;\n  opacity: 0.8;\n}\n.AddTokenToListModal button.trigger:hover {\n  opacity: 1;\n}\n.AddTokenToListModal button.trigger svg {\n  width: 0.8vw;\n  height: 0.8vw;\n  transform: rotate(45deg);\n  color: #fff;\n}\n\n.AddTokenToListModal .modal {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  z-index: 1000;\n}\n.AddTokenToListModal .modal .card {\n  position: relative;\n  width: 46vw;\n  height: 16vw;\n  border-radius: 1vw;\n  background-color: #fff;\n  margin: 12vw auto 0 auto;\n  padding: 3vw 2vw 2vw 2vw;\n}\n.AddTokenToListModal .modal .card button.close {\n  position: absolute;\n  top: 1vw;\n  right: 1vw;\n  width: 1vw;\n  height: 1vw;\n  padding: 0;\n  border: none;\n  background-color: transparent;\n  cursor: pointer;\n  opacity: 0.5;\n}\n.AddTokenToListModal .modal .card button.close:hover {\n  opacity: 0.7;\n}\n\n.AddTokenToListModal .form label {\n  display: block;\n  font-size: 1.2vw;\n  font-weight: 700;\n  color: #444;\n  margin-bottom: 1.8vw;\n}\n.AddTokenToListModal .form input {\n  display: block;\n  width: 100%;\n  height: 2.2vw;\n  border: 1px solid rgb(0 0 0 / 20%);\n  border-radius: 5px;\n  background-color: transparent;\n  padding: 0 8px;\n  font-size: 1.2vw;\n}\n.AddTokenToListModal .error {\n  color: tomato;\n  font-size: 1vw;\n  height: 1vw;\n}\n.AddTokenToListModal button.submit {\n  width: 6vw;\n  height: 2.6vw;\n  border: none;\n  border-radius: 15px;\n  background-image: linear-gradient(#5fa5e2, #323a8d);\n  color: #fff;\n  font-size: 1.5vw;\n  font-weight: 700;\n  margin-top: 1.5vw;\n  cursor: pointer;\n  opacity: 1;\n  letter-spacing: 1px;\n  transition: box-shadow 120ms ease-out;\n}\n.AddTokenToListModal button.submit:hover {\n  box-shadow: 0 0 12px #5fa5e2;\n}\n.AddTokenToListModal button.submit:disabled {\n  cursor: not-allowed;\n  opacity: 0.8;\n}\n.AddTokenToListModal button.submit svg {\n  width: 1.8vw;\n  height: 1.8vw;\n}\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -100876,6 +100903,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./src/frontend/src/components/WalletRelated/AddTokenToListModal.css":
+/*!***************************************************************************!*\
+  !*** ./src/frontend/src/components/WalletRelated/AddTokenToListModal.css ***!
+  \***************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_AddTokenToListModal_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../../node_modules/css-loader/dist/cjs.js!./AddTokenToListModal.css */ "./node_modules/css-loader/dist/cjs.js!./src/frontend/src/components/WalletRelated/AddTokenToListModal.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_AddTokenToListModal_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_AddTokenToListModal_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./src/frontend/src/components/header/Header.css":
 /*!*******************************************************!*\
   !*** ./src/frontend/src/components/header/Header.css ***!
@@ -104393,9 +104450,9 @@ const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modul
 const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const rosetta_1 = __importDefault(__webpack_require__(/*! ../apis/rosetta */ "./src/frontend/src/apis/rosetta.js"));
-const token_1 = __webpack_require__(/*! ../apis/token */ "./src/frontend/src/apis/token.js");
 const Icon_1 = __importDefault(__webpack_require__(/*! ../icons/Icon */ "./src/frontend/src/icons/Icon.tsx"));
 const common_1 = __webpack_require__(/*! ../utils/common */ "./src/frontend/src/utils/common.js");
+const AddTokenToListModal_1 = __importDefault(__webpack_require__(/*! ./WalletRelated/AddTokenToListModal */ "./src/frontend/src/components/WalletRelated/AddTokenToListModal.tsx"));
 const TokenList_1 = __importDefault(__webpack_require__(/*! ./TokenList */ "./src/frontend/src/components/TokenList.tsx"));
 const UserPrincipalDisplayer_1 = __importDefault(__webpack_require__(/*! ./UserPrincipalDisplayer */ "./src/frontend/src/components/UserPrincipalDisplayer.tsx"));
 __webpack_require__(/*! ./Wallet.css */ "./src/frontend/src/components/Wallet.css");
@@ -104409,7 +104466,7 @@ const Wallet = () => {
     react_1.useEffect(() => {
         let _isMounted = true;
         if (selected) {
-            initial(_isMounted);
+            // get ICP balance
             const theOne = accounts.find((i) => i.publicKey === selected);
             setPrincipal(theOne ? theOne.principal : "");
             const rosettaAPI = new rosetta_1.default();
@@ -104422,7 +104479,23 @@ const Wallet = () => {
                 .catch((err) => {
                 console.log(err);
                 setBalance("");
+            })
+                .finally(() => {
+                if (_isMounted)
+                    setLoading(false);
             });
+            // get asset list
+            let arr = JSON.parse(localStorage.getItem("tokens") || "[]");
+            arr = arr.filter((i) => i.addedBy === selected);
+            arr.sort((a, b) => b.addedAt - a.addedAt);
+            let res = arr.map((i) => ({
+                name: i.name,
+                symbol: i.symbol,
+                decimals: i.decimals,
+                canisterId: i.canisterID,
+                owner: "",
+            }));
+            setTokens(res);
         }
         else {
             setBalance("");
@@ -104434,22 +104507,16 @@ const Wallet = () => {
             _isMounted = false;
         };
     }, [selected]);
-    const initial = (_isMounted) => {
-        let arr = [token_1.getAllTokens()];
-        Promise.all(arr)
-            .then(([tokens]) => {
-            console.log(tokens);
-            if (_isMounted) {
-                setTokens(tokens);
-            }
-        })
-            .catch((err) => {
-            console.log(err);
-        })
-            .finally(() => {
-            if (_isMounted)
-                setLoading(false);
-        });
+    const addNewToken = (val) => {
+        let arr = JSON.parse(localStorage.getItem("tokens") || "[]");
+        localStorage.setItem("tokens", JSON.stringify(arr.concat(val)));
+        setTokens(tokens.concat({
+            name: val.name,
+            symbol: val.symbol,
+            decimals: val.decimals,
+            canisterId: val.canisterID,
+            owner: "",
+        }));
     };
     return (jsx_runtime_1.jsxs("div", Object.assign({ className: "Wallet" }, { children: [jsx_runtime_1.jsx(UserPrincipalDisplayer_1.default, {}, void 0),
             jsx_runtime_1.jsxs("div", Object.assign({ className: "balance" }, { children: [jsx_runtime_1.jsx("label", { children: "Your Total ICP Balance" }, void 0),
@@ -104458,11 +104525,84 @@ const Wallet = () => {
                                     jsx_runtime_1.jsx("path", { id: "\u8DEF\u5F84_71", "data-name": "\u8DEF\u5F84 71", d: "M3551.752,2158.5c.6,0,1.2.009,1.8,0,.23-.005.317.055.324.3a4.3,4.3,0,0,0,.324,1.6,2.875,2.875,0,0,0,3,1.741,3.216,3.216,0,0,0,1.639-.477,2.424,2.424,0,0,0,1.024-2.226,2.791,2.791,0,0,0-1.656-2.482c-.717-.388-1.486-.652-2.234-.966a15.3,15.3,0,0,1-3.09-1.613,5.955,5.955,0,0,1,2.358-10.664c.1-.023.208-.047.314-.064.67-.112.67-.111.67-.8,0-.718.006-1.436,0-2.154,0-.2.054-.284.269-.28q.914.018,1.828,0c.216,0,.271.079.27.282-.008.868,0,1.736-.008,2.6,0,.226.064.312.293.352a6.1,6.1,0,0,1,5.179,5.716c.022.277.036.555.06.833.015.171-.034.252-.226.251q-1.893-.009-3.785,0c-.225,0-.227-.12-.235-.284a4.671,4.671,0,0,0-.394-1.84,2.6,2.6,0,0,0-4.359-.432,2.884,2.884,0,0,0,.472,3.654,7.617,7.617,0,0,0,1.875,1.034,24.4,24.4,0,0,1,3.64,1.74,5.875,5.875,0,0,1,2.72,3.25,6.015,6.015,0,0,1-1.581,6.361,6.855,6.855,0,0,1-3.621,1.5c-.261.035-.362.11-.354.392.021.771,0,1.543.011,2.314,0,.208-.06.28-.271.276q-.9-.017-1.8,0c-.211,0-.277-.073-.275-.279.009-.729,0-1.457,0-2.186,0-.45,0-.44-.435-.51a7.758,7.758,0,0,1-2.919-1.008,6.18,6.18,0,0,1-2.9-4.793c-.028-.234-.045-.469-.056-.7-.02-.425-.016-.426.394-.426Z", transform: "translate(-3549.62 -2140.403)", fill: "url(#linear-gradient)" }, void 0)] }), void 0),
                             jsx_runtime_1.jsx("span", { children: balance || "0.00" }, void 0)] }, void 0)] }), void 0),
             jsx_runtime_1.jsxs("div", Object.assign({ className: "tokens" }, { children: [jsx_runtime_1.jsx("label", Object.assign({ className: "tokens-label" }, { children: "All Tokens" }), void 0),
+                    jsx_runtime_1.jsx(AddTokenToListModal_1.default, { addNewToken: addNewToken }, void 0),
                     jsx_runtime_1.jsxs("div", Object.assign({ className: "tokens-list" }, { children: [loading ? jsx_runtime_1.jsx(Icon_1.default, { name: "spinner", spin: true }, void 0) : null,
                             jsx_runtime_1.jsx(TokenList_1.default, { tokens: tokens, user: principal }, void 0),
                             !loading && !tokens.length ? (jsx_runtime_1.jsx("p", Object.assign({ className: "zero" }, { children: "No Token Yet" }), void 0)) : null] }), void 0)] }), void 0)] }), void 0));
 };
 exports.default = Wallet;
+
+
+/***/ }),
+
+/***/ "./src/frontend/src/components/WalletRelated/AddTokenToListModal.tsx":
+/*!***************************************************************************!*\
+  !*** ./src/frontend/src/components/WalletRelated/AddTokenToListModal.tsx ***!
+  \***************************************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+const token_1 = __webpack_require__(/*! ../../apis/token */ "./src/frontend/src/apis/token.js");
+const Icon_1 = __importDefault(__webpack_require__(/*! ../../icons/Icon */ "./src/frontend/src/icons/Icon.tsx"));
+__webpack_require__(/*! ./AddTokenToListModal.css */ "./src/frontend/src/components/WalletRelated/AddTokenToListModal.css");
+const AddTokenToListModal = (props) => {
+    const [ac, setAc] = react_1.useState(false);
+    const [canisterID, setCanisterID] = react_1.useState("");
+    const [loading, setLoading] = react_1.useState(false);
+    const [error, setError] = react_1.useState("");
+    const selected = react_redux_1.useSelector((state) => state.selected);
+    const dom = react_1.useRef(null);
+    const submit = () => {
+        if (!canisterID)
+            return setError("invalid canister ID");
+        const tokens = JSON.parse(localStorage.getItem("tokens") || "[]");
+        if (tokens.filter((i) => i.canisterID === canisterID && i.addedBy === selected).length > 0)
+            return setError("exists already");
+        setLoading(true);
+        Promise.all([
+            token_1.getDTokenName(canisterID),
+            token_1.getDTokenSymbol(canisterID),
+            token_1.getDTokenDecimals(canisterID),
+        ])
+            .then((res) => {
+            props.addNewToken({
+                canisterID,
+                name: res[0],
+                symbol: res[1],
+                decimals: res[2],
+                addedBy: selected,
+                addedAt: Date.now(),
+            });
+            setAc(false);
+        })
+            .catch((err) => {
+            if (dom.current)
+                setError(err.message);
+        })
+            .finally(() => {
+            if (dom.current)
+                setLoading(false);
+        });
+    };
+    return (jsx_runtime_1.jsxs("div", Object.assign({ ref: dom, className: "AddTokenToListModal" }, { children: [jsx_runtime_1.jsx("button", Object.assign({ className: "trigger", onClick: () => setAc(true), disabled: loading }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "close" }, void 0) }), void 0),
+            ac ? (jsx_runtime_1.jsx("div", Object.assign({ className: "modal" }, { children: jsx_runtime_1.jsxs("div", Object.assign({ className: "card" }, { children: [jsx_runtime_1.jsx("button", Object.assign({ className: "close", onClick: () => setAc(false) }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "close" }, void 0) }), void 0),
+                        jsx_runtime_1.jsxs("div", Object.assign({ className: "form" }, { children: [jsx_runtime_1.jsx("label", { children: "Add Asset" }, void 0),
+                                jsx_runtime_1.jsx("input", { type: "text", placeholder: "Asset Canister ID", value: canisterID, onChange: (e) => {
+                                        setCanisterID(e.target.value);
+                                        setError("");
+                                    } }, void 0)] }), void 0),
+                        jsx_runtime_1.jsx("div", Object.assign({ className: "error" }, { children: error }), void 0),
+                        jsx_runtime_1.jsx("button", Object.assign({ className: "submit", onClick: submit, disabled: loading }, { children: loading ? jsx_runtime_1.jsx(Icon_1.default, { name: "spinner", spin: true }, void 0) : "Add" }), void 0)] }), void 0) }), void 0)) : null] }), void 0));
+};
+exports.default = AddTokenToListModal;
 
 
 /***/ }),
@@ -107664,6 +107804,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "createToken": () => (/* binding */ createToken),
 /* harmony export */   "getAllTokens": () => (/* binding */ getAllTokens),
 /* harmony export */   "getTokensByUser": () => (/* binding */ getTokensByUser),
+/* harmony export */   "getDTokenName": () => (/* binding */ getDTokenName),
+/* harmony export */   "getDTokenSymbol": () => (/* binding */ getDTokenSymbol),
+/* harmony export */   "getDTokenDecimals": () => (/* binding */ getDTokenDecimals),
 /* harmony export */   "getDTokenBalance": () => (/* binding */ getDTokenBalance),
 /* harmony export */   "transferDToken": () => (/* binding */ transferDToken),
 /* harmony export */   "getLpAllowance": () => (/* binding */ getLpAllowance),
@@ -107829,6 +107972,48 @@ const getTokensByUser = (user) => {
         resolve(list);
       })
       .catch((err) => reject(err));
+  });
+  return promise;
+};
+
+const getDTokenName = (tokenCanisterId) => {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const actor = await getTokenActor(tokenCanisterId);
+      const res = await actor.name();
+      resolve(res || "NO_NAME");
+    } catch (err) {
+      console.log(err);
+      resolve("NO_NAME");
+    }
+  });
+  return promise;
+};
+
+const getDTokenSymbol = (tokenCanisterId) => {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const actor = await getTokenActor(tokenCanisterId);
+      const res = await actor.symbol();
+      resolve(res || "NO_SYMBOL");
+    } catch (err) {
+      console.log(err);
+      resolve("NO_SYMBOL");
+    }
+  });
+  return promise;
+};
+
+const getDTokenDecimals = (tokenCanisterId) => {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const actor = await getTokenActor(tokenCanisterId);
+      const res = await actor.decimals();
+      resolve(Number(res) || 0);
+    } catch (err) {
+      console.log(err);
+      resolve(0);
+    }
   });
   return promise;
 };
@@ -108378,33 +108563,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (({ IDL }) => {
   const Token = IDL.Service({
-    'allowance' : IDL.Func(
-        [IDL.Principal, IDL.Principal],
-        [IDL.Nat],
-        ['query'],
-      ),
-    'approve' : IDL.Func([IDL.Principal, IDL.Nat], [IDL.Bool], []),
-    'balanceOf' : IDL.Func([IDL.Principal], [IDL.Nat], ['query']),
-    'burn' : IDL.Func([IDL.Principal, IDL.Nat], [IDL.Bool], []),
-    'callerPrincipal' : IDL.Func([], [IDL.Principal], []),
-    'decimals' : IDL.Func([], [IDL.Nat], ['query']),
-    'mint' : IDL.Func([IDL.Principal, IDL.Nat], [IDL.Bool], []),
-    'name' : IDL.Func([], [IDL.Text], ['query']),
-    'owner' : IDL.Func([], [IDL.Principal], ['query']),
-    'symbol' : IDL.Func([], [IDL.Text], ['query']),
-    'totalSupply' : IDL.Func([], [IDL.Nat], ['query']),
-    'transfer' : IDL.Func([IDL.Principal, IDL.Nat], [IDL.Bool], []),
-    'transferFrom' : IDL.Func(
-        [IDL.Principal, IDL.Principal, IDL.Nat],
-        [IDL.Bool],
-        [],
-      ),
+    allowance: IDL.Func([IDL.Principal, IDL.Principal], [IDL.Nat], ["query"]),
+    approve: IDL.Func([IDL.Principal, IDL.Nat], [IDL.Bool], []),
+    balanceOf: IDL.Func([IDL.Principal], [IDL.Nat], ["query"]),
+    burn: IDL.Func([IDL.Principal, IDL.Nat], [IDL.Bool], []),
+    callerPrincipal: IDL.Func([], [IDL.Principal], []),
+    decimals: IDL.Func([], [IDL.Nat], ["query"]),
+    mint: IDL.Func([IDL.Principal, IDL.Nat], [IDL.Bool], []),
+    name: IDL.Func([], [IDL.Text], ["query"]),
+    owner: IDL.Func([], [IDL.Principal], ["query"]),
+    symbol: IDL.Func([], [IDL.Text], ["query"]),
+    totalSupply: IDL.Func([], [IDL.Nat], ["query"]),
+    transfer: IDL.Func([IDL.Principal, IDL.Nat], [IDL.Bool], []),
+    transferFrom: IDL.Func(
+      [IDL.Principal, IDL.Principal, IDL.Nat],
+      [IDL.Bool],
+      []
+    ),
   });
   return Token;
 });
 const init = ({ IDL }) => {
   return [IDL.Text, IDL.Text, IDL.Nat, IDL.Nat, IDL.Principal];
 };
+
 
 /***/ }),
 

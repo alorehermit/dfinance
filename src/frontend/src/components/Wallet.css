@@ -6,7 +6,7 @@
 .Wallet .UserPrincipalDisplayer {
   position: absolute;
   top: 3rem;
-  right: 5rem
+  right: 5rem;
 }
 .Wallet .balance {
   margin-left: 34rem;
@@ -51,7 +51,7 @@
   padding: 0 17.6rem;
 }
 .Wallet .tokens label.tokens-label {
-  display: block;
+  display: inline-block;
   font-size: 3.2rem;
   font-family: "Roboto bold";
   color: #595959;
@@ -77,6 +77,10 @@
   100% {
     transform: rotate(360deg);
   }
+}
+.Wallet .tokens .AddTokenToListModal {
+  display: inline-block;
+  margin-left: 2vw;
 }
 .Wallet .tokens .tokens-list .zero {
   width: 100%;

@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import RosettaApi from "../apis/rosetta";
-import { getAllTokens } from "../apis/token";
-import { Token } from "../global";
-import Icon from "../icons/Icon";
+import { Token, TokenAdded } from "../global";
 import { RootState } from "../redux/store";
 import { principalToAccountIdentifier } from "../utils/common";
+import AddTokenToListModal from "./WalletRelated/AddTokenToListModal";
 import TokenList from "./TokenList";
 import UserPrincipalDisplayer from "./UserPrincipalDisplayer";
 import "./Wallet.css";
@@ -21,7 +20,7 @@ const Wallet = () => {
   useEffect(() => {
     let _isMounted = true;
     if (selected) {
-      initial(_isMounted);
+      // get ICP balance
       const theOne = accounts.find((i) => i.publicKey === selected);
       setPrincipal(theOne ? theOne.principal : "");
       const rosettaAPI = new RosettaApi();
@@ -36,7 +35,22 @@ const Wallet = () => {
         .catch((err) => {
           console.log(err);
           setBalance("");
+        })
+        .finally(() => {
+          if (_isMounted) setLoading(false);
         });
+      // get asset list
+      let arr = JSON.parse(localStorage.getItem("tokens") || "[]");
+      arr = arr.filter((i: TokenAdded) => i.addedBy === selected);
+      arr.sort((a: TokenAdded, b: TokenAdded) => b.addedAt - a.addedAt);
+      let res = arr.map((i: TokenAdded) => ({
+        name: i.name,
+        symbol: i.symbol,
+        decimals: i.decimals,
+        canisterId: i.canisterID,
+        owner: "",
+      }));
+      setTokens(res);
     } else {
       setBalance("");
       setTokens([]);
@@ -48,21 +62,18 @@ const Wallet = () => {
     };
   }, [selected]);
 
-  const initial = (_isMounted: boolean) => {
-    let arr = [getAllTokens()];
-    Promise.all(arr)
-      .then(([tokens]) => {
-        console.log(tokens);
-        if (_isMounted) {
-          setTokens(tokens as Token[]);
-        }
+  const addNewToken = (val: TokenAdded) => {
+    let arr = JSON.parse(localStorage.getItem("tokens") || "[]");
+    localStorage.setItem("tokens", JSON.stringify(arr.concat(val)));
+    setTokens(
+      tokens.concat({
+        name: val.name,
+        symbol: val.symbol,
+        decimals: val.decimals,
+        canisterId: val.canisterID,
+        owner: "",
       })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        if (_isMounted) setLoading(false);
-      });
+    );
   };
 
   return (
@@ -102,8 +113,8 @@ const Wallet = () => {
       </div>
       <div className="tokens">
         <label className="tokens-label">All Tokens</label>
+        <AddTokenToListModal addNewToken={addNewToken} />
         <div className="tokens-list">
-          {loading ? <Icon name="spinner" spin /> : null}
           <TokenList tokens={tokens} user={principal} />
           {!loading && !tokens.length ? (
             <p className="zero">No Token Yet</p>

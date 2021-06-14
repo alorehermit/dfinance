@@ -21,7 +21,7 @@ const getAgent = async () => {
     if (theOne.type === "Ed25519KeyIdentity") {
       const keyIdentity = Ed25519KeyIdentity.fromParsedJson(theOne.keys);
       const agent = new HttpAgent({
-        host: "http://localhost:8000/",
+        host: process.env.HOST,
         identity: keyIdentity,
       });
       console.log(agent);
@@ -35,7 +35,7 @@ const getAgent = async () => {
         getHexFromUint8Array(identity.getPublicKey().toDer())
       );
       const agent = new HttpAgent({
-        host: "http://localhost:8000/",
+        host: process.env.HOST,
         identity,
       });
       return agent;
@@ -140,6 +140,48 @@ export const getTokensByUser = (user) => {
         resolve(list);
       })
       .catch((err) => reject(err));
+  });
+  return promise;
+};
+
+export const getDTokenName = (tokenCanisterId) => {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const actor = await getTokenActor(tokenCanisterId);
+      const res = await actor.name();
+      resolve(res || "NO_NAME");
+    } catch (err) {
+      console.log(err);
+      resolve("NO_NAME");
+    }
+  });
+  return promise;
+};
+
+export const getDTokenSymbol = (tokenCanisterId) => {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const actor = await getTokenActor(tokenCanisterId);
+      const res = await actor.symbol();
+      resolve(res || "NO_SYMBOL");
+    } catch (err) {
+      console.log(err);
+      resolve("NO_SYMBOL");
+    }
+  });
+  return promise;
+};
+
+export const getDTokenDecimals = (tokenCanisterId) => {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const actor = await getTokenActor(tokenCanisterId);
+      const res = await actor.decimals();
+      resolve(Number(res) || 0);
+    } catch (err) {
+      console.log(err);
+      resolve(0);
+    }
   });
   return promise;
 };

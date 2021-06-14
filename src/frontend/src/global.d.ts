@@ -16,4 +16,13 @@ export interface Token {
   owner: string; // principal
 }
 
+export interface TokenAdded {
+  canisterID: string;
+  name: string;
+  symbol: string;
+  decimals: string;
+  addedBy: string; // publicKey
+  addedAt: number;
+}
+
 export interface TokenPair {}
