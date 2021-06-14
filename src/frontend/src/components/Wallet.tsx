@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import RosettaApi from "../apis/rosetta";
 import { Token, TokenAdded } from "../global";
@@ -7,6 +7,7 @@ import { principalToAccountIdentifier } from "../utils/common";
 import AddTokenToListModal from "./WalletRelated/AddTokenToListModal";
 import TokenList from "./TokenList";
 import UserPrincipalDisplayer from "./UserPrincipalDisplayer";
+import TransferICP from "./WalletRelated/TransferICP";
 import "./Wallet.css";
 
 const Wallet = () => {
@@ -16,29 +17,13 @@ const Wallet = () => {
   const [loading, setLoading] = useState(true);
   const selected = useSelector((state: RootState) => state.selected);
   const accounts = useSelector((state: RootState) => state.accounts);
+  const dom = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     let _isMounted = true;
     if (selected) {
       // get ICP balance
-      const theOne = accounts.find((i) => i.publicKey === selected);
-      setPrincipal(theOne ? theOne.principal : "");
-      const rosettaAPI = new RosettaApi();
-      setBalance("...");
-      rosettaAPI
-        .getAccountBalance(
-          principalToAccountIdentifier(theOne?.principal || "", 0)
-        )
-        .then((res) => {
-          setBalance((Number(res) / 10 ** 8).toFixed(2));
-        })
-        .catch((err) => {
-          console.log(err);
-          setBalance("");
-        })
-        .finally(() => {
-          if (_isMounted) setLoading(false);
-        });
+      getBalance();
       // get asset list
       let arr = JSON.parse(localStorage.getItem("tokens") || "[]");
       arr = arr.filter((i: TokenAdded) => i.addedBy === selected);
@@ -62,6 +47,26 @@ const Wallet = () => {
     };
   }, [selected]);
 
+  const getBalance = () => {
+    const theOne = accounts.find((i) => i.publicKey === selected);
+    setPrincipal(theOne ? theOne.principal : "");
+    const rosettaAPI = new RosettaApi();
+    setBalance("...");
+    rosettaAPI
+      .getAccountBalance(
+        principalToAccountIdentifier(theOne?.principal || "", 0)
+      )
+      .then((res) => {
+        if (dom.current) setBalance((Number(res) / 10 ** 8).toString());
+      })
+      .catch((err) => {
+        console.log(err);
+        if (dom.current) setBalance("");
+      })
+      .finally(() => {
+        if (dom.current) setLoading(false);
+      });
+  };
   const addNewToken = (val: TokenAdded) => {
     let arr = JSON.parse(localStorage.getItem("tokens") || "[]");
     localStorage.setItem("tokens", JSON.stringify(arr.concat(val)));
@@ -77,7 +82,7 @@ const Wallet = () => {
   };
 
   return (
-    <div className="Wallet">
+    <div className="Wallet" ref={dom}>
       <UserPrincipalDisplayer />
       <div className="balance">
         <label>Your Total ICP Balance</label>
@@ -110,6 +115,7 @@ const Wallet = () => {
           </svg>
           <span>{balance || "0.00"}</span>
         </p>
+        <TransferICP balance={balance} updateBalance={getBalance} />
       </div>
       <div className="tokens">
         <label className="tokens-label">All Tokens</label>

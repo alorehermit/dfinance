@@ -46,6 +46,18 @@
   font-family: "Roboto bold";
   color: #001414;
 }
+.Wallet .balance .TransferICP button.trigger {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.8;
+  color: #8b8b8b;
+}
+.Wallet .balance .TransferICP button.trigger:hover {
+  opacity: 1;
+}
 .Wallet .tokens {
   width: 100%;
   padding: 0 17.6rem;

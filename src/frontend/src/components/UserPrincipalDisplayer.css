@@ -71,14 +71,13 @@
 .UserPrincipalDisplayer .ExportWalletModal .wrap {
   position: absolute;
   width: 66rem;
-  height: 58rem;
+  height: 70rem;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  transition: transform 200ms ease-out,
-    opacity 180ms ease;
+  transition: transform 200ms ease-out, opacity 180ms ease;
   border-radius: 3rem;
-  background-color: #FFF;
+  background-color: #fff;
   box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.5);
   padding: 3.5rem 7rem 3rem 7rem;
   opacity: 0;
@@ -138,6 +137,43 @@
   max-height: 10rem;
   margin-right: 2rem;
   line-height: 2.8rem;
-  color: #8B8B8B;
+  color: #8b8b8b;
   cursor: default;
+}
+.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 2.2vw;
+  border: 1px solid #8b8b8b;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd input {
+  position: relative;
+  opacity: 1;
+  pointer-events: all;
+  width: calc(100% - 5vw);
+  height: 100%;
+  border: none;
+  background-color: transparent;
+  padding: 0 0.8vw;
+  font-size: 0.8vw;
+}
+.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd button {
+  font-size: 0.8vw;
+  width: 5vw;
+  height: 100%;
+  background-color: #8b8b8ba4;
+  color: #fff;
+  border: none;
+  opacity: 0.8;
+  cursor: pointer;
+}
+.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd button:hover {
+  opacity: 1;
+}
+.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd .error {
+  text-align: right;
+  color: tomato;
 }

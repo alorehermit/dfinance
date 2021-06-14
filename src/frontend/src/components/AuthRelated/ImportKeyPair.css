@@ -38,8 +38,8 @@
 .ImportKeyPair .toggle button span.dfinity,
 .CreateKeyPair .toggle button span.dfinity {
   display: inline-block;
-  width: 3vw;
-  height: 3vw;
+  width: 2.2vw;
+  height: 2.2vw;
   background-image: url(../../images/dfinity.svg);
   background-position: center;
   background-size: contain;

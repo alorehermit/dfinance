@@ -1,4 +1,5 @@
 import classNames from "classnames";
+import { enc, MD5 } from "crypto-js";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import Icon from "../icons/Icon";
@@ -13,10 +14,14 @@ const UserPrincipalDisplayer = () => {
   const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState("");
   const [show, setShow] = useState(false);
+  const [pwd, setPwd] = useState("");
+  const [matched, setMatched] = useState(-1);
+  const [aid, setAid] = useState("");
+
+  const accountIdDom = useRef<HTMLInputElement>(null);
   const principalDom = useRef<HTMLInputElement>(null);
   const publicDom = useRef<HTMLInputElement>(null);
   const privateDom = useRef<HTMLInputElement>(null);
-  const [aid, setAid] = useState("");
 
   useEffect(() => {
     if (principal) {
@@ -39,6 +44,14 @@ const UserPrincipalDisplayer = () => {
     }
   }, [selected]);
 
+  const accountIdOnCopy = () => {
+    if (accountIdDom.current) {
+      accountIdDom.current.select();
+      accountIdDom.current.setSelectionRange(0, 99999);
+      document.execCommand("copy");
+      accountIdDom.current.blur();
+    }
+  };
   const principalOnCopy = () => {
     if (principalDom.current) {
       principalDom.current.select();
@@ -70,7 +83,7 @@ const UserPrincipalDisplayer = () => {
       <div className="group">
         <span className="label">
           {aid.substr(0, 5)}...
-          {aid.substr(58, 5)}
+          {aid.substr(length - 5, 5)}
         </span>
         <CopyBtn onCopy={principalOnCopy} />
         <button onClick={() => setShow(true)}>
@@ -84,12 +97,22 @@ const UserPrincipalDisplayer = () => {
             <button className="close" onClick={() => setShow(false)}>
               <Icon name="close" />
             </button>
+            <input
+              ref={accountIdDom}
+              value={principalToAccountIdentifier(principal, 0)}
+              readOnly
+            />
             <input ref={publicDom} value={publicKey} readOnly />
             <input ref={privateDom} value={privateKey} readOnly />
             <label className="label">Wallet</label>
             <label className="sub-label">Account Id :</label>
             <div className="input-group">
               <span>{principalToAccountIdentifier(principal, 0)}</span>
+              <CopyBtn onCopy={accountIdOnCopy} />
+            </div>
+            <label className="sub-label">Principal :</label>
+            <div className="input-group">
+              <span>{principal}</span>
               <CopyBtn onCopy={principalOnCopy} />
             </div>
             <label className="sub-label">Public Key :</label>
@@ -98,10 +121,37 @@ const UserPrincipalDisplayer = () => {
               <CopyBtn onCopy={publicKeyOnCopy} />
             </div>
             <label className="sub-label">Private Key :</label>
-            <div className="input-group">
-              <span>{privateKey}</span>
-              <CopyBtn onCopy={privateKeyOnCopy} />
-            </div>
+            {matched !== 1 ? (
+              <div className="pwd">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  value={pwd}
+                  onChange={(e) => setPwd(e.target.value)}
+                />
+                <button
+                  onClick={() => {
+                    if (
+                      MD5(enc.Utf8.parse(pwd)).toString() ===
+                      localStorage.getItem("password")
+                    ) {
+                      setMatched(1);
+                    } else {
+                      setMatched(0);
+                    }
+                  }}
+                >
+                  NEXT
+                </button>
+              </div>
+            ) : null}
+            {matched === 0 ? <div className="error">wrong password</div> : null}
+            {matched === 1 ? (
+              <div className="input-group">
+                <span>{privateKey}</span>
+                <CopyBtn onCopy={privateKeyOnCopy} />
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}

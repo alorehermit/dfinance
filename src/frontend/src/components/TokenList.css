@@ -44,6 +44,9 @@
   padding: 3.5rem 7rem 3rem 7rem;
   opacity: 0;
 }
+.TokenListModal.ICP .wrap {
+  height: 63rem;
+}
 .TokenListModal.ac .wrap {
   opacity: 1;
   transform: translate(-55%, -50%);
@@ -97,7 +100,8 @@
   border-color: #e9a4c7;
 }
 .TokenListModal .wrap .balance-ctrl {
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
   padding-top: 0.5rem;
 }
 .TokenListModal .wrap .balance-ctrl span {
@@ -138,4 +142,8 @@
   background-color: #e3e3e3;
   background-image: none;
   cursor: not-allowed;
+}
+.TokenListModal .wrap .error {
+  text-align: right;
+  color: tomato;
 }

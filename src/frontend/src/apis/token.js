@@ -2,6 +2,7 @@ import { Actor, HttpAgent, Principal } from "@dfinity/agent";
 import CommonTokenIdlFactory from "../utils/token.did";
 import DTokenIdlFactory from "../utils/dtoken.did";
 import DSwapIdlFactory from "../utils/dswap.did";
+import ledgerIDL from "../utils/ledger.did";
 import { bigIntToAmountStr, getHexFromUint8Array } from "../utils/common";
 import store from "../redux/store";
 import { AuthClient } from "@dfinity/auth-client";
@@ -69,6 +70,13 @@ const getTokenActor = async (canisterId) => {
     agent,
     // maxAttempts: 100,
     canisterId,
+  });
+};
+const ledgerActor = async () => {
+  let agent = await getAgent();
+  return Actor.createActor(ledgerIDL, {
+    agent,
+    canisterId: process.env.LEDGER_CANISTER_ID,
   });
 };
 
@@ -425,6 +433,30 @@ export const swapToken = (
         parseFloat(amountIn) * Math.pow(10, parseInt(decimalIn)),
         parseFloat(amountOutMin) * Math.pow(10, parseInt(decimalOut))
       )
+      .then((res) => resolve(res))
+      .catch((err) => reject(err));
+  });
+  return promise;
+};
+
+export const transferICP = (
+  to_aid,
+  amount,
+  fee = 0.0001,
+  memo = 0,
+  from_sub = Array(32).fill(0)
+) => {
+  const promise = new Promise(async (resolve, reject) => {
+    var args = {
+      to: to_aid,
+      fee: { e8s: fee * 100000000 },
+      memo: memo,
+      from_subaccount: [from_sub],
+      created_at_time: [],
+      amount: { e8s: amount * 100000000 },
+    };
+    (await ledgerActor())
+      .send_dfx(args)
       .then((res) => resolve(res))
       .catch((err) => reject(err));
   });
