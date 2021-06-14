@@ -18,6 +18,7 @@ import Test from "./components/Test";
 import { Account } from "./global";
 import { AES, enc } from "crypto-js";
 import "./App.css";
+import LoginWithDfinity from "./components/AuthRelated/LoginWithDfinity";
 
 interface Props extends RouteComponentProps {}
 const App = (props: Props) => {
@@ -140,6 +141,7 @@ const App = (props: Props) => {
           </div>
           <Route path="/" exact render={() => <Wallet />} />
           <Route path="/connectwallet" render={() => <ConnectWallet />} />
+          <Route path="/loginwithdfinity" render={() => <LoginWithDfinity />} />
           <Route path="/importkeypair" exact render={() => <ImportKeyPair />} />
           <Route path="/createkeypair" exact render={() => <CreateKeyPair />} />
           <Route path="/dtoken" exact render={() => <TokenIssue />} />

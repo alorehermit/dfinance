@@ -23,11 +23,11 @@
 }
 .Header .AuthMenu {
   position: absolute;
-  right: 10rem;
+  right: 5vw;
 }
 .Header .ActivityModal {
   position: absolute;
-  right: 35rem;
+  right: 18vw;
 }
 .Nav {
   position: relative;

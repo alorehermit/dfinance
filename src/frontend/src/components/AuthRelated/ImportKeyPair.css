@@ -48,8 +48,23 @@
 }
 .ImportKeyPair h1,
 .CreateKeyPair h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5vw;
   color: #242424;
   font-size: 2vw;
+}
+.ImportKeyPair h1 span.dfinity,
+.CreateKeyPair h1 span.dfinity {
+  display: inline-block;
+  width: 3.2vw;
+  height: 3.2vw;
+  background-image: url(../../images/dfinity.svg);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-left: 0.4vw;
 }
 .ImportKeyPair input {
   width: 100%;

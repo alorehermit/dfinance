@@ -78,7 +78,18 @@ const ImportKeyPair = (props: Props) => {
       </div>
     );
   } else {
-    return <PwdForm next={() => {}} />;
+    return (
+      <div className="ImportKeyPair">
+        <div className="toggle">
+          <AuthBtn />
+          <button onClick={() => props.history.push("/createkeypair")}>
+            Create One
+          </button>
+        </div>
+        <h1>Import Idenity from Private Key</h1>
+        <PwdForm next={() => {}} />
+      </div>
+    );
   }
 };
 

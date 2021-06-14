@@ -88,6 +88,7 @@ export const isDelegateByAccount = (principal, delegationIdentityAccount) => {
  * @returns
  */
 export const principalToAccountIdentifier = (principal, s) => {
+  if (!principal) return "";
   const padding = Buffer("\x0Aaccount-id");
   const array = new Uint8Array([
     ...padding,
