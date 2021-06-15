@@ -66,15 +66,33 @@
   background-repeat: no-repeat;
   margin-left: 0.4vw;
 }
-.ImportKeyPair input {
+.ImportKeyPair label {
+  display: block;
+  text-align: left;
+  font-size: 1.2vw;
+  opacity: 0.6;
+  margin-top: 2vw;
+  margin-bottom: 0.5vw;
+}
+.ImportKeyPair select {
+  width: 100%;
+  height: 2.8vw;
+  border: 1px solid rgb(0 0 0 / 20%);
+  border-radius: 5px;
+  background-color: transparent;
+  padding: 0 8px;
+  font-size: 1.2vw;
+}
+.ImportKeyPair textarea {
+  resize: none;
   width: 100%;
   height: 4vw;
   border: 1px solid rgb(0 0 0 / 20%);
   border-radius: 5px;
   background-color: transparent;
   padding: 0 8px;
-  font-size: 2vw;
-  margin: 2vw 0;
+  font-size: 1.2vw;
+  margin-bottom: 2vw;
 }
 .ImportKeyPair .text,
 .CreateKeyPair .text {
