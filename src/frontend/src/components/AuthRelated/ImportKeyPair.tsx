@@ -71,7 +71,7 @@ const ImportKeyPair = (props: Props) => {
             Create One
           </button>
         </div>
-        <h1>Import Idenity from Private Key</h1>
+        <h1>Import Idenity from {type === "1" ? "Private Key" : "Mnemonic"}</h1>
         <label>Type :</label>
         <select
           value={type}
