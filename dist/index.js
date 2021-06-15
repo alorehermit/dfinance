@@ -44132,6 +44132,33 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".ConnectWallet {\n  width: 18vw;\n  ma
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js!./src/frontend/src/components/TokenIssue.css":
+/*!******************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./src/frontend/src/components/TokenIssue.css ***!
+  \******************************************************************************************/
+/***/ ((module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ "./node_modules/css-loader/dist/runtime/cssWithMappingToString.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
+// Imports
+
+
+var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default()));
+// Module
+___CSS_LOADER_EXPORT___.push([module.id, ".TokenIssue {\n  position: relative;\n  width: 100%;\n  padding: 4.5rem 17.6rem 0 17.6rem;\n}\n.TokenIssue .more {\n  position: absolute;\n  width: 40.5rem;\n  height: 9rem;\n  top: 4rem;\n  right: 13rem;\n}\n.TokenIssue .more a.more-link {\n  display: block;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  cursor: pointer;\n}\n.TokenIssue .more div {\n  position: absolute;\n  pointer-events: none;\n  transition: all 180ms ease-in;\n}\n.TokenIssue .more .accessory-1 {\n  width: 33.8rem;\n  height: 5.8rem;\n  top: 1.7rem;\n  right: 0.5rem;\n  border-radius: 1rem;\n  background-image: linear-gradient(90deg, #3DC4ED, #2976BA);\n  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.3);\n}\n.TokenIssue .more:hover .accessory-1 {\n  top: 1.3rem;\n  right: 1.8rem;\n}\n.TokenIssue .more .accessory-2 {\n  width: 4.6rem;\n  height: 4.6rem;\n  top: 0;\n  right: 26.8rem;\n  border-radius: 50%;\n  background-image: linear-gradient(135deg, #E12B7C, #323A8D);\n  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.3);\n}\n.TokenIssue .more:hover .accessory-2 {\n  top: 2.9rem;\n  right: 34.8rem;\n}\n.TokenIssue .more .accessory-3 {\n  width: 33.8rem;\n  height: 5.8rem;\n  top: 2.2rem;\n  right: 0;\n  border-radius: 1rem;\n  background-color: #EFEFEF;\n  color: #001414;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  line-height: 5.8rem;\n  text-align: center;\n  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.3);\n}\n.TokenIssue .more:hover .accessory-3 {\n  top: 3.3rem;\n  right: -1rem;\n}\n.TokenIssue .tokens {\n  width: 100%;\n}\n.TokenIssue .tokens label.tokens-label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  color: #595959;\n  padding-bottom: 6rem;\n}\n/* .TokenIssue .tokens .tokens-list {\n  display: flex;\n  justify-content: space-between;\n  flex-flow: row wrap;\n} */\n.TokenIssue .tokens .tokens-list svg.spinner {\n  display: block;\n  width: 5rem;\n  height: 5rem;\n  margin: 6rem auto;\n  opacity: 0.7;\n  animation: spin 1500ms linear infinite;\n}\n@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.TokenIssue .tokens .tokens-list .zero {\n  width: 100%;\n  font-size: 3.2rem;\n  text-align: center;\n  color: #595959;\n  opacity: 0.5;\n}", "",{"version":3,"sources":["webpack://./src/frontend/src/components/TokenIssue.css"],"names":[],"mappings":"AAAA;EACE,kBAAkB;EAClB,WAAW;EACX,iCAAiC;AACnC;AACA;EACE,kBAAkB;EAClB,cAAc;EACd,YAAY;EACZ,SAAS;EACT,YAAY;AACd;AACA;EACE,cAAc;EACd,WAAW;EACX,YAAY;EACZ,UAAU;EACV,eAAe;AACjB;AACA;EACE,kBAAkB;EAClB,oBAAoB;EACpB,6BAA6B;AAC/B;AACA;EACE,cAAc;EACd,cAAc;EACd,WAAW;EACX,aAAa;EACb,mBAAmB;EACnB,0DAA0D;EAC1D,4CAA4C;AAC9C;AACA;EACE,WAAW;EACX,aAAa;AACf;AACA;EACE,aAAa;EACb,cAAc;EACd,MAAM;EACN,cAAc;EACd,kBAAkB;EAClB,2DAA2D;EAC3D,4CAA4C;AAC9C;AACA;EACE,WAAW;EACX,cAAc;AAChB;AACA;EACE,cAAc;EACd,cAAc;EACd,WAAW;EACX,QAAQ;EACR,mBAAmB;EACnB,yBAAyB;EACzB,cAAc;EACd,iBAAiB;EACjB,0BAA0B;EAC1B,mBAAmB;EACnB,kBAAkB;EAClB,4CAA4C;AAC9C;AACA;EACE,WAAW;EACX,YAAY;AACd;AACA;EACE,WAAW;AACb;AACA;EACE,cAAc;EACd,iBAAiB;EACjB,0BAA0B;EAC1B,cAAc;EACd,oBAAoB;AACtB;AACA;;;;GAIG;AACH;EACE,cAAc;EACd,WAAW;EACX,YAAY;EACZ,iBAAiB;EACjB,YAAY;EACZ,sCAAsC;AACxC;AACA;EACE;IACE,uBAAuB;EACzB;EACA;IACE,yBAAyB;EAC3B;AACF;AACA;EACE,WAAW;EACX,iBAAiB;EACjB,kBAAkB;EAClB,cAAc;EACd,YAAY;AACd","sourcesContent":[".TokenIssue {\n  position: relative;\n  width: 100%;\n  padding: 4.5rem 17.6rem 0 17.6rem;\n}\n.TokenIssue .more {\n  position: absolute;\n  width: 40.5rem;\n  height: 9rem;\n  top: 4rem;\n  right: 13rem;\n}\n.TokenIssue .more a.more-link {\n  display: block;\n  width: 100%;\n  height: 100%;\n  opacity: 0;\n  cursor: pointer;\n}\n.TokenIssue .more div {\n  position: absolute;\n  pointer-events: none;\n  transition: all 180ms ease-in;\n}\n.TokenIssue .more .accessory-1 {\n  width: 33.8rem;\n  height: 5.8rem;\n  top: 1.7rem;\n  right: 0.5rem;\n  border-radius: 1rem;\n  background-image: linear-gradient(90deg, #3DC4ED, #2976BA);\n  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.3);\n}\n.TokenIssue .more:hover .accessory-1 {\n  top: 1.3rem;\n  right: 1.8rem;\n}\n.TokenIssue .more .accessory-2 {\n  width: 4.6rem;\n  height: 4.6rem;\n  top: 0;\n  right: 26.8rem;\n  border-radius: 50%;\n  background-image: linear-gradient(135deg, #E12B7C, #323A8D);\n  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.3);\n}\n.TokenIssue .more:hover .accessory-2 {\n  top: 2.9rem;\n  right: 34.8rem;\n}\n.TokenIssue .more .accessory-3 {\n  width: 33.8rem;\n  height: 5.8rem;\n  top: 2.2rem;\n  right: 0;\n  border-radius: 1rem;\n  background-color: #EFEFEF;\n  color: #001414;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  line-height: 5.8rem;\n  text-align: center;\n  box-shadow: 0 0.3rem 1rem rgba(0, 0, 0, 0.3);\n}\n.TokenIssue .more:hover .accessory-3 {\n  top: 3.3rem;\n  right: -1rem;\n}\n.TokenIssue .tokens {\n  width: 100%;\n}\n.TokenIssue .tokens label.tokens-label {\n  display: block;\n  font-size: 3.2rem;\n  font-family: \"Roboto bold\";\n  color: #595959;\n  padding-bottom: 6rem;\n}\n/* .TokenIssue .tokens .tokens-list {\n  display: flex;\n  justify-content: space-between;\n  flex-flow: row wrap;\n} */\n.TokenIssue .tokens .tokens-list svg.spinner {\n  display: block;\n  width: 5rem;\n  height: 5rem;\n  margin: 6rem auto;\n  opacity: 0.7;\n  animation: spin 1500ms linear infinite;\n}\n@keyframes spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.TokenIssue .tokens .tokens-list .zero {\n  width: 100%;\n  font-size: 3.2rem;\n  text-align: center;\n  color: #595959;\n  opacity: 0.5;\n}"],"sourceRoot":""}]);
+// Exports
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./src/frontend/src/components/TokenIssueForm.css":
 /*!**********************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./src/frontend/src/components/TokenIssueForm.css ***!
@@ -91040,6 +91067,36 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
+/***/ "./src/frontend/src/components/TokenIssue.css":
+/*!****************************************************!*\
+  !*** ./src/frontend/src/components/TokenIssue.css ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
+/* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_TokenIssue_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js!./TokenIssue.css */ "./node_modules/css-loader/dist/cjs.js!./src/frontend/src/components/TokenIssue.css");
+
+            
+
+var options = {};
+
+options.insert = "head";
+options.singleton = false;
+
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_TokenIssue_css__WEBPACK_IMPORTED_MODULE_1__.default, options);
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_TokenIssue_css__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+
+/***/ }),
+
 /***/ "./src/frontend/src/components/TokenIssueForm.css":
 /*!********************************************************!*\
   !*** ./src/frontend/src/components/TokenIssueForm.css ***!
@@ -91703,6 +91760,7 @@ const selected_1 = __webpack_require__(/*! ./redux/features/selected */ "./src/f
 const accounts_1 = __webpack_require__(/*! ./redux/features/accounts */ "./src/frontend/src/redux/features/accounts.ts");
 const Header_1 = __importDefault(__webpack_require__(/*! ./components/header/Header */ "./src/frontend/src/components/header/Header.tsx"));
 const Wallet_1 = __importDefault(__webpack_require__(/*! ./components/Wallet */ "./src/frontend/src/components/Wallet.tsx"));
+const TokenIssue_1 = __importDefault(__webpack_require__(/*! ./components/TokenIssue */ "./src/frontend/src/components/TokenIssue.tsx"));
 const ComingSoon_1 = __importDefault(__webpack_require__(/*! ./components/ComingSoon */ "./src/frontend/src/components/ComingSoon.tsx"));
 const TokenIssueForm_1 = __importDefault(__webpack_require__(/*! ./components/TokenIssueForm */ "./src/frontend/src/components/TokenIssueForm.tsx"));
 const ImportKeyPair_1 = __importDefault(__webpack_require__(/*! ./components/AuthRelated/ImportKeyPair */ "./src/frontend/src/components/AuthRelated/ImportKeyPair.tsx"));
@@ -91781,7 +91839,7 @@ const App = (props) => {
                 jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/loginwithdfinity", render: () => jsx_runtime_1.jsx(LoginWithDfinity_1.default, {}, void 0) }, void 0),
                 jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/importkeypair", exact: true, render: () => jsx_runtime_1.jsx(ImportKeyPair_1.default, {}, void 0) }, void 0),
                 jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/createkeypair", exact: true, render: () => jsx_runtime_1.jsx(CreateKeyPair_1.default, {}, void 0) }, void 0),
-                jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/dtoken", exact: true, render: () => jsx_runtime_1.jsx(ComingSoon_1.default, {}, void 0) }, void 0),
+                jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/dtoken", exact: true, render: () => jsx_runtime_1.jsx(TokenIssue_1.default, {}, void 0) }, void 0),
                 jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/DUSD", exact: true, render: () => jsx_runtime_1.jsx(ComingSoon_1.default, {}, void 0) }, void 0),
                 jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/DLend", exact: true, render: () => jsx_runtime_1.jsx(ComingSoon_1.default, {}, void 0) }, void 0),
                 jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/newtoken", exact: true, render: () => jsx_runtime_1.jsx(TokenIssueForm_1.default, {}, void 0) }, void 0),
@@ -92670,6 +92728,80 @@ exports.default = Test;
 
 /***/ }),
 
+/***/ "./src/frontend/src/components/TokenIssue.tsx":
+/*!****************************************************!*\
+  !*** ./src/frontend/src/components/TokenIssue.tsx ***!
+  \****************************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+const agent_1 = __webpack_require__(/*! @dfinity/agent */ "./node_modules/@dfinity/agent/lib/esm/index.js");
+const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+const token_1 = __webpack_require__(/*! ../apis/token */ "./src/frontend/src/apis/token.js");
+const Icon_1 = __importDefault(__webpack_require__(/*! ../icons/Icon */ "./src/frontend/src/icons/Icon.tsx"));
+const TokenList_1 = __importDefault(__webpack_require__(/*! ./TokenList */ "./src/frontend/src/components/TokenList.tsx"));
+__webpack_require__(/*! ./TokenIssue.css */ "./src/frontend/src/components/TokenIssue.css");
+const TokenIssue = () => {
+    const [tokens, setTokens] = react_1.useState([]);
+    const [loading, setLoading] = react_1.useState(true);
+    const [principal, setPrincipal] = react_1.useState("");
+    const selected = react_redux_1.useSelector((state) => state.selected);
+    const accounts = react_redux_1.useSelector((state) => state.accounts);
+    react_1.useEffect(() => {
+        let _isMounted = true;
+        if (selected) {
+            initial(_isMounted);
+        }
+        else {
+            setTokens([]);
+            setLoading(false);
+            setPrincipal("");
+        }
+        return () => {
+            _isMounted = false;
+        };
+    }, [selected]);
+    const initial = (_isMounted) => {
+        const user = accounts.find((i) => i.publicKey === selected);
+        setPrincipal((user === null || user === void 0 ? void 0 : user.principal) || "");
+        if (!selected || !user)
+            return setLoading(false);
+        token_1.getTokensByUser(agent_1.Principal.fromText(user.principal))
+            .then((res) => {
+            if (_isMounted)
+                setTokens(res);
+        })
+            .catch((err) => {
+            console.log(err);
+        })
+            .finally(() => {
+            if (_isMounted)
+                setLoading(false);
+        });
+    };
+    return (jsx_runtime_1.jsxs("div", Object.assign({ className: "TokenIssue" }, { children: [jsx_runtime_1.jsxs("div", Object.assign({ className: "more" }, { children: [jsx_runtime_1.jsx(react_router_dom_1.Link, { className: "more-link", to: selected ? "/newtoken" : "/connectwallet" }, void 0),
+                    jsx_runtime_1.jsx("div", { className: "accessory-1" }, void 0),
+                    jsx_runtime_1.jsx("div", { className: "accessory-2" }, void 0),
+                    jsx_runtime_1.jsx("div", Object.assign({ className: "accessory-3" }, { children: "Issue a new token" }), void 0)] }), void 0),
+            jsx_runtime_1.jsxs("div", Object.assign({ className: "tokens" }, { children: [jsx_runtime_1.jsx("label", Object.assign({ className: "tokens-label" }, { children: "Your tokens" }), void 0),
+                    jsx_runtime_1.jsxs("div", Object.assign({ className: "tokens-list" }, { children: [loading ? jsx_runtime_1.jsx(Icon_1.default, { name: "spinner", spin: true }, void 0) : null,
+                            jsx_runtime_1.jsx(TokenList_1.default, { tokens: tokens, user: principal }, void 0),
+                            !loading && !selected ? (jsx_runtime_1.jsx("p", Object.assign({ className: "zero" }, { children: "No Account Found" }), void 0)) : null,
+                            !loading && !tokens.length && selected ? (jsx_runtime_1.jsx("p", Object.assign({ className: "zero" }, { children: "No Token Yet" }), void 0)) : null] }), void 0)] }), void 0)] }), void 0));
+};
+exports.default = TokenIssue;
+
+
+/***/ }),
+
 /***/ "./src/frontend/src/components/TokenIssueForm.tsx":
 /*!********************************************************!*\
   !*** ./src/frontend/src/components/TokenIssueForm.tsx ***!
@@ -93194,11 +93326,24 @@ const Wallet = () => {
                 canisterId: i.canisterID,
                 owner: "",
             }));
-            setTokens(res);
+            // setTokens(res);
+            setTokens([{
+                    name: "DFinance Coin",
+                    symbol: "DFC",
+                    decimals: "8",
+                    canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
+                    owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+                }]);
         }
         else {
             setBalance("");
-            setTokens([]);
+            setTokens([{
+                    name: "DFinance Coin",
+                    symbol: "DFC",
+                    decimals: "8",
+                    canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
+                    owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+                }]);
             setPrincipal("");
             setLoading(false);
         }
@@ -96782,7 +96927,7 @@ const dTokenActor = async () => {
   return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_utils_dtoken_did__WEBPACK_IMPORTED_MODULE_2__.default, {
     agent,
     // maxAttempts: 100,
-    canisterId: "ryjl3-tyaaa-aaaaa-aaaba-cai",
+    canisterId: "6u36y-tyaaa-aaaah-qaawq-cai",
   });
 };
 const dSwapActor = async () => {

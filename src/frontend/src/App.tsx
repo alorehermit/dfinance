@@ -144,7 +144,7 @@ const App = (props: Props) => {
           <Route path="/loginwithdfinity" render={() => <LoginWithDfinity />} />
           <Route path="/importkeypair" exact render={() => <ImportKeyPair />} />
           <Route path="/createkeypair" exact render={() => <CreateKeyPair />} />
-          <Route path="/dtoken" exact render={() => <ComingSoon />} />
+          <Route path="/dtoken" exact render={() => <TokenIssue />} />
           <Route path="/DUSD" exact render={() => <ComingSoon />} />
           <Route path="/DLend" exact render={() => <ComingSoon />} />
           <Route path="/newtoken" exact render={() => <TokenIssueForm />} />

@@ -35,10 +35,23 @@ const Wallet = () => {
         canisterId: i.canisterID,
         owner: "",
       }));
-      setTokens(res);
+      // setTokens(res);
+      setTokens([{
+        name: "DFinance Coin",
+        symbol: "DFC",
+        decimals: "8",
+        canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
+        owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+      }]);
     } else {
       setBalance("");
-      setTokens([]);
+      setTokens([{
+        name: "DFinance Coin",
+        symbol: "DFC",
+        decimals: "8",
+        canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
+        owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+      }]);
       setPrincipal("");
       setLoading(false);
     }
