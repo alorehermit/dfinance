@@ -135,7 +135,7 @@ class TokenList extends Component<Props, State> {
             <input
               className={classNames({ err: this.state.spenderError })}
               type="text"
-              placeholder="Spender"
+              placeholder="Receiver"
               value={this.state.spender}
               onChange={this.spenderOnChange}
             />
