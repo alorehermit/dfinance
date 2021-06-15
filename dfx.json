@@ -1,13 +1,6 @@
 {
   "canisters": {
-    "dtoken": {
-      "main": "src/dtoken/src/registry.mo"
-    },
-    "dswap": {
-      "main": "src/dswap/src/dswap.mo"
-    },
     "frontend": {
-      "dependencies": ["dtoken", "dswap"],
       "frontend": {
         "entrypoint": "src/frontend/src/index.html"
       },
