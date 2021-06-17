@@ -148,7 +148,7 @@ const App = (props: Props) => {
           <Route path="/DUSD" exact render={() => <ComingSoon />} />
           <Route path="/DLend" exact render={() => <ComingSoon />} />
           <Route path="/newtoken" exact render={() => <TokenIssueForm />} />
-          <Route path="/swap" render={() => <ComingSoon />} />
+          <Route path="/swap" render={() => <Swap />} />
           <Route path="/test" exact render={() => <Test />} />
         </>
       )}
