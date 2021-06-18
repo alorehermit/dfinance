@@ -8,7 +8,38 @@ import {
 import { TokenAdded } from "../../global";
 import Icon from "../../icons/Icon";
 import { RootState } from "../../redux/store";
+import styled from "styled-components";
+import { getVW, TransferModal } from "../styles";
 import "./AddTokenToListModal.css";
+
+const Wrap = styled.div`
+  display: inline-block;
+`;
+const Btn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${getVW(189)};
+  height: ${getVW(48)};
+  min-width: 78px;
+  min-height: 32px;
+  border: none;
+  border-radius: ${getVW(9)};
+  background-color: #e8e8e8;
+  color: #595959;
+  font-size: ${getVW(24)};
+  & svg {
+    width: ${getVW(16)};
+    height: ${getVW(16)};
+    min-width: 10px;
+    min-height: 10px;
+    margin-left: ${getVW(14)};
+    transform: rotate(45deg);
+  }
+  &:hover {
+    box-shadow: 0 ${getVW(3)} ${getVW(12)} rgba(0, 0, 0, 0.16);
+  }
+`;
 
 interface Props {
   addNewToken: (val: TokenAdded) => void;
@@ -57,40 +88,48 @@ const AddTokenToListModal = (props: Props) => {
   };
 
   return (
-    <div ref={dom} className="AddTokenToListModal">
-      <button
-        className="trigger"
-        onClick={() => setAc(true)}
-        disabled={loading}
-      >
-        <Icon name="close" />
-      </button>
+    <Wrap ref={dom} className="AddTokenToListModal">
+      <Btn className="trigger" onClick={() => setAc(true)} disabled={loading}>
+        Add Asset <Icon name="close" />
+      </Btn>
       {ac ? (
-        <div className="modal">
-          <div className="card">
-            <button className="close" onClick={() => setAc(false)}>
+        <TransferModal className="modal ac">
+          <div className="bg"></div>
+          <div className="wrap">
+            <button
+              className="close"
+              onClick={() => {
+                setAc(false);
+                setCanisterID("");
+                setLoading(false);
+                setError("");
+              }}
+            >
               <Icon name="close" />
             </button>
-            <div className="form">
-              <label>Add Asset</label>
-              <input
-                type="text"
-                placeholder="Asset Canister ID"
-                value={canisterID}
-                onChange={(e) => {
-                  setCanisterID(e.target.value);
-                  setError("");
-                }}
-              />
-            </div>
-            <div className="error">{error}</div>
-            <button className="submit" onClick={submit} disabled={loading}>
-              {loading ? <Icon name="spinner" spin /> : "Add"}
+            <label className="label">Add Asset</label>
+            <label className="sub-label">Canister ID</label>
+            <input
+              type="text"
+              placeholder="Asset Canister ID"
+              value={canisterID}
+              onChange={(e) => {
+                setCanisterID(e.target.value);
+                setError("");
+              }}
+            />
+            <button
+              className="submit"
+              onClick={submit}
+              disabled={loading || !canisterID} // todo: validate canisterID
+            >
+              {loading ? "Adding..." : "Add"}
             </button>
+            <div className="error">{error}</div>
           </div>
-        </div>
+        </TransferModal>
       ) : null}
-    </div>
+    </Wrap>
   );
 };
 

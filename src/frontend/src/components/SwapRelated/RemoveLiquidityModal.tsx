@@ -10,6 +10,7 @@ import {
 import { Token } from "../../global";
 import Icon from "../../icons/Icon";
 import { RootState } from "../../redux/store";
+import { getSelectedAccount } from "../../utils/func";
 // import { currencyFormat } from "../../utils/common";
 
 interface Props {
@@ -42,7 +43,7 @@ const RemoveLiquidityModal = (props: Props) => {
     };
   }, []);
   useEffect(() => {
-    const val = accounts.find((i) => i.publicKey === selected);
+    const val = getSelectedAccount();
     if (val) {
       setTheOne(val.principal);
     } else {

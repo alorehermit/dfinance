@@ -4,6 +4,7 @@ import { getLpBalance } from "../../apis/token";
 import { Token } from "../../global";
 import { RootState } from "../../redux/store";
 import { currencyFormat } from "../../utils/common";
+import { getSelectedAccount } from "../../utils/func";
 
 interface Props {
   hasToUpdateBal: boolean;
@@ -16,7 +17,6 @@ interface Props {
 const LiquidityItem = (props: Props) => {
   const [bal, setBal] = useState("");
   const selected = useSelector((state: RootState) => state.selected);
-  const accounts = useSelector((state: RootState) => state.accounts);
 
   useEffect(() => {
     let _isMounted = true;
@@ -37,8 +37,8 @@ const LiquidityItem = (props: Props) => {
   }, [props.hasToUpdateBal, props.reset]);
 
   const getBalance = (_isMounted: boolean) => {
-    const theOne = accounts.find((i) => i.publicKey === selected);
-    if (selected && theOne) {
+    const theOne = getSelectedAccount();
+    if (theOne) {
       getLpBalance(props.id, theOne.principal)
         .then((res) => {
           console.log("lp balance: ", res);

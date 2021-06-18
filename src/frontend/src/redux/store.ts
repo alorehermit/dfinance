@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import agentReducer from "./features/agent";
 import selectedReducer from "./features/selected";
 import accountsReducer from "./features/accounts";
+import dfinityIdentityReducer from "./features/dfinityIdentity";
 import passwordReducer from "./features/password";
 
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
     agent: agentReducer,
     selected: selectedReducer,
     accounts: accountsReducer,
+    dfinityIdentity: dfinityIdentityReducer,
     password: passwordReducer,
   },
 });

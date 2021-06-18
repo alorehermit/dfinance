@@ -1,15 +1,138 @@
 import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
+import { Account } from "../../global";
 import { RootState } from "../../redux/store";
-import AccountSelector from "./AccountSelector";
+import { principalToAccountIdentifier } from "../../utils/common";
+import { getSelectedAccount } from "../../utils/func";
+import { updateSelected } from "../../redux/features/selected";
 import AuthBtn from "./AuthBtn";
-import "./AuthMenu.css";
+import Icon from "../../icons/Icon";
+import styled from "styled-components";
+import { device, getVW } from "../styles";
+
+const Menu = styled.div`
+  display: inline-block;
+`;
+const Select = styled.div`
+  position: relative;
+  z-index: 100;
+  border-radius: ${getVW(10)};
+  @media ${device.tablet} {
+    border-radius: 1vw;
+  }
+`;
+const Label = styled.button`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: ${getVW(247)};
+  height: ${getVW(44)};
+  min-width: 200px;
+  min-height: 32px;
+  border: none;
+  border-radius: ${getVW(10)};
+  background-color: #e5e5e5;
+  color: #838383;
+  font-size: ${getVW(20)};
+  padding: 0 ${getVW(20)};
+  box-shadow: 0 ${getVW(3)} ${getVW(10)} rgba(0, 0, 0, 0.2);
+  &:hover {
+    box-shadow: 0 ${getVW(3)} ${getVW(12)} rgba(0, 0, 0, 0.3);
+  }
+  & svg {
+    width: ${getVW(20)};
+    height: ${getVW(12)};
+    color: #838383;
+  }
+  &.show svg {
+    transform: rotate(90deg);
+  }
+  @media ${device.tablet} {
+    width: 25vw;
+    height: 4.5vw;
+    border-radius: 1vw;
+    font-size: 1.8vw;
+    padding: 0 2vw;
+    & svg {
+      width: 1.8vw;
+      height: 1.5vw;
+    }
+  }
+`;
+const Options = styled.div`
+  position: absolute;
+  display: none;
+  width: 100%;
+  left: 0;
+  top: ${getVW(22)};
+  background-color: #f8f8f8;
+  box-shadow: 0 ${getVW(3)} ${getVW(12)} rgba(0, 0, 0, 0.3);
+  padding-top: ${getVW(30)};
+  padding-bottom: ${getVW(50)};
+  z-index: -10;
+  &.show {
+    display: block;
+  }
+  & button {
+    width: 100%;
+    height: ${getVW(44)};
+    min-height: 32px;
+    border: none;
+    background-color: transparent;
+    padding: 0 ${getVW(20)};
+    font-size: ${getVW(20)};
+    color: #838383;
+    text-align: left;
+    justify-content: flex-start;
+  }
+  & button.ac {
+    color: #36a9db;
+  }
+  & button:hover {
+    background-color: #36a9db14;
+  }
+  & button:last-child {
+    position: absolute;
+    width: 100%;
+    height: ${getVW(59)};
+    left: 0;
+    bottom: ${getVW(-20)};
+    border-radius: ${getVW(10)};
+    background-image: linear-gradient(90deg, #3dc4ed, #2976ba);
+    text-align: center;
+    color: #fff;
+  }
+  & button:last-child:hover {
+    background-image: linear-gradient(120deg, #3dc4ed, #2976ba);
+  }
+  @media ${device.tablet} {
+    top: 50%;
+    padding-top: 10%;
+    padding-bottom: 21%;
+    & button {
+      height: 3.2vw;
+      font-size: 1.8vw;
+      padding: 0 2vw;
+    }
+    & button:last-child {
+      bottom: -20%;
+      min-height: 40px;
+      border-radius: 7px;
+    }
+  }
+`;
 
 interface Props extends RouteComponentProps {}
 const AuthMenu = (props: Props) => {
   const selected = useSelector((state: RootState) => state.selected);
+  const dfinityIdentity = useSelector(
+    (state: RootState) => state.dfinityIdentity
+  );
+  const accounts = useSelector((state: RootState) => state.accounts);
+  const [aid, setAid] = useState("");
+  const dispatch = useDispatch();
   const dom = useRef<HTMLDivElement>(null);
   const [show, setShow] = useState(false);
 
@@ -24,17 +147,67 @@ const AuthMenu = (props: Props) => {
       window.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    const theOne = getSelectedAccount();
+    if (theOne) {
+      setAid(principalToAccountIdentifier(theOne.principal || "", 0));
+    } else {
+      setAid("");
+    }
+  }, [selected]);
 
   return (
-    <div ref={dom} className="AuthMenu">
+    <Menu ref={dom} className="AuthMenu">
       {selected ? (
-        <AccountSelector show={show} setShow={setShow} />
+        <Select className="selector">
+          <Label
+            className={classNames("label", { show })}
+            onClick={() => setShow(!show)}
+          >
+            {aid.substr(0, 5)}...{aid.substr(length - 5, 5)}{" "}
+            <Icon name="dart" />
+          </Label>
+          <Options className={classNames("options", { show })}>
+            {dfinityIdentity.publicKey ? (
+              <Item
+                {...dfinityIdentity}
+                matched={dfinityIdentity.publicKey === selected}
+                onClick={() => {
+                  dispatch(updateSelected(dfinityIdentity.publicKey));
+                  setShow(false);
+                }}
+              />
+            ) : null}
+            {accounts.map((i, index) => (
+              <Item
+                key={index}
+                {...i}
+                matched={i.publicKey === selected}
+                onClick={() => {
+                  dispatch(updateSelected(i.publicKey));
+                  setShow(false);
+                }}
+              />
+            ))}
+            <button
+              onClick={() => {
+                props.history.push("/createkeypair");
+                setShow(false);
+              }}
+            >
+              Create New Account
+            </button>
+          </Options>
+        </Select>
       ) : (
-        <div className="selector">
-          <button className="label" onClick={() => setShow(!show)}>
-            Login
-          </button>
-          <div className={classNames("options", { show })}>
+        <Select className="selector">
+          <Label
+            className={classNames("label", { show })}
+            onClick={() => setShow(!show)}
+          >
+            Login <Icon name="dart" />
+          </Label>
+          <Options className={classNames("options", { show })}>
             <AuthBtn />
             <button
               onClick={() => {
@@ -52,11 +225,37 @@ const AuthMenu = (props: Props) => {
             >
               Create wallet
             </button>
-          </div>
-        </div>
+          </Options>
+        </Select>
       )}
-    </div>
+    </Menu>
   );
 };
 
 export default withRouter(AuthMenu);
+
+interface ItemProps extends Account {
+  matched: boolean;
+  onClick: () => void;
+}
+const Item = (props: ItemProps) => {
+  const [aid, setAid] = useState("");
+  useEffect(() => {
+    if (props.principal) {
+      setAid(principalToAccountIdentifier(props.principal, 0));
+    } else {
+      setAid("");
+    }
+  }, [props.principal]);
+  return (
+    <button
+      className={classNames({
+        ac: props.matched,
+      })}
+      onClick={props.onClick}
+    >
+      {aid.substr(0, 5)}...
+      {aid.substr(length - 5, 5)}
+    </button>
+  );
+};

@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { parseICP } from "../../apis/icp";
-import { transferICP } from "../../apis/token";
+import { topupCycles } from "../../apis/token";
 import Icon from "../../icons/Icon";
 import { getVW, TransferModal } from "../styles";
 
@@ -16,7 +16,7 @@ const Btn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${getVW(140)};
+  width: ${getVW(184)};
   height: ${getVW(58)};
   min-width: 78px;
   min-height: 32px;
@@ -42,13 +42,13 @@ interface Props {
   balance: string;
   updateBalance: () => void;
 }
-const TransferICP = (props: Props) => {
+const TopupModal = (props: Props) => {
   const [ac, setAc] = useState(false);
-  const [receiver, setReceiver] = useState("");
+  const [principal, setPrincipal] = useState(""); // principal of the canister to top up
   const [amount, setAmount] = useState("");
-  const [receiverError, setReceiverError] = useState(false);
-  const [amountError, setAmountError] = useState(false);
   const [error, setError] = useState("");
+  const [principalError, setPrincipalError] = useState(false);
+  const [amountError, setAmountError] = useState(false);
   const [loading, setLoading] = useState("");
   const [bal, setBal] = useState(new BigNumber("0"));
   const dom = useRef<HTMLDivElement>(null);
@@ -60,17 +60,17 @@ const TransferICP = (props: Props) => {
     setBal(new BigNumber(props.balance));
   }, [props.balance]);
   useEffect(() => {
-    if (bal.lt(new BigNumber(amount || "0").plus(new BigNumber("0.0001")))) {
+    if (bal.lt(new BigNumber(amount || "0").plus(new BigNumber("0.0002")))) {
       setError("no enough fund");
     } else {
       setError("");
     }
   }, [bal, amount]);
 
-  const receiverOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const principalOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
-    setReceiver(val);
-    setReceiverError(!val ? true : false);
+    setPrincipal(val);
+    setPrincipalError(!val ? true : false);
   };
   const amountOnChange = (e: ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -81,15 +81,15 @@ const TransferICP = (props: Props) => {
   };
   const max = () => {
     setAmount(
-      bal.gt(new BigNumber("0.0001"))
-        ? bal.minus(new BigNumber("0.0001")).toString()
+      bal.gt(new BigNumber("0.0002"))
+        ? bal.minus(new BigNumber("0.0002")).toString()
         : "0"
     );
     setAmountError(false);
   };
   const submit = () => {
-    setLoading("Transferring...");
-    transferICP(receiver, parseICP(amount))
+    setLoading("Adding...");
+    topupCycles(parseICP(amount), principal)
       .then(() => props.updateBalance())
       .catch((err) => {
         if (dom.current) setError(err.message);
@@ -105,20 +105,20 @@ const TransferICP = (props: Props) => {
   };
 
   return (
-    <Wrap className="TransferICP" ref={dom}>
+    <Wrap className="TopupModal" ref={dom}>
       <Btn className="trigger" onClick={() => setAc(true)}>
-        <Icon name="transfer" /> Transfer
+        <Icon name="topup" /> Canister Topup
       </Btn>
       {ac ? (
-        <TransferModal className="TokenListModal ac">
+        <TransferModal className="TopupModal ac">
           <div className="bg"></div>
           <div className="wrap">
             <button
               className="close"
               onClick={() => {
                 setAc(false);
-                setReceiver("");
-                setReceiverError(false);
+                setPrincipal("");
+                setPrincipalError(false);
                 setAmount("");
                 setAmountError(false);
                 setLoading("");
@@ -127,14 +127,14 @@ const TransferICP = (props: Props) => {
             >
               <Icon name="close" />
             </button>
-            <label className="label">Transfer ICP</label>
+            <label className="label">Topup Canister</label>
             <label className="sub-label">To</label>
             <input
-              className={classNames({ err: receiverError })}
+              className={classNames({ err: principalError })}
               type="text"
-              placeholder="Receiver"
-              value={receiver}
-              onChange={receiverOnChange}
+              placeholder="Canister Principal"
+              value={principal}
+              onChange={principalOnChange}
             />
             <label className="sub-label">Amount</label>
             <input
@@ -145,13 +145,11 @@ const TransferICP = (props: Props) => {
               onChange={amountOnChange}
             />
             <div className="balance-ctrl">
-              <span>
-                {props.balance ? `Balance: ${props.balance}` : "0.00"}
-              </span>
+              <span>{bal ? `Balance: ${bal}` : "0"}</span>
               <button onClick={max}>Safe Max</button>
             </div>
             <div className="balance-ctrl">
-              <span>Fee: 0.0001</span>
+              <span>Fee: 0.0002</span>
             </div>
             {loading ? (
               <button className="submit" disabled>
@@ -161,9 +159,9 @@ const TransferICP = (props: Props) => {
               <button
                 className="submit"
                 onClick={submit}
-                disabled={!receiver || !amount || error ? true : false}
+                disabled={!principal || !amount || error ? true : false}
               >
-                Transfer
+                Add Cycles
               </button>
             )}
             <div className="error">{error}</div>
@@ -174,4 +172,4 @@ const TransferICP = (props: Props) => {
   );
 };
 
-export default TransferICP;
+export default TopupModal;

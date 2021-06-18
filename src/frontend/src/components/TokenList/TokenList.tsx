@@ -1,11 +1,12 @@
-import classNames from "classnames";
 import { ChangeEvent, Component } from "react";
-import { getDTokenBalance, transferDToken } from "../apis/token";
-import { Token } from "../global";
-import Icon from "../icons/Icon";
-import { currencyFormat } from "../utils/common";
+import { getDTokenBalance, transferDToken } from "../../apis/token";
+import { Token } from "../../global";
 import TokenItem from "./TokenItem";
-import "./TokenList.css";
+import styled from "styled-components";
+
+const Wrap = styled.div`
+  width: 100%;
+`;
 
 interface Props {
   tokens: Token[];
@@ -19,6 +20,8 @@ interface State {
   amountError: boolean;
   balance: string;
   loading: boolean | string;
+  modal: { type: string; canisterId: string };
+  requireUpdateBal: string;
 }
 class TokenList extends Component<Props, State> {
   constructor(props: Props) {
@@ -31,6 +34,8 @@ class TokenList extends Component<Props, State> {
       amountError: false,
       balance: "",
       loading: false,
+      modal: { type: "", canisterId: "" },
+      requireUpdateBal: "", // the asset require updating
     };
   }
 
@@ -108,78 +113,13 @@ class TokenList extends Component<Props, State> {
 
   render() {
     return (
-      <div className="TokenListWrap">
+      <Wrap className="TokenListWrap">
         <div className="TokenList">
           {this.props.tokens.map((i, index) => (
-            <div
-              key={index}
-              className="TokenItemWrap"
-              onClick={() => this.setState({ active: i })}
-            >
-              <TokenItem {...i} owned={i.owner === this.props.user} />
-            </div>
+            <TokenItem key={index} {...i} owned={i.owner === this.props.user} />
           ))}
         </div>
-        <div
-          className={classNames("TokenListModal", { ac: this.state.active })}
-        >
-          <div className="bg"></div>
-          <div className="wrap">
-            <button className="close" onClick={this.close}>
-              <Icon name="close" />
-            </button>
-            <label className="label">
-              Transfer {this.state.active ? this.state.active.symbol : ""}
-            </label>
-            <label className="sub-label">To</label>
-            <input
-              className={classNames({ err: this.state.spenderError })}
-              type="text"
-              placeholder="Receiver"
-              value={this.state.spender}
-              onChange={this.spenderOnChange}
-            />
-            <label className="sub-label">Amount</label>
-            <input
-              className={classNames({ err: this.state.amountError })}
-              type="text"
-              placeholder="0.00"
-              value={this.state.amount}
-              onChange={this.amountOnChange}
-            />
-            <div className="balance-ctrl">
-              <span>
-                {this.state.balance
-                  ? `Balance: ${currencyFormat(
-                      this.state.balance,
-                      this.state.active ? this.state.active.decimals : "2"
-                    )}`
-                  : ""}
-              </span>
-              <button onClick={this.max}>Max</button>
-            </div>
-            {this.state.loading ? (
-              <button className="submit" disabled>
-                {this.state.loading}
-              </button>
-            ) : (
-              <button
-                className="submit"
-                onClick={this.submit}
-                disabled={
-                  !this.state.active ||
-                  !this.state.spender ||
-                  !this.state.amount
-                    ? true
-                    : false
-                }
-              >
-                Transfer
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
+      </Wrap>
     );
   }
 }

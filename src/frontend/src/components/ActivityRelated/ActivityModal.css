@@ -1,40 +1,10 @@
-.ActivityModal button.trigger {
-  font-size: 1vw;
-  color: #8f8f8f;
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  text-decoration: underline;
-  opacity: 0.8;
-  cursor: pointer;
-}
-.ActivityModal button.trigger:hover {
-  opacity: 1;
-}
-
-.ActivityModal .modal {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  z-index: 1000;
-}
-.ActivityModal .modal .card {
-  position: relative;
-  width: 60vw;
-  height: 80vh;
-  border-radius: 1vw;
-  background-color: #fff;
-  margin: 10vh auto 0 auto;
-  padding: 3vw 2vw 2vw 2vw;
-}
 .ActivityModal .modal .card button.close {
   position: absolute;
   top: 1vw;
   right: 1vw;
   width: 1vw;
+  min-width: 16px;
+  min-height: 16px;
   height: 1vw;
   padding: 0;
   border: none;
@@ -50,7 +20,7 @@
   display: block;
   width: 3vw;
   height: 3vw;
-  margin: 20vw auto 0 auto;
+  margin: calc(30vh - 1vw) auto;
 }
 
 .ActivityModal .ActivityList {
@@ -68,47 +38,31 @@
 }
 .ActivityModal .ActivityList .no-item {
   text-align: center;
-  padding-top: 21vw;
+  padding: 30vh 0;
   font-size: 1vw;
   color: #8f8f8f;
 }
 
-.ActivityModal .ActivityItem {
-  width: calc(100% - 10px);
-  height: 10vw;
-  padding: 1.2vw;
-  margin-bottom: 0.5vw;
-  border-radius: 0.5vw;
-  background-color: rgba(0, 0, 0, 0.08);
-}
 .ActivityModal .ActivityItem:last-child {
   margin-bottom: 0;
 }
 .ActivityModal .ActivityItem .type {
-  font-size: 1.2vw;
   font-weight: 700;
   color: #444;
   margin-bottom: 0.8vw;
 }
-.ActivityModal .ActivityItem .left {
-  display: inline-block;
-  width: 60%;
-}
-.ActivityModal .ActivityItem .right {
-  display: inline-block;
-  width: 40%;
-  text-align: right;
-}
 .ActivityModal .ActivityItem .time,
 .ActivityModal .ActivityItem .info {
-  font-size: 0.8vw;
   color: #8f8f8f;
-  line-height: 1.5vw;
+  margin-bottom: 0.4vw;
+}
+.ActivityModal .ActivityItem .info {
+  word-break: break-all;
 }
 .ActivityModal .ActivityItem .amount {
-  font-size: 2vw;
   font-weight: 700;
   color: green;
+  margin-bottom: 0.4vw;
 }
 .ActivityModal .ActivityItem .amount.decrease {
   color: #222;
@@ -116,4 +70,5 @@
 .ActivityModal .ActivityItem .symbol {
   font-size: 1vw;
   color: #444;
+  margin-bottom: 0.4vw;
 }

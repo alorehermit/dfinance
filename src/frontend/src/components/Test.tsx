@@ -11,6 +11,7 @@ import {
   approveToken,
   createToken,
   createTokenPair,
+  getDTokenBalance,
   getLpBalance,
   getPair,
   getTokenAllowance,
@@ -18,6 +19,7 @@ import {
   swapToken,
 } from "../apis/token";
 import RosettaApi from "../apis/rosetta";
+import { getSelectedAccount } from "../utils/func";
 
 const Test = () => {
   // componentDidMount() {
@@ -201,7 +203,7 @@ const Test = () => {
       .then((res) => console.log("res3 : ", res))
       .catch((err) => console.log("err3 : ", err));
 
-    const user = accounts.find((i) => i.publicKey === selected);
+    const user = getSelectedAccount();
     if (!user) return alert("CONNECT WALLET PLEASE");
     const token1 = {
       name: "a",
@@ -221,19 +223,21 @@ const Test = () => {
       let t1 = await createToken(
         token1.name,
         token1.symbol,
-        token1.decimals.toString(),
-        token1.totalSupply.toString()
+        // token1.decimals.toString(),
+        BigInt(token1.decimals),
+        // token1.totalSupply.toString()
+        BigInt(token1.totalSupply)
       );
       token1.canisterId = t1;
       console.log("t1: ", t1);
-      let t2 = await createToken(
-        token2.name,
-        token2.symbol,
-        token2.decimals.toString(),
-        token2.totalSupply.toString()
-      );
-      token2.canisterId = t2;
-      console.log("t2: ", t2);
+      // let t2 = await createToken(
+      //   token2.name,
+      //   token2.symbol,
+      //   token2.decimals.toString(),
+      //   token2.totalSupply.toString()
+      // );
+      // token2.canisterId = t2;
+      // console.log("t2: ", t2);
 
       // console.log("all token list:");
       // console.log(await getAllTokens());
@@ -244,8 +248,10 @@ const Test = () => {
       // );
 
       // console.log("balance:");
-      // console.log(await getDTokenBalance(token1.canisterId, token1.decimals));
-      // console.log(await getDTokenBalance(token2.canisterId, token2.decimals));
+      console.log(
+        await getDTokenBalance(token1.canisterId, token1.decimals.toString())
+      );
+      // console.log(await getDTokenBalance(token2.canisterId, token2.decimals.toString()));
 
       // console.log("transfer");
       // console.log(
@@ -257,81 +263,81 @@ const Test = () => {
       //   )
       // );
 
-      console.log("create token pair");
-      console.log(await createTokenPair(token1.canisterId, token2.canisterId));
+      // console.log("create token pair");
+      // console.log(await createTokenPair(token1.canisterId, token2.canisterId));
 
-      console.log("get pair");
-      const pair = await getPair(token1.canisterId, token2.canisterId);
-      console.log(pair);
+      // console.log("get pair");
+      // const pair = await getPair(token1.canisterId, token2.canisterId);
+      // console.log(pair);
 
       // console.log("get all pair");
       // console.log(await getAllTokenPairs());
 
-      console.log("approve token1 and  token2");
-      console.log(
-        await approveToken(
-          token1.canisterId,
-          "rrkah-fqaaa-aaaaa-aaaaq-cai",
-          "12000",
-          token1.decimals
-        )
-      );
-      console.log(
-        await approveToken(
-          token2.canisterId,
-          "rrkah-fqaaa-aaaaa-aaaaq-cai",
-          "12000",
-          token2.decimals
-        )
-      );
+      // console.log("approve token1 and  token2");
+      // console.log(
+      //   await approveToken(
+      //     token1.canisterId,
+      //     "rrkah-fqaaa-aaaaa-aaaaq-cai",
+      //     "12000",
+      //     token1.decimals
+      //   )
+      // );
+      // console.log(
+      //   await approveToken(
+      //     token2.canisterId,
+      //     "rrkah-fqaaa-aaaaa-aaaaq-cai",
+      //     "12000",
+      //     token2.decimals
+      //   )
+      // );
 
-      console.log("token allowance");
-      console.log(
-        await getTokenAllowance(
-          token1.canisterId,
-          "rrkah-fqaaa-aaaaa-aaaaq-cai",
-          token1.decimals
-        )
-      );
-      console.log(
-        await getTokenAllowance(
-          token2.canisterId,
-          "rrkah-fqaaa-aaaaa-aaaaq-cai",
-          token2.decimals
-        )
-      );
+      // console.log("token allowance");
+      // console.log(
+      //   await getTokenAllowance(
+      //     token1.canisterId,
+      //     "rrkah-fqaaa-aaaaa-aaaaq-cai",
+      //     token1.decimals
+      //   )
+      // );
+      // console.log(
+      //   await getTokenAllowance(
+      //     token2.canisterId,
+      //     "rrkah-fqaaa-aaaaa-aaaaq-cai",
+      //     token2.decimals
+      //   )
+      // );
 
-      console.log("add liquidity");
-      console.log(
-        await addLiquidity(
-          token1.canisterId,
-          token2.canisterId,
-          "1200",
-          "1200",
-          token1.decimals,
-          token2.decimals
-        )
-      );
+      // console.log("add liquidity");
+      // console.log(
+      //   await addLiquidity(
+      //     token1.canisterId,
+      //     token2.canisterId,
+      //     "1200",
+      //     "1200",
+      //     token1.decimals,
+      //     token2.decimals
+      //   )
+      // );
 
-      console.log("swap");
-      console.log(
-        await swapToken(
-          token1.canisterId,
-          token2.canisterId,
-          "100",
-          "0",
-          token1.decimals,
-          token2.decimals
-        )
-      );
+      // console.log("swap");
+      // console.log(
+      //   await swapToken(
+      //     token1.canisterId,
+      //     token2.canisterId,
+      //     "100",
+      //     "0",
+      //     token1.decimals,
+      //     token2.decimals
+      //   )
+      // );
 
-      console.log("lp balance: ");
-      console.log(await getLpBalance(pair[0].id, user.principal));
+      // console.log("lp balance: ");
+      // console.log(await getLpBalance(pair[0].id, user.principal));
 
-      console.log("remove lp");
-      console.log(
-        await removeLiquidity(token1.canisterId, token2.canisterId, "0.01")
-      );
+      // console.log("remove lp");
+      // console.log(
+      //   await removeLiquidity(token1.canisterId, token2.canisterId, "0.01")
+      // );
     } catch (err) {
       console.log("test err: ", err);
     }

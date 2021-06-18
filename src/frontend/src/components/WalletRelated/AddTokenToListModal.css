@@ -1,4 +1,4 @@
-.AddTokenToListModal button.trigger {
+/* .AddTokenToListModal button.trigger {
   width: 2vw;
   height: 2vw;
   vertical-align: text-bottom;
@@ -16,9 +16,9 @@
   height: 0.8vw;
   transform: rotate(45deg);
   color: #fff;
-}
+} */
 
-.AddTokenToListModal .modal {
+/* .AddTokenToListModal .modal {
   position: fixed;
   top: 0;
   bottom: 0;
@@ -99,4 +99,4 @@
 .AddTokenToListModal button.submit svg {
   width: 1.8vw;
   height: 1.8vw;
-}
+} */

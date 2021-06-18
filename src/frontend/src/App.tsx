@@ -1,55 +1,60 @@
-import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { Route, RouteComponentProps, withRouter } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "./redux/store";
 import { updateSelected } from "./redux/features/selected";
 import { updateAccounts } from "./redux/features/accounts";
-import Header from "./components/header/Header";
 import Wallet from "./components/Wallet";
-import TokenIssue from "./components/TokenIssue";
 import ComingSoon from "./components/ComingSoon";
-import TokenIssueForm from "./components/TokenIssueForm";
 import ImportKeyPair from "./components/AuthRelated/ImportKeyPair";
 import CreateKeyPair from "./components/AuthRelated/CreateKeyPair";
-import Swap from "./components/SwapRelated/Swap";
-import ConnectWallet from "./components/ConnectWallet";
-import Test from "./components/Test";
+import ConnectWallet from "./components/AuthRelated/ConnectWallet";
 import { Account } from "./global";
 import { AES, enc } from "crypto-js";
+import { AuthClient } from "@dfinity/auth-client";
+import { updateDfinityIdentity } from "./redux/features/dfinityIdentity";
+import { DelegationIdentity } from "@dfinity/identity";
+import { Identity } from "@dfinity/identity/node_modules/@dfinity/agent";
+import { JsonnableEd25519KeyIdentity } from "@dfinity/identity/lib/cjs/identity/ed25519";
+import AccountModal from "./components/AuthRelated/AccountModal";
 import "./App.css";
-import LoginWithDfinity from "./components/AuthRelated/LoginWithDfinity";
 
 interface Props extends RouteComponentProps {}
 const App = (props: Props) => {
   const [loading, setLoading] = useState(true);
+  const [showAccountModal, setShowAccountModal] = useState(false);
+  const dfinityIdentity = useSelector(
+    (state: RootState) => state.dfinityIdentity
+  );
   const accounts = useSelector((state: RootState) => state.accounts);
   const selected = useSelector((state: RootState) => state.selected);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    initialUserCheck();
+    initialUserCheck(); // initial store based on the values from localStorage
   }, []);
   useEffect(() => {
-    const theSelectedOne = accounts.find((i) => i.publicKey === selected);
-    if (selected && theSelectedOne) {
-      // update selected in localStorage
-      localStorage.setItem("selected", JSON.stringify(selected));
-      if (theSelectedOne.type === "DelegationIdentity") {
-        localStorage.setItem(
-          "ic-identity",
-          JSON.stringify(theSelectedOne.keys)
-        );
-        localStorage.setItem(
-          "ic-delegation",
-          JSON.stringify(theSelectedOne.delegationChain)
-        );
-      }
+    if (loading) return;
+    // update selected in localStorage
+    if (
+      selected &&
+      (dfinityIdentity.publicKey === selected ||
+        accounts.find((i) => i.publicKey === selected))
+    ) {
+      setShowAccountModal(false);
+      localStorage.setItem("selected", selected);
     } else {
-      localStorage.removeItem("selected");
+      localStorage.setItem("selected", "");
+      if (accounts && accounts.length > 0) {
+        setShowAccountModal(true);
+      } else {
+        setShowAccountModal(false);
+        props.history.push("/connectwallet");
+      }
     }
-  }, [selected]);
+  }, [selected, dfinityIdentity, accounts]);
   useEffect(() => {
+    // update accounts in localStorage
     const encryptedPwd = localStorage.getItem("password");
     if (accounts.length > 0 && encryptedPwd) {
       const encryptedAccounts = AES.encrypt(
@@ -60,39 +65,72 @@ const App = (props: Props) => {
       dispatch(updateSelected(accounts[accounts.length - 1].publicKey));
     }
   }, [accounts]);
-  // useEffect(() => {
-  //   if (
-  //     !selected &&
-  //     ["/connectwallet", "/importkeypair", "/createkeypair"].indexOf(
-  //       props.history.location.pathname
-  //     ) === -1
-  //   ) {
-  //     props.history.push("/connectwallet");
-  //   }
-  // }, [selected, props.history]);
 
   const initialUserCheck = async () => {
-    // check on whether any key pair found locally
-    const encryptedPwd = localStorage.getItem("password");
-    const localAccounts =
-      AES.decrypt(
-        localStorage.getItem("accounts") || "",
-        encryptedPwd || ""
-      ).toString(enc.Utf8) || "[]";
-    if (localAccounts && JSON.parse(localAccounts)[0]) {
-      dispatch(updateAccounts(JSON.parse(localAccounts)));
-      const localSelected = localStorage.getItem("selected");
-      if (localSelected) {
-        dispatch(updateSelected(JSON.parse(localSelected)));
-      } else {
-        dispatch(
-          updateSelected((JSON.parse(localAccounts)[0] as Account).publicKey)
-        );
+    // Check on whether any ed25519 identities exist locally,
+    // and update the store.account at first.
+    let hasEd25519Identity = false;
+    const encryptedAccounts = localStorage.getItem("accounts");
+    let localAccounts: Account[] = [];
+    if (encryptedAccounts) {
+      const encryptedPwd = localStorage.getItem("password");
+      localAccounts = JSON.parse(
+        AES.decrypt(encryptedAccounts, encryptedPwd || "").toString(enc.Utf8)
+      );
+      if (Array.isArray(localAccounts) && localAccounts[0]) {
+        hasEd25519Identity = true;
+        dispatch(updateAccounts(localAccounts));
       }
-    } else {
-      props.history.push("/connectwallet");
     }
+
+    // Check on whether a dfinity identity exists locally,
+    // and update the store.dfinityIdentity.
+    let hasDfinityIdentity = false;
+    let userIdentity: Identity | null = null;
+    const authClient = await AuthClient.create();
+    const isAuth = await authClient.isAuthenticated();
+    if (isAuth) {
+      userIdentity = authClient.getIdentity();
+      if (userIdentity instanceof DelegationIdentity) {
+        hasDfinityIdentity = true;
+        const keys: JsonnableEd25519KeyIdentity = JSON.parse(
+          localStorage.getItem("ic-identity") || "[]"
+        );
+        const obj = {
+          type: "DelegationIdentity",
+          principal: userIdentity.getPrincipal().toString(),
+          publicKey: keys[0],
+          keys,
+        };
+        dispatch(updateDfinityIdentity(obj));
+      }
+    }
+
+    // update store.selected
+    const localSelected = localStorage.getItem("selected");
+    if (localSelected) {
+      dispatch(updateSelected(localSelected));
+    } else {
+      if (hasDfinityIdentity) {
+        // if dfinity identity exists, set it as the connected identity.
+        dispatch(
+          updateSelected(
+            JSON.parse(localStorage.getItem("ic-identity") || "[]")[0] || ""
+          )
+        );
+      } else {
+        if (hasEd25519Identity) {
+          // if any ed25519 identities exist locally, set the first one as the connected identity.
+          dispatch(updateSelected(localAccounts[0].publicKey));
+        }
+      }
+    }
+
     setTimeout(() => {
+      // redirect to connect wallet if no identity found
+      if (!hasDfinityIdentity && !hasEd25519Identity) {
+        props.history.push("/connectwallet");
+      }
       setLoading(false);
     }, 200);
   };
@@ -101,7 +139,7 @@ const App = (props: Props) => {
     <div className="Layout">
       {loading ? null : (
         <>
-          {props.history.location.pathname !== "/newtoken" ? (
+          {/* {props.history.location.pathname !== "/newtoken" ? (
             <Header withNav={true} />
           ) : null}
           <div
@@ -138,20 +176,24 @@ const App = (props: Props) => {
                 fill="#fff"
               />
             </svg>
-          </div>
+          </div> */}
           <Route path="/" exact render={() => <Wallet />} />
           <Route path="/connectwallet" render={() => <ConnectWallet />} />
-          <Route path="/loginwithdfinity" render={() => <LoginWithDfinity />} />
           <Route path="/importkeypair" exact render={() => <ImportKeyPair />} />
           <Route path="/createkeypair" exact render={() => <CreateKeyPair />} />
-          <Route path="/dtoken" exact render={() => <TokenIssue />} />
-          <Route path="/DUSD" exact render={() => <ComingSoon />} />
-          <Route path="/DLend" exact render={() => <ComingSoon />} />
-          <Route path="/newtoken" exact render={() => <TokenIssueForm />} />
-          <Route path="/swap" render={() => <Swap />} />
-          <Route path="/test" exact render={() => <Test />} />
+          <Route path="/dtoken" exact render={() => <ComingSoon />} />
+          {/* <Route path="/DUSD" exact render={() => <ComingSoon />} />
+          <Route path="/DLend" exact render={() => <ComingSoon />} /> 
+          <Route path="/newtoken" exact render={() => <TokenIssueForm />} /> */}
+          <Route path="/swap" render={() => <ComingSoon />} />
         </>
       )}
+      {showAccountModal &&
+      ["/connectwallet", "/importkeypair", "/createkeypair"].indexOf(
+        props.history.location.pathname
+      ) < 0 ? (
+        <AccountModal />
+      ) : null}
     </div>
   );
 };

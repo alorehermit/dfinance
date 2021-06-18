@@ -1,4 +1,6 @@
 import classNames from "classnames";
+import styled from "styled-components";
+import { device, getVW } from "../styles";
 
 interface Props {
   list: {
@@ -26,6 +28,62 @@ const ActivityList = (props: Props) => {
 
 export default ActivityList;
 
+const Wrap = styled.div`
+  width: calc(100% - 10px);
+  padding: ${getVW(23)};
+  margin-bottom: ${getVW(10)};
+  border-radius: ${getVW(10)};
+  background-color: rgba(0, 0, 0, 0.08);
+  & .type {
+    font-size: ${getVW(24)};
+  }
+  & .time,
+  & .info {
+    font-size: ${getVW(16)};
+    line-height: ${getVW(30)};
+  }
+  & .amount {
+    font-size: ${getVW(36)};
+  }
+  & .symbol {
+    font-size: ${getVW(20)};
+  }
+  @media ${device.tablet} {
+    padding: 3.5vw;
+    & .amount,
+    & .type {
+      font-size: 4vw;
+      line-height: 1.5;
+      margin-bottom: 1.5vw;
+    }
+    & .time,
+    & .info,
+    & .symbol {
+      font-size: 2.2vw;
+      line-height: 1.5;
+      margin-bottom: 1.5vw;
+    }
+  }
+`;
+const Left = styled.div`
+  display: inline-block;
+  width: 75%;
+  @media ${device.tablet} {
+    display: block;
+    width: 100%;
+  }
+`;
+const Right = styled.div`
+  display: inline-block;
+  width: 25%;
+  text-align: right;
+  @media ${device.tablet} {
+    display: block;
+    width: 100%;
+    text-align: left;
+  }
+`;
+
 interface ItemProps {
   from: string;
   to: string;
@@ -37,19 +95,19 @@ interface ItemProps {
 }
 const Item = (props: ItemProps) => {
   return (
-    <div className="ActivityItem">
+    <Wrap className="ActivityItem">
       <div className="type">
         {props.aid === props.from ? "Send ICP" : "Receive ICP"}
       </div>
-      <div className="left">
+      <Left className="left">
         <div className="time">
           {props.timestamp.toLocaleString("en-US").replace(",", "")}
         </div>
         <div className="info">
           {props.aid === props.from ? `To: ${props.to}` : `From: ${props.to}`}
         </div>
-      </div>
-      <div className="right">
+      </Left>
+      <Right className="right">
         <div
           className={classNames("amount", {
             decrease: props.aid === props.from,
@@ -58,7 +116,7 @@ const Item = (props: ItemProps) => {
           {props.aid === props.from ? `-${props.amount}` : `+${props.amount}`}
         </div>
         <div className="symbol">ICP</div>
-      </div>
-    </div>
+      </Right>
+    </Wrap>
   );
 };

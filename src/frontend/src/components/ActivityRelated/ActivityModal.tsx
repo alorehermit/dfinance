@@ -1,12 +1,74 @@
 import classNames from "classnames";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import styled from "styled-components";
 import RosettaApi from "../../apis/rosetta";
 import Icon from "../../icons/Icon";
-import { RootState } from "../../redux/store";
 import { principalToAccountIdentifier } from "../../utils/common";
+import { getSelectedAccount } from "../../utils/func";
+import { device, getVW } from "../styles";
 import ActivityList from "./ActivityList";
 import "./ActivityModal.css";
+
+const Wrap = styled.div`
+  display: inline-block;
+  margin-right: ${getVW(20)};
+  margin-bottom: ${getVW(140)};
+`;
+const Btn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: ${getVW(140)};
+  height: ${getVW(58)};
+  min-width: 78px;
+  min-height: 32px;
+  border: none;
+  border-radius: ${getVW(9)};
+  background-color: #f5f5f5;
+  box-shadow: 0 ${getVW(3)} ${getVW(6)} rgba(0, 0, 0, 0.16);
+  color: #595959;
+  font-size: ${getVW(18)};
+  & svg {
+    width: ${getVW(27)};
+    height: ${getVW(27)};
+    min-width: 16px;
+    min-height: 16px;
+    margin-right: ${getVW(8)};
+  }
+  &:hover {
+    box-shadow: 0 ${getVW(3)} ${getVW(12)} rgba(0, 0, 0, 0.3);
+  }
+`;
+const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: ${getVW(266)};
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  & .card {
+    position: relative;
+    width: 60vw;
+    height: 80vh;
+    border-radius: 1vw;
+    background-color: #fff;
+    margin: 10vh auto 0 auto;
+    padding: 3vw 2vw 2vw 2vw;
+  }
+  @media ${device.tablet} {
+    width: 100vw;
+    height: calc(100vh - 17vw);
+    top: 10vw;
+    left: 0;
+    & .card {
+      width: 90%;
+      height: calc(90vh - 17vw);
+      margin: 5vh auto;
+      padding: 6vw 4vw 4vw 4vw;
+    }
+  }
+`;
 
 const ActivityModal = () => {
   const [ac, setAc] = useState(false);
@@ -21,12 +83,10 @@ const ActivityModal = () => {
       timestamp: Date;
     }[]
   >([]);
-  const selected = useSelector((state: RootState) => state.selected);
-  const accounts = useSelector((state: RootState) => state.accounts);
   const [aid, setAid] = useState("");
 
   useEffect(() => {
-    const theOne = accounts.find((i) => i.publicKey === selected);
+    const theOne = getSelectedAccount();
     setAid(principalToAccountIdentifier(theOne?.principal || "", 0));
   }, []);
 
@@ -47,6 +107,7 @@ const ActivityModal = () => {
             hash: string;
             timestamp: Date;
           }[] = [];
+          console.log("all tx: ", res);
           res.forEach((i) => {
             if (i.type !== "TRANSACTION" || i.status !== "COMPLETED") return;
             arr.push({
@@ -76,12 +137,12 @@ const ActivityModal = () => {
   }, [ac, aid]);
 
   return (
-    <div className="ActivityModal">
-      <button className="trigger" onClick={() => setAc(true)}>
-        Activity
-      </button>
+    <Wrap className="ActivityModal">
+      <Btn className="trigger" onClick={() => setAc(true)}>
+        <Icon name="clock" /> Activity
+      </Btn>
       {ac ? (
-        <div className={classNames("modal", { ac })}>
+        <Modal className={classNames("modal", { ac })}>
           <div className="card">
             <button className="close" onClick={() => setAc(false)}>
               <Icon name="close" />
@@ -92,9 +153,9 @@ const ActivityModal = () => {
               <ActivityList list={list} aid={aid} />
             )}
           </div>
-        </div>
+        </Modal>
       ) : null}
-    </div>
+    </Wrap>
   );
 };
 

@@ -113,6 +113,7 @@ function generateWebpackConfigForCanister(name, info) {
         "INTERNET_IDENTITY_CANISTER_URL",
         "ROSETTA_BASE_URL",
         "LEDGER_CANISTER_ID",
+        "CMINTING_CANISTER_ID",
       ]),
       new CopyPlugin({
         patterns: [

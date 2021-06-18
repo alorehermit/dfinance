@@ -5,15 +5,15 @@ import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import { getTokensByUser } from "../apis/token";
 import Icon from "../icons/Icon";
-import TokenList from "./TokenList";
+import TokenList from "./TokenList/TokenList";
 import "./TokenIssue.css";
+import { getSelectedAccount } from "../utils/func";
 
 const TokenIssue = () => {
   const [tokens, setTokens] = useState([]);
   const [loading, setLoading] = useState(true);
   const [principal, setPrincipal] = useState("");
   const selected = useSelector((state: RootState) => state.selected);
-  const accounts = useSelector((state: RootState) => state.accounts);
 
   useEffect(() => {
     let _isMounted = true;
@@ -30,9 +30,9 @@ const TokenIssue = () => {
   }, [selected]);
 
   const initial = (_isMounted: boolean) => {
-    const user = accounts.find((i) => i.publicKey === selected);
+    const user = getSelectedAccount();
     setPrincipal(user?.principal || "");
-    if (!selected || !user) return setLoading(false);
+    if (!user) return setLoading(false);
     getTokensByUser(Principal.fromText(user.principal))
       .then((res) => {
         if (_isMounted) setTokens(res);

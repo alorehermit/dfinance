@@ -5,7 +5,7 @@
 }
 .UserPrincipalDisplayer .group {
   display: flex;
-  height: 2.4rem;
+  height: 100%;
   align-items: center;
 }
 .UserPrincipalDisplayer span.label {
@@ -18,21 +18,17 @@
 }
 .UserPrincipalDisplayer button {
   vertical-align: top;
-  width: 2.4rem;
-  height: 2.4rem;
   padding: 0;
   border: none;
   background-color: transparent;
-  opacity: 0.2;
-  cursor: pointer;
-  margin-left: 0.8rem;
-}
-.UserPrincipalDisplayer button:hover {
-  opacity: 0.5;
 }
 .UserPrincipalDisplayer button svg {
   width: 100%;
   height: 100%;
+  color: #838383;
+}
+.UserPrincipalDisplayer button:hover svg {
+  opacity: 0.7;
 }
 .UserPrincipalDisplayer span.info {
   position: absolute;
@@ -46,70 +42,7 @@
   opacity: 0;
   pointer-events: none;
 }
-.UserPrincipalDisplayer .ExportWalletModal {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  pointer-events: none;
-  z-index: 1000;
-}
-.UserPrincipalDisplayer .ExportWalletModal.ac {
-  pointer-events: all;
-}
-.UserPrincipalDisplayer .ExportWalletModal .bg {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition: opacity 180ms ease;
-}
-.UserPrincipalDisplayer .ExportWalletModal.ac .bg {
-  opacity: 1;
-}
-.UserPrincipalDisplayer .ExportWalletModal .wrap {
-  position: absolute;
-  width: 66rem;
-  height: 70rem;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transition: transform 200ms ease-out, opacity 180ms ease;
-  border-radius: 3rem;
-  background-color: #fff;
-  box-shadow: 0 0.3rem 1.3rem rgba(0, 0, 0, 0.5);
-  padding: 3.5rem 7rem 3rem 7rem;
-  opacity: 0;
-}
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap {
-  opacity: 1;
-  transform: translate(-55%, -50%);
-}
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap button.close {
-  position: absolute;
-  top: 3rem;
-  right: 3rem;
-  width: 2.5rem;
-  height: 2.5rem;
-  background-color: transparent;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  opacity: 0.3;
-  transition: opacity 120ms ease;
-}
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap button.close:hover {
-  opacity: 0.6;
-}
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap label.label {
-  display: block;
-  font-size: 3.2rem;
-  font-family: "Roboto bold";
-  margin-left: -3.5rem;
-  color: #001414;
-}
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap label.sub-label {
+.UserPrincipalDisplayer .wrap label.sub-label {
   display: block;
   font-size: 1.8rem;
   font-family: "Roboto bold";
@@ -117,39 +50,31 @@
   margin-bottom: 1rem;
   color: #001414;
 }
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .input-group {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  margin-bottom: 2rem;
-}
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap input {
+.UserPrincipalDisplayer .wrap input {
   position: absolute;
   opacity: 0;
   pointer-events: none;
 }
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .input-group span {
+.UserPrincipalDisplayer .wrap .input-group span {
   word-break: break-all;
   display: block;
   flex: 1;
   min-height: 3.8rem;
   max-height: 10rem;
-  margin-right: 2rem;
-  line-height: 2.8rem;
   color: #8b8b8b;
   cursor: default;
 }
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd {
+.UserPrincipalDisplayer .wrap .pwd {
   display: flex;
   align-items: center;
   width: 100%;
   height: 2.2vw;
+  min-height: 40px;
   border: 1px solid #8b8b8b;
   border-radius: 4px;
   overflow: hidden;
 }
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd input {
+.UserPrincipalDisplayer .wrap .pwd input {
   position: relative;
   opacity: 1;
   pointer-events: all;
@@ -160,9 +85,10 @@
   padding: 0 0.8vw;
   font-size: 0.8vw;
 }
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd button {
+.UserPrincipalDisplayer .wrap .pwd button {
   font-size: 0.8vw;
   width: 5vw;
+  min-width: 70px;
   height: 100%;
   background-color: #8b8b8ba4;
   color: #fff;
@@ -170,10 +96,9 @@
   opacity: 0.8;
   cursor: pointer;
 }
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd button:hover {
+.UserPrincipalDisplayer .wrap .pwd button:hover {
   opacity: 1;
 }
-.UserPrincipalDisplayer .ExportWalletModal.ac .wrap .pwd .error {
-  text-align: right;
+.UserPrincipalDisplayer .pwd .error {
   color: tomato;
 }

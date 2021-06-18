@@ -1,12 +1,26 @@
-import { Actor, HttpAgent, Principal } from "@dfinity/agent";
+import {
+  Actor,
+  blobFromUint8Array,
+  blobToHex,
+  HttpAgent,
+  Principal,
+} from "@dfinity/agent";
 import CommonTokenIdlFactory from "../utils/token.did";
 import DTokenIdlFactory from "../utils/dtoken.did";
 import DSwapIdlFactory from "../utils/dswap.did";
 import ledgerIDL from "../utils/ledger.did";
-import { bigIntToAmountStr, getHexFromUint8Array } from "../utils/common";
+import {
+  bigIntToAmountStr,
+  getHexFromUint8Array,
+  principalToAccountIdentifier,
+} from "../utils/common";
 import store from "../redux/store";
 import { AuthClient } from "@dfinity/auth-client";
 import { Ed25519KeyIdentity } from "@dfinity/identity";
+import { getSelectedAccount } from "../utils/func";
+import crc32 from "crc-32";
+import { sha224 } from "js-sha256";
+import { formatUnits, parseUnits } from "./icp";
 
 let authClient;
 AuthClient.create().then((res) => {
@@ -14,35 +28,22 @@ AuthClient.create().then((res) => {
 });
 
 const getAgent = async () => {
-  const state = store.getState();
-  const selected = state.selected;
-  const accounts = state.accounts;
-  const theOne = accounts.find((i) => i.publicKey === selected);
-  if (selected && theOne) {
-    if (theOne.type === "Ed25519KeyIdentity") {
-      const keyIdentity = Ed25519KeyIdentity.fromParsedJson(theOne.keys);
-      const agent = new HttpAgent({
-        host: process.env.HOST,
-        identity: keyIdentity,
-      });
-      console.log(agent);
-      return agent;
-    } else if (theOne.type === "DelegationIdentity") {
-      console.log(await authClient.isAuthenticated());
-      const identity = authClient.getIdentity();
-      console.log("account principal: ", identity.getPrincipal().toString());
-      console.log(
-        "account public key: ",
-        getHexFromUint8Array(identity.getPublicKey().toDer())
-      );
-      const agent = new HttpAgent({
-        host: process.env.HOST,
-        identity,
-      });
-      return agent;
-    } else {
-      return null;
-    }
+  const theOne = getSelectedAccount();
+  if (!theOne) return null;
+  if (theOne.type === "Ed25519KeyIdentity") {
+    const keyIdentity = Ed25519KeyIdentity.fromParsedJson(theOne.keys);
+    const agent = new HttpAgent({
+      host: process.env.HOST,
+      identity: keyIdentity,
+    });
+    return agent;
+  } else if (theOne.type === "DelegationIdentity") {
+    const identity = authClient.getIdentity();
+    const agent = new HttpAgent({
+      host: process.env.HOST,
+      identity,
+    });
+    return agent;
   } else {
     return null;
   }
@@ -98,9 +99,7 @@ export const createToken = (name, symbol, decimals, totalSupply) => {
 export const getAllTokens = () => {
   const promise = new Promise(async (resolve, reject) => {
     const selected = store.getState().selected;
-    console.log("selected: ", selected);
     if (!selected) return resolve([]);
-    console.log("actor: ", await dTokenActor());
     (await dTokenActor())
       .getTokenList()
       .then((res) => {
@@ -127,7 +126,6 @@ export const getAllTokens = () => {
 
 export const getTokensByUser = (user) => {
   const promise = new Promise(async (resolve, reject) => {
-    console.log("actor: ", await dTokenActor());
     (await dTokenActor())
       .getUserTokenList(user)
       .then((res) => {
@@ -159,7 +157,6 @@ export const getDTokenName = (tokenCanisterId) => {
       const res = await actor.name();
       resolve(res || "NO_NAME");
     } catch (err) {
-      console.log(err);
       resolve("NO_NAME");
     }
   });
@@ -173,7 +170,6 @@ export const getDTokenSymbol = (tokenCanisterId) => {
       const res = await actor.symbol();
       resolve(res || "NO_SYMBOL");
     } catch (err) {
-      console.log(err);
       resolve("NO_SYMBOL");
     }
   });
@@ -185,34 +181,58 @@ export const getDTokenDecimals = (tokenCanisterId) => {
     try {
       const actor = await getTokenActor(tokenCanisterId);
       const res = await actor.decimals();
-      resolve(Number(res) || 0);
+      resolve(res.toString() || 0);
     } catch (err) {
-      console.log(err);
       resolve(0);
     }
   });
   return promise;
 };
 
+export const getDTokenTotalSupply = (tokenCanisterId) => {
+  const promise = new Promise(async (resolve, reject) => {
+    try {
+      const actor = await getTokenActor(tokenCanisterId);
+      const res = await actor.totalSupply();
+      resolve(res || BigInt(0));
+    } catch (err) {
+      resolve(BigInt(0));
+    }
+  });
+  return promise;
+};
+
+/**
+ *
+ * @param {string} tokenCanisterId
+ * @param {string} decimals
+ * @returns string
+ */
 export const getDTokenBalance = (
   tokenCanisterId, // string
   decimals // string
 ) => {
   const promise = new Promise(async (resolve, reject) => {
-    const selected = store.getState().selected;
-    const accounts = store.getState().accounts;
-    const theOne = accounts.find((i) => i.publicKey === selected);
-    if (!selected || !theOne) return resolve("0");
+    const theOne = getSelectedAccount();
+    if (!theOne) return resolve("0");
     const actor = await getTokenActor(tokenCanisterId);
     const owner = theOne.principal;
     actor
       .balanceOf(Principal.fromText(owner))
-      .then((res) => resolve(bigIntToAmountStr(res, decimals)))
+      .then((res) => resolve(formatUnits(res, decimals)))
       .catch((err) => reject(err));
   });
   return promise;
 };
 
+/**
+ *
+ * @param {string} tokenCanisterId
+ * @param {string} to
+ * @param {string} value
+ * @param {string} decimals
+ * @returns
+ */
 export const transferDToken = (
   tokenCanisterId, // string
   to, // string
@@ -222,10 +242,7 @@ export const transferDToken = (
   const promise = new Promise(async (resolve, reject) => {
     const actor = await getTokenActor(tokenCanisterId);
     actor
-      .transfer(
-        Principal.fromText(to),
-        parseFloat(value) * Math.pow(10, parseInt(decimals))
-      )
+      .transfer(Principal.fromText(to), parseUnits(value, decimals))
       .then((res) => resolve(res))
       .catch((err) => reject(err));
   });
@@ -390,11 +407,9 @@ export const approveToken = (tokenCanisterId, spender, value, decimals) => {
         parseFloat(value) * Math.pow(10, parseInt(decimals))
       )
       .then((res) => {
-        console.log("appr_res: ", res);
         resolve(res);
       })
       .catch((err) => {
-        console.log("appr_err: ", err);
         reject(err);
       });
   });
@@ -403,10 +418,8 @@ export const approveToken = (tokenCanisterId, spender, value, decimals) => {
 
 export const getTokenAllowance = (tokenCanisterId, spender, decimals) => {
   const promise = new Promise(async (resolve, reject) => {
-    const selected = store.getState().selected;
-    const accounts = store.getState().accounts;
-    const theOne = accounts.find((i) => i.publicKey === selected);
-    if (!selected || !theOne) return resolve("0");
+    const theOne = getSelectedAccount();
+    if (!theOne) return resolve("0");
     const owner = theOne.principal;
     const actor = await getTokenActor(tokenCanisterId);
     actor
@@ -439,26 +452,101 @@ export const swapToken = (
   return promise;
 };
 
+/**
+ *
+ * @param {*} to_aid
+ * @param {BigInt} amount
+ * @param {*} memo
+ * @param {*} fee
+ * @param {*} from_sub
+ * @returns
+ */
 export const transferICP = (
   to_aid,
   amount,
-  fee = 0.0001,
   memo = 0,
+  fee = 0.0001,
   from_sub = Array(32).fill(0)
 ) => {
   const promise = new Promise(async (resolve, reject) => {
-    var args = {
+    let args = {
       to: to_aid,
       fee: { e8s: fee * 100000000 },
-      memo: memo,
+      memo: memo ? Number(BigInt(memo)) : 0,
       from_subaccount: [from_sub],
       created_at_time: [],
-      amount: { e8s: amount * 100000000 },
+      amount,
     };
     (await ledgerActor())
       .send_dfx(args)
       .then((res) => resolve(res))
       .catch((err) => reject(err));
+  });
+  return promise;
+};
+
+/**
+ *
+ * @param {BigInt} amount
+ * @param {String} canisterPrincipalString
+ * @returns
+ */
+export const topupCycles = async (amount, canisterPrincipalString) => {
+  function buildSubAccountId(principal) {
+    const blob = principal.toBlob();
+    const subAccount = new Uint8Array(32);
+    subAccount[0] = blob.length;
+    subAccount.set(blob, 1);
+    return subAccount;
+  }
+  function principalToAccountId(principal, subaccount) {
+    const shaObj = sha224.create();
+    shaObj.update("\x0Aaccount-id");
+    shaObj.update(principal.toBlob());
+    shaObj.update(subaccount ? subaccount : new Uint8Array(32));
+    const hash = new Uint8Array(shaObj.array());
+    const crc = crc32.buf(hash);
+    const blob = blobFromUint8Array(
+      new Uint8Array([
+        (crc >> 24) & 0xff,
+        (crc >> 16) & 0xff,
+        (crc >> 8) & 0xff,
+        crc & 0xff,
+        ...hash,
+      ])
+    );
+    return blobToHex(blob);
+  }
+  let promise = new Promise(async (resolve, reject) => {
+    try {
+      const minting_id = Principal.fromText(process.env.CMINTING_CANISTER_ID);
+      const to_subaccount = buildSubAccountId(
+        Principal.fromText(canisterPrincipalString)
+      );
+      const account = principalToAccountId(minting_id, to_subaccount);
+      let ledger = await ledgerActor();
+      const block_height = await ledger.send_dfx({
+        to: account,
+        fee: { e8s: 0.0001 * 100000000 },
+        memo: BigInt(0x50555054),
+        from_subaccount: [],
+        created_at_time: [],
+        amount,
+      });
+      await ledger.notify_dfx({
+        to_canister: minting_id,
+        block_height,
+        from_subaccount: [],
+        to_subaccount: [[...to_subaccount]],
+        max_fee: { e8s: 0.0001 * 100000000 },
+      });
+      resolve({ status: 1 });
+    } catch (err) {
+      reject({
+        status: 0,
+        err,
+      });
+    }
   });
   return promise;
 };

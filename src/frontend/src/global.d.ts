@@ -1,11 +1,11 @@
 import { DelegationChain } from "@dfinity/identity";
+import { JsonnableEd25519KeyIdentity } from "@dfinity/identity/lib/cjs/identity/ed25519";
 
 export interface Account {
   type: string;
   principal: string;
   publicKey: string;
-  keys: string[];
-  delegationChain?: DelegationChain;
+  keys: JsonnableEd25519KeyIdentity;
 }
 
 export interface Token {
