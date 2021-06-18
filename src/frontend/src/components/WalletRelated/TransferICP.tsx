@@ -132,7 +132,7 @@ const TransferICP = (props: Props) => {
             <input
               className={classNames({ err: receiverError })}
               type="text"
-              placeholder="Receiver"
+              placeholder="Receiver(AccountIdentity)"
               value={receiver}
               onChange={receiverOnChange}
             />

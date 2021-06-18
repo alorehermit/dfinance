@@ -82,7 +82,7 @@ const TokenTransfer = (props: Props) => {
         <input
           className={classNames({ err: receiverError })}
           type="text"
-          placeholder="Receiver"
+          placeholder="Receiver(Principal)"
           value={receiver}
           onChange={receiverOnChange}
         />

@@ -94750,7 +94750,7 @@ const TokenTransfer = (props) => {
             jsx_runtime_1.jsxs("div", Object.assign({ className: "wrap" }, { children: [jsx_runtime_1.jsx("button", Object.assign({ className: "close", onClick: props.close }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "close" }, void 0) }), void 0),
                     jsx_runtime_1.jsxs("label", Object.assign({ className: "label" }, { children: ["Transfer ", props.symbol] }), void 0),
                     jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "To" }), void 0),
-                    jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: receiverError }), type: "text", placeholder: "Receiver", value: receiver, onChange: receiverOnChange }, void 0),
+                    jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: receiverError }), type: "text", placeholder: "Receiver(Principal)", value: receiver, onChange: receiverOnChange }, void 0),
                     jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "Amount" }), void 0),
                     jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: amountError }), type: "text", placeholder: "0.00", value: amount, onChange: amountOnChange }, void 0),
                     jsx_runtime_1.jsxs("div", Object.assign({ className: "balance-ctrl" }, { children: [jsx_runtime_1.jsx("span", { children: bal ? `Balance: ${bal.toString()}` : "0" }, void 0),
@@ -94885,6 +94885,7 @@ const UserPrincipalDisplayer = () => {
     const [publicKey, setPublicKey] = react_1.useState("");
     const [privateKey, setPrivateKey] = react_1.useState("");
     const [show, setShow] = react_1.useState(false);
+    const [isDfinityIdentity, setIsDfinityIdentity] = react_1.useState(true);
     const [pwd, setPwd] = react_1.useState("");
     const [matched, setMatched] = react_1.useState(-1);
     const accountIdDom = react_1.useRef(null);
@@ -94897,11 +94898,13 @@ const UserPrincipalDisplayer = () => {
             setPrincipal(theOne.principal);
             setPublicKey(theOne.keys[0]);
             setPrivateKey(theOne.keys[1]);
+            setIsDfinityIdentity(theOne.type === "DelegationIdentity");
         }
         else {
             setPrincipal("");
             setPublicKey("");
             setPrivateKey("");
+            setIsDfinityIdentity(true);
         }
     }, [selected]);
     const accountIdOnCopy = () => {
@@ -94937,7 +94940,7 @@ const UserPrincipalDisplayer = () => {
         }
     };
     return (jsx_runtime_1.jsxs("div", Object.assign({ className: "UserPrincipalDisplayer" }, { children: [jsx_runtime_1.jsx("input", { ref: principalDom, value: principal, readOnly: true }, void 0),
-            publicKey ? (jsx_runtime_1.jsxs(Btns, Object.assign({ className: "group" }, { children: [jsx_runtime_1.jsx(CopyBtn, { onCopy: principalOnCopy }, void 0),
+            publicKey ? (jsx_runtime_1.jsxs(Btns, Object.assign({ className: "group" }, { children: [jsx_runtime_1.jsx(CopyBtn, { onCopy: accountIdOnCopy }, void 0),
                     jsx_runtime_1.jsx("button", Object.assign({ onClick: () => setShow(true), title: "Export" }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "export" }, void 0) }), void 0)] }), void 0)) : null,
             show ? (jsx_runtime_1.jsxs(Wrap, Object.assign({ className: "wrap" }, { children: [jsx_runtime_1.jsx(Close, Object.assign({ className: "close", onClick: () => {
                             setShow(false);
@@ -94957,20 +94960,20 @@ const UserPrincipalDisplayer = () => {
                     jsx_runtime_1.jsx(SubLabel, Object.assign({ className: "sub-label" }, { children: "Public Key :" }), void 0),
                     jsx_runtime_1.jsxs(Item, Object.assign({ className: "input-group" }, { children: [jsx_runtime_1.jsx("span", { children: publicKey }, void 0),
                             jsx_runtime_1.jsx(CopyBtn, { onCopy: publicKeyOnCopy }, void 0)] }), void 0),
-                    jsx_runtime_1.jsx(SubLabel, Object.assign({ className: "sub-label" }, { children: "Private Key :" }), void 0),
-                    matched !== 1 ? (jsx_runtime_1.jsxs("div", Object.assign({ className: "pwd" }, { children: [jsx_runtime_1.jsx("input", { type: "password", placeholder: "Password", value: pwd, onChange: (e) => setPwd(e.target.value) }, void 0),
-                            jsx_runtime_1.jsx("button", Object.assign({ onClick: () => {
-                                    if (crypto_js_1.MD5(crypto_js_1.enc.Utf8.parse(pwd)).toString() ===
-                                        localStorage.getItem("password")) {
-                                        setMatched(1);
-                                    }
-                                    else {
-                                        setMatched(0);
-                                    }
-                                } }, { children: "NEXT" }), void 0)] }), void 0)) : null,
-                    matched === 0 ? (jsx_runtime_1.jsx("div", Object.assign({ className: "error", style: { color: "tomato" } }, { children: "wrong password" }), void 0)) : null,
-                    matched === 1 ? (jsx_runtime_1.jsxs(Item, Object.assign({ className: "input-group" }, { children: [jsx_runtime_1.jsx("span", { children: privateKey }, void 0),
-                            jsx_runtime_1.jsx(CopyBtn, { onCopy: privateKeyOnCopy }, void 0)] }), void 0)) : null] }), void 0)) : null] }), void 0));
+                    isDfinityIdentity ? null : (jsx_runtime_1.jsxs(jsx_runtime_1.Fragment, { children: [jsx_runtime_1.jsx(SubLabel, Object.assign({ className: "sub-label" }, { children: "Private Key :" }), void 0),
+                            matched !== 1 ? (jsx_runtime_1.jsxs("div", Object.assign({ className: "pwd" }, { children: [jsx_runtime_1.jsx("input", { type: "password", placeholder: "Password", value: pwd, onChange: (e) => setPwd(e.target.value) }, void 0),
+                                    jsx_runtime_1.jsx("button", Object.assign({ onClick: () => {
+                                            if (crypto_js_1.MD5(crypto_js_1.enc.Utf8.parse(pwd)).toString() ===
+                                                localStorage.getItem("password")) {
+                                                setMatched(1);
+                                            }
+                                            else {
+                                                setMatched(0);
+                                            }
+                                        } }, { children: "NEXT" }), void 0)] }), void 0)) : null,
+                            matched === 0 ? (jsx_runtime_1.jsx("div", Object.assign({ className: "error", style: { color: "tomato" } }, { children: "wrong password" }), void 0)) : null,
+                            matched === 1 ? (jsx_runtime_1.jsxs(Item, Object.assign({ className: "input-group" }, { children: [jsx_runtime_1.jsx("span", { children: privateKey }, void 0),
+                                    jsx_runtime_1.jsx(CopyBtn, { onCopy: privateKeyOnCopy }, void 0)] }), void 0)) : null] }, void 0))] }), void 0)) : null] }), void 0));
 };
 exports.default = UserPrincipalDisplayer;
 const CopyBtn = (props) => {
@@ -95253,7 +95256,8 @@ const Btn = styled_components_1.default.button `
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${styles_1.getVW(189)};
+  padding: 0 ${styles_1.getVW(24)};
+  margin-bottom: ${styles_1.getVW(24)};
   height: ${styles_1.getVW(48)};
   min-width: 78px;
   min-height: 32px;
@@ -95263,7 +95267,6 @@ const Btn = styled_components_1.default.button `
   color: #595959;
   font-size: ${styles_1.getVW(24)};
   & svg {
-    width: ${styles_1.getVW(16)};
     height: ${styles_1.getVW(16)};
     min-width: 10px;
     min-height: 10px;
@@ -95460,7 +95463,7 @@ const TopupModal = (props) => {
                                 } }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "close" }, void 0) }), void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "label" }, { children: "Topup Canister" }), void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "To" }), void 0),
-                            jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: principalError }), type: "text", placeholder: "Canister Principal", value: principal, onChange: principalOnChange }, void 0),
+                            jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: principalError }), type: "text", placeholder: "Canister(Principal)", value: principal, onChange: principalOnChange }, void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "Amount" }), void 0),
                             jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: amountError }), type: "text", placeholder: "0.00", value: amount, onChange: amountOnChange }, void 0),
                             jsx_runtime_1.jsxs("div", Object.assign({ className: "balance-ctrl" }, { children: [jsx_runtime_1.jsx("span", { children: bal ? `Balance: ${bal}` : "0" }, void 0),
@@ -95599,7 +95602,7 @@ const TransferICP = (props) => {
                                 } }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "close" }, void 0) }), void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "label" }, { children: "Transfer ICP" }), void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "To" }), void 0),
-                            jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: receiverError }), type: "text", placeholder: "Receiver", value: receiver, onChange: receiverOnChange }, void 0),
+                            jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: receiverError }), type: "text", placeholder: "Receiver(AccountIdentity)", value: receiver, onChange: receiverOnChange }, void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "Amount" }), void 0),
                             jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: amountError }), type: "text", placeholder: "0.00", value: amount, onChange: amountOnChange }, void 0),
                             jsx_runtime_1.jsxs("div", Object.assign({ className: "balance-ctrl" }, { children: [jsx_runtime_1.jsx("span", { children: props.balance ? `Balance: ${props.balance}` : "0.00" }, void 0),

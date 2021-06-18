@@ -19,7 +19,8 @@ const Btn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: ${getVW(189)};
+  padding: 0 ${getVW(24)};
+  margin-bottom: ${getVW(24)};
   height: ${getVW(48)};
   min-width: 78px;
   min-height: 32px;
@@ -29,7 +30,6 @@ const Btn = styled.button`
   color: #595959;
   font-size: ${getVW(24)};
   & svg {
-    width: ${getVW(16)};
     height: ${getVW(16)};
     min-width: 10px;
     min-height: 10px;

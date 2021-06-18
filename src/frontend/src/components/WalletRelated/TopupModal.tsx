@@ -132,7 +132,7 @@ const TopupModal = (props: Props) => {
             <input
               className={classNames({ err: principalError })}
               type="text"
-              placeholder="Canister Principal"
+              placeholder="Canister(Principal)"
               value={principal}
               onChange={principalOnChange}
             />
