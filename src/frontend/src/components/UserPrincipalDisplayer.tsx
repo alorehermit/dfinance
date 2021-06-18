@@ -172,7 +172,7 @@ const UserPrincipalDisplayer = () => {
       <input ref={principalDom} value={principal} readOnly />
       {publicKey ? (
         <Btns className="group">
-          <CopyBtn onCopy={principalOnCopy} />
+          <CopyBtn onCopy={accountIdOnCopy} />
           <button onClick={() => setShow(true)} title="Export">
             <Icon name="export" />
           </button>
