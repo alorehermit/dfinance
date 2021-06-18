@@ -91711,7 +91711,63 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../node_modules/css-loader/dist/cjs.js!./index.css */ "./node_modules/css-loader/dist/cjs.js!./src/frontend/src/index.css");
 
+<<<<<<< HEAD
             
+=======
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+const auth_client_1 = __webpack_require__(/*! @dfinity/auth-client */ "./node_modules/@dfinity/auth-client/lib/esm/index.js");
+const identity_1 = __webpack_require__(/*! @dfinity/identity */ "./node_modules/@dfinity/identity/lib/esm/index.js");
+const accounts_1 = __webpack_require__(/*! ../../redux/features/accounts */ "./src/frontend/src/redux/features/accounts.ts");
+const common_1 = __webpack_require__(/*! ../../utils/common */ "./src/frontend/src/utils/common.js");
+const react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+const selected_1 = __webpack_require__(/*! ../../redux/features/selected */ "./src/frontend/src/redux/features/selected.ts");
+const AuthBtn = (props) => {
+    const [authClient, setAuthClient] = react_1.useState(null);
+    const dispatch = react_redux_1.useDispatch();
+    const password = react_redux_1.useSelector((state) => state.password);
+    react_1.useEffect(() => {
+        const func = async () => {
+            setAuthClient(await auth_client_1.AuthClient.create());
+        };
+        func();
+    }, []);
+    const update = () => {
+        let userIdentity = authClient.getIdentity();
+        if (userIdentity instanceof identity_1.DelegationIdentity) {
+            dispatch(accounts_1.addNewAccount({
+                type: "DelegationIdentity",
+                principal: userIdentity.getPrincipal().toString(),
+                publicKey: common_1.getHexFromUint8Array(userIdentity.getPublicKey().toDer()),
+                keys: JSON.parse(JSON.stringify(userIdentity))._inner,
+                delegationChain: JSON.parse(JSON.stringify(userIdentity))._delegation,
+            }));
+            dispatch(selected_1.updateSelected(common_1.getHexFromUint8Array(userIdentity.getPublicKey().toDer())));
+            setTimeout(() => {
+                props.history.push("/");
+                window.location.reload();
+            }, 1 * 1000);
+        }
+        else {
+            alert("Sorry, invalid internet identity.");
+        }
+    };
+    const login = async () => {
+        if (!password)
+            return props.history.push("/loginwithdfinity");
+        authClient.login({
+            identityProvider: "https://identity.ic0.app" ||
+                0,
+            onSuccess: () => update(),
+        });
+    };
+    return (jsx_runtime_1.jsxs("button", Object.assign({ className: "login", onClick: login }, { children: ["Login with ", jsx_runtime_1.jsx("span", { className: "dfinity" }, void 0)] }), void 0));
+};
+exports.default = react_router_1.withRouter(AuthBtn);
+
+>>>>>>> 1e1e8d616b9e216fcf402c793380165e26d3622d
 
 var options = {};
 
@@ -91787,6 +91843,7 @@ function getIndexByIdentifier(identifier) {
     }
   }
 
+<<<<<<< HEAD
   return result;
 }
 
@@ -91816,6 +91873,97 @@ function modulesToDom(list, options) {
         updater: addStyle(obj, options),
         references: 1
       });
+=======
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+const identity_1 = __webpack_require__(/*! @dfinity/identity */ "./node_modules/@dfinity/identity/lib/esm/index.js");
+const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+const react_router_1 = __webpack_require__(/*! react-router */ "./node_modules/react-router/esm/react-router.js");
+const accounts_1 = __webpack_require__(/*! ../../redux/features/accounts */ "./src/frontend/src/redux/features/accounts.ts");
+const common_1 = __webpack_require__(/*! ../../utils/common */ "./src/frontend/src/utils/common.js");
+const AuthBtn_1 = __importDefault(__webpack_require__(/*! ./AuthBtn */ "./src/frontend/src/components/AuthRelated/AuthBtn.tsx"));
+__webpack_require__(/*! ./ImportKeyPair.css */ "./src/frontend/src/components/AuthRelated/ImportKeyPair.css");
+const PwdForm_1 = __importDefault(__webpack_require__(/*! ./PwdForm */ "./src/frontend/src/components/AuthRelated/PwdForm.tsx"));
+const ImportKeyPair = (props) => {
+    const [type, setType] = react_1.useState("1");
+    const [mnemonic, setMnemonic] = react_1.useState("");
+    const [principal, setPrincipal] = react_1.useState("");
+    const [publicKey, setPublicKey] = react_1.useState("");
+    const [privateKey, setPrivateKey] = react_1.useState("");
+    const dispatch = react_redux_1.useDispatch();
+    const password = react_redux_1.useSelector((state) => state.password);
+    react_1.useEffect(() => {
+        setPrincipal("");
+        setPublicKey("");
+    }, [privateKey]);
+    const importWallet = () => {
+        const secretKey = common_1.getUint8ArrayFromHex(privateKey);
+        const keyIdentity = identity_1.Ed25519KeyIdentity.fromSecretKey(secretKey);
+        const val = keyIdentity.getPrincipal().toString(); // principal
+        const str = keyIdentity.toJSON()[0]; // public key hex string
+        setPrincipal(val);
+        setPublicKey(str);
+    };
+    const importMnemonicWallet = () => {
+        const bip39 = __webpack_require__(/*! bip39 */ "./node_modules/bip39/src/index.js");
+        let seed = bip39.mnemonicToSeedSync(mnemonic);
+        seed = Array.from(seed);
+        seed = seed.splice(0, 32);
+        seed = new Uint8Array(seed);
+        const keyIdentity = identity_1.Ed25519KeyIdentity.generate(seed);
+        const val = keyIdentity.getPrincipal().toString(); // principal
+        const [str1, str2] = keyIdentity.toJSON(); // public key and private key hex string
+        setPrivateKey(str2);
+        setTimeout(() => {
+            setPublicKey(str1);
+            setPrincipal(val);
+        }, 200);
+    };
+    const confirm = () => {
+        dispatch(accounts_1.addNewAccount({
+            type: "Ed25519KeyIdentity",
+            principal,
+            publicKey,
+            keys: [publicKey, privateKey],
+        }));
+        props.history.push("/");
+    };
+    if (password) {
+        return (jsx_runtime_1.jsxs("div", Object.assign({ className: "ImportKeyPair" }, { children: [jsx_runtime_1.jsxs("div", Object.assign({ className: "toggle" }, { children: [jsx_runtime_1.jsx(AuthBtn_1.default, {}, void 0),
+                        jsx_runtime_1.jsx("button", Object.assign({ onClick: () => props.history.push("/createkeypair") }, { children: "Create One" }), void 0)] }), void 0),
+                jsx_runtime_1.jsxs("h1", { children: ["Import Idenity from ", type === "1" ? "Private Key" : "Mnemonic"] }, void 0),
+                jsx_runtime_1.jsx("label", { children: "Type :" }, void 0),
+                jsx_runtime_1.jsxs("select", Object.assign({ value: type, onChange: (e) => {
+                        setType(e.target.value);
+                        setMnemonic("");
+                        setPrivateKey("");
+                        setPublicKey("");
+                        setPrincipal("");
+                    } }, { children: [jsx_runtime_1.jsx("option", Object.assign({ value: "1" }, { children: "Private Key" }), void 0),
+                        jsx_runtime_1.jsx("option", Object.assign({ value: "2" }, { children: "Mnemonic" }), void 0)] }), void 0),
+                type === "1" ? (jsx_runtime_1.jsxs("div", { children: [jsx_runtime_1.jsx("label", { children: "Private Key :" }, void 0),
+                        jsx_runtime_1.jsx("textarea", { value: privateKey, onChange: (e) => setPrivateKey(e.target.value) }, void 0),
+                        principal ? (jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Account Id: ", common_1.principalToAccountIdentifier(principal, 0)] }), void 0)) : null,
+                        publicKey ? (jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Public Key: ", publicKey] }), void 0)) : null,
+                        jsx_runtime_1.jsxs("div", Object.assign({ className: "btns" }, { children: [jsx_runtime_1.jsx("button", Object.assign({ onClick: importWallet, disabled: principal ? true : false }, { children: "Import" }), void 0),
+                                jsx_runtime_1.jsx("button", Object.assign({ onClick: confirm, disabled: !principal }, { children: "Next" }), void 0)] }), void 0)] }, void 0)) : null,
+                type === "2" ? (jsx_runtime_1.jsxs("div", { children: [jsx_runtime_1.jsx("label", { children: "Mnemonic :" }, void 0),
+                        jsx_runtime_1.jsx("textarea", { value: mnemonic, onChange: (e) => setMnemonic(e.target.value) }, void 0),
+                        principal ? (jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Account Id: ", common_1.principalToAccountIdentifier(principal, 0)] }), void 0)) : null,
+                        publicKey ? (jsx_runtime_1.jsxs("div", Object.assign({ className: "text" }, { children: ["Public Key: ", publicKey] }), void 0)) : null,
+                        jsx_runtime_1.jsxs("div", Object.assign({ className: "btns" }, { children: [jsx_runtime_1.jsx("button", Object.assign({ onClick: importMnemonicWallet, disabled: principal ? true : false }, { children: "Import" }), void 0),
+                                jsx_runtime_1.jsx("button", Object.assign({ onClick: confirm, disabled: !principal }, { children: "Next" }), void 0)] }), void 0)] }, void 0)) : null] }), void 0));
+    }
+    else {
+        return (jsx_runtime_1.jsxs("div", Object.assign({ className: "ImportKeyPair" }, { children: [jsx_runtime_1.jsxs("div", Object.assign({ className: "toggle" }, { children: [jsx_runtime_1.jsx(AuthBtn_1.default, {}, void 0),
+                        jsx_runtime_1.jsx("button", Object.assign({ onClick: () => props.history.push("/createkeypair") }, { children: "Create One" }), void 0)] }), void 0),
+                jsx_runtime_1.jsx("h1", { children: "Import Idenity from Private Key" }, void 0),
+                jsx_runtime_1.jsx(PwdForm_1.default, { next: () => { } }, void 0)] }), void 0));
+>>>>>>> 1e1e8d616b9e216fcf402c793380165e26d3622d
     }
 
     identifiers.push(identifier);
@@ -92124,6 +92272,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
 const react_1 = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+<<<<<<< HEAD
 const react_router_dom_1 = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 const selected_1 = __webpack_require__(/*! ./redux/features/selected */ "./src/frontend/src/redux/features/selected.ts");
@@ -92146,6 +92295,33 @@ const App = (props) => {
     const accounts = react_redux_1.useSelector((state) => state.accounts);
     const selected = react_redux_1.useSelector((state) => state.selected);
     const dispatch = react_redux_1.useDispatch();
+=======
+const token_1 = __webpack_require__(/*! ../../apis/token */ "./src/frontend/src/apis/token.js");
+const InputGroup_1 = __importDefault(__webpack_require__(/*! ../Inputs/InputGroup */ "./src/frontend/src/components/Inputs/InputGroup.tsx"));
+const TokenSelect_1 = __importDefault(__webpack_require__(/*! ../Inputs/TokenSelect */ "./src/frontend/src/components/Inputs/TokenSelect.tsx"));
+const DSWAP_CANISTER_ID = "wu4li-paaaa-aaaah-qabaa-cai";
+const AddLiquidity = (props) => {
+    const [approved, setApproved] = react_1.useState(false);
+    const [token0Amount, setToken0Amount] = react_1.useState("");
+    const [token0Bal, setToken0Bal] = react_1.useState("");
+    const [token0, setToken0] = react_1.useState(null);
+    const [token0Error, setToken0Error] = react_1.useState(false);
+    const [token1Amount, setToken1Amount] = react_1.useState("");
+    const [token1Bal, setToken1Bal] = react_1.useState("");
+    const [token1, setToken1] = react_1.useState(null);
+    const [token1Error, setToken1Error] = react_1.useState(false);
+    const [bigger, setBigger] = react_1.useState(false);
+    const [loading, setLoading] = react_1.useState("");
+    const [pairInfo, setPairInfo] = react_1.useState(null);
+    const [amount0, setAmount0] = react_1.useState("");
+    const [amount1, setAmount1] = react_1.useState("");
+    const dom = react_1.useRef(null);
+    react_1.useEffect(() => {
+        if (props.tokens && props.tokens.length > 0 && !token0) {
+            setToken0(props.tokens[0]);
+        }
+    }, [props.tokens]);
+>>>>>>> 1e1e8d616b9e216fcf402c793380165e26d3622d
     react_1.useEffect(() => {
         initialUserCheck(); // initial store based on the values from localStorage
     }, []);
@@ -92786,6 +92962,7 @@ const AuthBtn = (props) => {
             }, 1 * 1000);
         }
         else {
+<<<<<<< HEAD
             alert("Sorry, invalid internet identity.");
         }
     };
@@ -92794,6 +92971,107 @@ const AuthBtn = (props) => {
             identityProvider: "http://localhost:8000/?canisterId=rkp4c-7iaaa-aaaaa-aaaca-cai" ||
                 0,
             onSuccess: () => update(),
+=======
+            setTheOne("");
+        }
+    }, [selected, accounts]);
+    react_1.useEffect(() => {
+        initial();
+    }, [props.pair.id]);
+    const initial = () => {
+        if (!theOne)
+            return;
+        if (props.pair.id) {
+            token_1.getLpBalance(props.pair.id, theOne)
+                .then((bal) => {
+                if (dom.current)
+                    setBal(bal);
+            })
+                .catch((err) => {
+                console.log("get lp token balance failed");
+                console.log(err);
+            });
+            token_1.getLpAllowance(props.pair.id, theOne, "wu4li-paaaa-aaaah-qabaa-cai")
+                .then((res) => {
+                if (parseFloat(res) > 0 && dom.current) {
+                    setApproved(true);
+                }
+                else {
+                    setApproved(false);
+                }
+            })
+                .catch((err) => {
+                console.log("get lp token allowance failed");
+                console.log(err);
+            });
+        }
+    };
+    const updateBal = () => {
+        token_1.getLpBalance(props.pair.id, theOne)
+            .then((bal) => {
+            if (dom.current)
+                setBal(bal);
+        })
+            .catch((err) => {
+            console.log("get lp token balance failed");
+            console.log(err);
+        });
+    };
+    const amountOnChange = (e) => {
+        const val = e.target.value;
+        const reg = new RegExp(/^[0-9\.]*$/);
+        if (val && !reg.test(val))
+            return;
+        setAmount(val);
+        setError(!val || parseFloat(val) > parseFloat(bal || "0") ? true : false);
+    };
+    const max = () => {
+        setAmount(bal || "0");
+        setError(false);
+    };
+    const approve = () => {
+        setLoading("Approving...");
+        const MAX_AMOUNT = Number.MAX_SAFE_INTEGER; // TODO
+        token_1.approveLpToken(props.pair.id, "wu4li-paaaa-aaaah-qabaa-cai", MAX_AMOUNT) // TODO
+            .then(() => { })
+            .catch((err) => {
+            console.log("approve lp token failed");
+            console.log(err);
+        })
+            .finally(() => {
+            if (dom.current) {
+                setLoading("Done");
+                setTimeout(() => {
+                    if (dom.current) {
+                        setLoading("");
+                        setApproved(true);
+                    }
+                }, 1500);
+            }
+        });
+    };
+    const remove = () => {
+        setLoading("Removing...");
+        const { token0, token1 } = props.pair;
+        token_1.removeLiquidity(token0, token1, amount)
+            .then((res) => {
+            props.triggerUpdate();
+            if (dom.current)
+                updateBal();
+        })
+            .catch((err) => {
+            console.log("remove liquidity failed");
+            console.log(err);
+        })
+            .finally(() => {
+            if (dom.current) {
+                setLoading("Done");
+                setTimeout(() => {
+                    if (dom.current)
+                        setLoading("");
+                }, 1500);
+            }
+>>>>>>> 1e1e8d616b9e216fcf402c793380165e26d3622d
         });
     };
     return (jsx_runtime_1.jsxs(Button, Object.assign({ className: "login", onClick: login }, { children: ["Login with ", jsx_runtime_1.jsx(Icon_1.default, { name: "dfinity" }, void 0)] }), void 0));
@@ -93650,6 +93928,7 @@ const ImportKeyPair = (props) => {
                     keys: [str1, str2],
                 }));
             }
+<<<<<<< HEAD
             props.history.push("/");
         }, 200);
     };
@@ -93669,6 +93948,121 @@ const ImportKeyPair = (props) => {
     }
     else {
         return jsx_runtime_1.jsx(PwdForm_1.default, { label: "Import Identity", next: () => { } }, void 0);
+=======
+        };
+        this.approve = () => {
+            if (!this.state.fromToken)
+                return;
+            this.setState({ loading: "Approving..." });
+            const MAX_AMOUNT = Number.MAX_SAFE_INTEGER;
+            token_1.approveToken(this.state.fromToken.canisterId, "wu4li-paaaa-aaaah-qabaa-cai", MAX_AMOUNT, this.state.fromToken.decimals)
+                .then(() => { })
+                .catch((err) => {
+                console.log("approve token failed");
+                console.log(err);
+            })
+                .finally(() => {
+                if (this._isMounted)
+                    this.setState({ loading: "Done" }, () => {
+                        setTimeout(() => {
+                            if (this._isMounted)
+                                this.setState({ loading: "", approved: true });
+                        }, 1500);
+                    });
+            });
+        };
+        this.swap = () => {
+            if (!this.state.fromToken || !this.state.toToken)
+                return;
+            this.setState({ loading: "Swapping..." });
+            token_1.swapToken(this.state.fromToken.canisterId, this.state.toToken.canisterId, this.state.fromAmount, new bignumber_js_1.default("1")
+                .minus(new bignumber_js_1.default(this.state.slippageTolerance))
+                .multipliedBy(new bignumber_js_1.default(this.state.toAmount))
+                .dp(parseInt(this.state.toToken.decimals))
+                .toString(), this.state.fromToken.decimals, this.state.toToken.decimals)
+                .then(() => {
+                if (this._isMounted)
+                    this.updateBals();
+            })
+                .catch((err) => {
+                console.log("swap failed");
+                console.log(err);
+            })
+                .finally(() => {
+                if (this._isMounted)
+                    this.setState({ loading: "Done", fromAmount: "", toAmount: "" }, () => {
+                        this.updatePairInfo();
+                        setTimeout(() => {
+                            if (this._isMounted)
+                                this.setState({ loading: "" });
+                        }, 1500);
+                    });
+            });
+        };
+        this.state = {
+            tokens: [],
+            pairs: [],
+            approved: false,
+            fromAmount: "",
+            fromBal: "",
+            fromToken: null,
+            fromError: false,
+            toAmount: "",
+            toBal: "",
+            toToken: null,
+            toError: false,
+            showTokenList: false,
+            bigger: false,
+            loading: "",
+            pairInfo: null,
+            slippageTolerance: 0.005,
+            impact: "",
+        };
+    }
+    componentDidMount() {
+        this._isMounted = true;
+        this.initial();
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.fromToken &&
+            (this.state.fromToken.canisterId !==
+                (prevState.fromToken ? prevState.fromToken.canisterId : "") ||
+                this.props.selected !== prevProps.selected)) {
+            this.getTokenBalance(this.state.fromToken.canisterId, this.state.fromToken.decimals).then((res) => {
+                if (this._isMounted)
+                    this.setState({ fromBal: res });
+            });
+            token_1.getTokenAllowance(this.state.fromToken.canisterId, "wu4li-paaaa-aaaah-qabaa-cai", this.state.fromToken.decimals).then((res) => {
+                console.log("allowance: ", res.toString());
+                if (this._isMounted && parseFloat(res) > 0) {
+                    this.setState({ approved: true });
+                }
+                else {
+                    this.setState({ approved: false });
+                }
+            });
+        }
+        if (this.state.toToken &&
+            (this.state.toToken.canisterId !==
+                (prevState.toToken ? prevState.toToken.canisterId : "") ||
+                this.props.selected !== prevProps.selected)) {
+            this.getTokenBalance(this.state.toToken.canisterId, this.state.toToken.decimals).then((res) => {
+                if (this._isMounted)
+                    this.setState({ toBal: res });
+            });
+        }
+        if (this.state.fromToken &&
+            this.state.toToken &&
+            (JSON.stringify(this.state.fromToken) !==
+                JSON.stringify(prevState.fromToken) ||
+                JSON.stringify(this.state.toToken) !==
+                    JSON.stringify(prevState.toToken))) {
+            this.updatePairInfo();
+        }
+>>>>>>> 1e1e8d616b9e216fcf402c793380165e26d3622d
     }
 };
 exports.default = react_router_1.withRouter(ImportKeyPair);
@@ -94563,7 +94957,27 @@ class TokenList extends react_1.Component {
         }
     }
     render() {
+<<<<<<< HEAD
         return (jsx_runtime_1.jsx(Wrap, Object.assign({ className: "TokenListWrap" }, { children: jsx_runtime_1.jsx("div", Object.assign({ className: "TokenList" }, { children: this.props.tokens.map((i, index) => (jsx_runtime_1.jsx(TokenItem_1.default, Object.assign({}, i, { owned: i.owner === this.props.user }), index))) }), void 0) }), void 0));
+=======
+        return (jsx_runtime_1.jsxs("div", Object.assign({ className: "TokenListWrap" }, { children: [jsx_runtime_1.jsx("div", Object.assign({ className: "TokenList" }, { children: this.props.tokens.map((i, index) => (jsx_runtime_1.jsx("div", Object.assign({ className: "TokenItemWrap", onClick: () => this.setState({ active: i }) }, { children: jsx_runtime_1.jsx(TokenItem_1.default, Object.assign({}, i, { owned: i.owner === this.props.user }), void 0) }), index))) }), void 0),
+                jsx_runtime_1.jsxs("div", Object.assign({ className: classnames_1.default("TokenListModal", { ac: this.state.active }) }, { children: [jsx_runtime_1.jsx("div", { className: "bg" }, void 0),
+                        jsx_runtime_1.jsxs("div", Object.assign({ className: "wrap" }, { children: [jsx_runtime_1.jsx("button", Object.assign({ className: "close", onClick: this.close }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "close" }, void 0) }), void 0),
+                                jsx_runtime_1.jsxs("label", Object.assign({ className: "label" }, { children: ["Transfer ", this.state.active ? this.state.active.symbol : ""] }), void 0),
+                                jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "To" }), void 0),
+                                jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: this.state.spenderError }), type: "text", placeholder: "Receiver", value: this.state.spender, onChange: this.spenderOnChange }, void 0),
+                                jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "Amount" }), void 0),
+                                jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: this.state.amountError }), type: "text", placeholder: "0.00", value: this.state.amount, onChange: this.amountOnChange }, void 0),
+                                jsx_runtime_1.jsxs("div", Object.assign({ className: "balance-ctrl" }, { children: [jsx_runtime_1.jsx("span", { children: this.state.balance
+                                                ? `Balance: ${common_1.currencyFormat(this.state.balance, this.state.active ? this.state.active.decimals : "2")}`
+                                                : "" }, void 0),
+                                        jsx_runtime_1.jsx("button", Object.assign({ onClick: this.max }, { children: "Max" }), void 0)] }), void 0),
+                                this.state.loading ? (jsx_runtime_1.jsx("button", Object.assign({ className: "submit", disabled: true }, { children: this.state.loading }), void 0)) : (jsx_runtime_1.jsx("button", Object.assign({ className: "submit", onClick: this.submit, disabled: !this.state.active ||
+                                        !this.state.spender ||
+                                        !this.state.amount
+                                        ? true
+                                        : false }, { children: "Transfer" }), void 0))] }), void 0)] }), void 0)] }), void 0));
+>>>>>>> 1e1e8d616b9e216fcf402c793380165e26d3622d
     }
 }
 exports.default = TokenList;
@@ -95175,11 +95589,30 @@ const Wallet = () => {
                 canisterId: i.canisterID,
                 owner: "",
             }));
-            setTokens(res);
+            // setTokens(res);
+            setTokens([{
+                    name: "DFinance Coin",
+                    symbol: "DFC",
+                    decimals: "8",
+                    canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
+                    owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+                }, {
+                    name: "Tether",
+                    symbol: "USDT",
+                    decimals: "8",
+                    canisterId: "wt5n4-cyaaa-aaaah-qabaq-cai",
+                    owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+                }]);
         }
         else {
             setBalance("");
-            setTokens([]);
+            setTokens([{
+                    name: "DFinance Coin",
+                    symbol: "DFC",
+                    decimals: "8",
+                    canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
+                    owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+                }]);
             setPrincipal("");
             setLoading(false);
         }
@@ -95463,7 +95896,11 @@ const TopupModal = (props) => {
                                 } }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "close" }, void 0) }), void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "label" }, { children: "Topup Canister" }), void 0),
                             jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "To" }), void 0),
+<<<<<<< HEAD
                             jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: principalError }), type: "text", placeholder: "Canister(Principal)", value: principal, onChange: principalOnChange }, void 0),
+=======
+                            jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: spenderError }), type: "text", placeholder: "Receiver", value: spender, onChange: spenderOnChange }, void 0),
+>>>>>>> 1e1e8d616b9e216fcf402c793380165e26d3622d
                             jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "Amount" }), void 0),
                             jsx_runtime_1.jsx("input", { className: classnames_1.default({ err: amountError }), type: "text", placeholder: "0.00", value: amount, onChange: amountOnChange }, void 0),
                             jsx_runtime_1.jsxs("div", Object.assign({ className: "balance-ctrl" }, { children: [jsx_runtime_1.jsx("span", { children: bal ? `Balance: ${bal}` : "0" }, void 0),
@@ -99265,6 +99702,7 @@ _dfinity_auth_client__WEBPACK_IMPORTED_MODULE_7__.AuthClient.create().then((res)
 });
 
 const getAgent = async () => {
+<<<<<<< HEAD
   const theOne = (0,_utils_func__WEBPACK_IMPORTED_MODULE_9__.getSelectedAccount)();
   if (!theOne) return null;
   if (theOne.type === "Ed25519KeyIdentity") {
@@ -99281,6 +99719,37 @@ const getAgent = async () => {
       identity,
     });
     return agent;
+=======
+  const state = _redux_store__WEBPACK_IMPORTED_MODULE_6___default().getState();
+  const selected = state.selected;
+  const accounts = state.accounts;
+  const theOne = accounts.find((i) => i.publicKey === selected);
+  if (selected && theOne) {
+    if (theOne.type === "Ed25519KeyIdentity") {
+      const keyIdentity = _dfinity_identity__WEBPACK_IMPORTED_MODULE_8__.Ed25519KeyIdentity.fromParsedJson(theOne.keys);
+      const agent = new _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.HttpAgent({
+        host: "https://boundary.ic0.app/",
+        identity: keyIdentity,
+      });
+      console.log(agent);
+      return agent;
+    } else if (theOne.type === "DelegationIdentity") {
+      console.log(await authClient.isAuthenticated());
+      const identity = authClient.getIdentity();
+      console.log("account principal: ", identity.getPrincipal().toString());
+      console.log(
+        "account public key: ",
+        (0,_utils_common__WEBPACK_IMPORTED_MODULE_5__.getHexFromUint8Array)(identity.getPublicKey().toDer())
+      );
+      const agent = new _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.HttpAgent({
+        host: "https://boundary.ic0.app/",
+        identity,
+      });
+      return agent;
+    } else {
+      return null;
+    }
+>>>>>>> 1e1e8d616b9e216fcf402c793380165e26d3622d
   } else {
     return null;
   }
@@ -99291,7 +99760,7 @@ const dTokenActor = async () => {
   return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_utils_dtoken_did__WEBPACK_IMPORTED_MODULE_2__.default, {
     agent,
     // maxAttempts: 100,
-    canisterId: "ryjl3-tyaaa-aaaaa-aaaba-cai",
+    canisterId: "6u36y-tyaaa-aaaah-qaawq-cai",
   });
 };
 const dSwapActor = async () => {
@@ -99299,7 +99768,7 @@ const dSwapActor = async () => {
   return _dfinity_agent__WEBPACK_IMPORTED_MODULE_0__.Actor.createActor(_utils_dswap_did__WEBPACK_IMPORTED_MODULE_3__.default, {
     agent,
     // maxAttempts: 100,
-    canisterId: "rrkah-fqaaa-aaaaa-aaaaq-cai",
+    canisterId: "wu4li-paaaa-aaaah-qabaa-cai",
   });
 };
 const getTokenActor = async (canisterId) => {
