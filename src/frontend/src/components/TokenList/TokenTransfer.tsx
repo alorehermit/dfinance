@@ -71,7 +71,7 @@ const TokenTransfer = (props: Props) => {
   };
 
   return (
-    <TransferModal className="TokenListModal ac">
+    <TransferModal className="TokenListModal ac" ref={dom}>
       <div className="bg"></div>
       <div className="wrap">
         <button className="close" onClick={props.close}>

@@ -94746,7 +94746,7 @@ const TokenTransfer = (props) => {
             }
         });
     };
-    return (jsx_runtime_1.jsxs(styles_1.TransferModal, Object.assign({ className: "TokenListModal ac" }, { children: [jsx_runtime_1.jsx("div", { className: "bg" }, void 0),
+    return (jsx_runtime_1.jsxs(styles_1.TransferModal, Object.assign({ className: "TokenListModal ac", ref: dom }, { children: [jsx_runtime_1.jsx("div", { className: "bg" }, void 0),
             jsx_runtime_1.jsxs("div", Object.assign({ className: "wrap" }, { children: [jsx_runtime_1.jsx("button", Object.assign({ className: "close", onClick: props.close }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "close" }, void 0) }), void 0),
                     jsx_runtime_1.jsxs("label", Object.assign({ className: "label" }, { children: ["Transfer ", props.symbol] }), void 0),
                     jsx_runtime_1.jsx("label", Object.assign({ className: "sub-label" }, { children: "To" }), void 0),
@@ -94881,6 +94881,7 @@ const Item = styled_components_1.default.div `
 `;
 const UserPrincipalDisplayer = () => {
     const selected = react_redux_1.useSelector((state) => state.selected);
+    const [aid, setAid] = react_1.useState("");
     const [principal, setPrincipal] = react_1.useState("");
     const [publicKey, setPublicKey] = react_1.useState("");
     const [privateKey, setPrivateKey] = react_1.useState("");
@@ -94895,12 +94896,14 @@ const UserPrincipalDisplayer = () => {
     react_1.useEffect(() => {
         const theOne = func_1.getSelectedAccount();
         if (theOne) {
+            setAid(common_1.principalToAccountIdentifier(theOne.principal, 0));
             setPrincipal(theOne.principal);
             setPublicKey(theOne.keys[0]);
             setPrivateKey(theOne.keys[1]);
             setIsDfinityIdentity(theOne.type === "DelegationIdentity");
         }
         else {
+            setAid("");
             setPrincipal("");
             setPublicKey("");
             setPrivateKey("");
@@ -94939,7 +94942,7 @@ const UserPrincipalDisplayer = () => {
             privateDom.current.blur();
         }
     };
-    return (jsx_runtime_1.jsxs("div", Object.assign({ className: "UserPrincipalDisplayer" }, { children: [jsx_runtime_1.jsx("input", { ref: principalDom, value: principal, readOnly: true }, void 0),
+    return (jsx_runtime_1.jsxs("div", Object.assign({ className: "UserPrincipalDisplayer" }, { children: [jsx_runtime_1.jsx("input", { ref: accountIdDom, value: aid, readOnly: true }, void 0),
             publicKey ? (jsx_runtime_1.jsxs(Btns, Object.assign({ className: "group" }, { children: [jsx_runtime_1.jsx(CopyBtn, { onCopy: accountIdOnCopy }, void 0),
                     jsx_runtime_1.jsx("button", Object.assign({ onClick: () => setShow(true), title: "Export" }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "export" }, void 0) }), void 0)] }), void 0)) : null,
             show ? (jsx_runtime_1.jsxs(Wrap, Object.assign({ className: "wrap" }, { children: [jsx_runtime_1.jsx(Close, Object.assign({ className: "close", onClick: () => {
@@ -94947,12 +94950,12 @@ const UserPrincipalDisplayer = () => {
                             setMatched(-1);
                             setPwd("");
                         } }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "close" }, void 0) }), void 0),
-                    jsx_runtime_1.jsx("input", { ref: accountIdDom, value: common_1.principalToAccountIdentifier(principal, 0), readOnly: true }, void 0),
+                    jsx_runtime_1.jsx("input", { ref: principalDom, value: principal, readOnly: true }, void 0),
                     jsx_runtime_1.jsx("input", { ref: publicDom, value: publicKey, readOnly: true }, void 0),
                     jsx_runtime_1.jsx("input", { ref: privateDom, value: privateKey, readOnly: true }, void 0),
                     jsx_runtime_1.jsx(Label, Object.assign({ className: "label" }, { children: "Wallet" }), void 0),
                     jsx_runtime_1.jsx(SubLabel, Object.assign({ className: "sub-label" }, { children: "Account Id :" }), void 0),
-                    jsx_runtime_1.jsxs(Item, Object.assign({ className: "input-group" }, { children: [jsx_runtime_1.jsx("span", { children: common_1.principalToAccountIdentifier(principal, 0) }, void 0),
+                    jsx_runtime_1.jsxs(Item, Object.assign({ className: "input-group" }, { children: [jsx_runtime_1.jsx("span", { children: aid }, void 0),
                             jsx_runtime_1.jsx(CopyBtn, { onCopy: accountIdOnCopy }, void 0)] }), void 0),
                     jsx_runtime_1.jsx(SubLabel, Object.assign({ className: "sub-label" }, { children: "Principal :" }), void 0),
                     jsx_runtime_1.jsxs(Item, Object.assign({ className: "input-group" }, { children: [jsx_runtime_1.jsx("span", { children: principal }, void 0),

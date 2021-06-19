@@ -106,6 +106,7 @@ const Item = styled.div`
 
 const UserPrincipalDisplayer = () => {
   const selected = useSelector((state: RootState) => state.selected);
+  const [aid, setAid] = useState("");
   const [principal, setPrincipal] = useState("");
   const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState("");
@@ -122,11 +123,13 @@ const UserPrincipalDisplayer = () => {
   useEffect(() => {
     const theOne = getSelectedAccount();
     if (theOne) {
+      setAid(principalToAccountIdentifier(theOne.principal, 0));
       setPrincipal(theOne.principal);
       setPublicKey(theOne.keys[0]);
       setPrivateKey(theOne.keys[1]);
       setIsDfinityIdentity(theOne.type === "DelegationIdentity");
     } else {
+      setAid("");
       setPrincipal("");
       setPublicKey("");
       setPrivateKey("");
@@ -169,7 +172,7 @@ const UserPrincipalDisplayer = () => {
 
   return (
     <div className="UserPrincipalDisplayer">
-      <input ref={principalDom} value={principal} readOnly />
+      <input ref={accountIdDom} value={aid} readOnly />
       {publicKey ? (
         <Btns className="group">
           <CopyBtn onCopy={accountIdOnCopy} />
@@ -190,17 +193,13 @@ const UserPrincipalDisplayer = () => {
           >
             <Icon name="close" />
           </Close>
-          <input
-            ref={accountIdDom}
-            value={principalToAccountIdentifier(principal, 0)}
-            readOnly
-          />
+          <input ref={principalDom} value={principal} readOnly />
           <input ref={publicDom} value={publicKey} readOnly />
           <input ref={privateDom} value={privateKey} readOnly />
           <Label className="label">Wallet</Label>
           <SubLabel className="sub-label">Account Id :</SubLabel>
           <Item className="input-group">
-            <span>{principalToAccountIdentifier(principal, 0)}</span>
+            <span>{aid}</span>
             <CopyBtn onCopy={accountIdOnCopy} />
           </Item>
           <SubLabel className="sub-label">Principal :</SubLabel>
