@@ -1,8 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Account } from "../../global";
 
-const initialState: Account = {
-  type: "DelegationIdentity",
+const initialState = {
   principal: "",
   publicKey: "",
   keys: ["", ""],

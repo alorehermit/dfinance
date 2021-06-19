@@ -9,18 +9,14 @@ import CommonTokenIdlFactory from "../utils/token.did";
 import DTokenIdlFactory from "../utils/dtoken.did";
 import DSwapIdlFactory from "../utils/dswap.did";
 import ledgerIDL from "../utils/ledger.did";
-import {
-  bigIntToAmountStr,
-  getHexFromUint8Array,
-  principalToAccountIdentifier,
-} from "../utils/common";
+import { bigIntToAmountStr, getUint8ArrayFromHex } from "../utils/common";
 import store from "../redux/store";
 import { AuthClient } from "@dfinity/auth-client";
 import { Ed25519KeyIdentity } from "@dfinity/identity";
-import { getSelectedAccount } from "../utils/func";
 import crc32 from "crc-32";
 import { sha224 } from "js-sha256";
 import { formatUnits, parseUnits } from "./icp";
+import { getSelectedAccount } from "../utils/identity";
 
 let authClient;
 AuthClient.create().then((res) => {
@@ -30,8 +26,10 @@ AuthClient.create().then((res) => {
 const getAgent = async () => {
   const theOne = getSelectedAccount();
   if (!theOne) return null;
-  if (theOne.type === "Ed25519KeyIdentity") {
-    const keyIdentity = Ed25519KeyIdentity.fromParsedJson(theOne.keys);
+  if (theOne.type === "Ed25519KeyIdentity" && theOne.keys) {
+    const keyIdentity = Ed25519KeyIdentity.fromSecretKey(
+      getUint8ArrayFromHex(theOne.keys[1])
+    );
     const agent = new HttpAgent({
       host: process.env.HOST,
       identity: keyIdentity,

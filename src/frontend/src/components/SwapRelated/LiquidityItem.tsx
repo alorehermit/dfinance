@@ -4,7 +4,7 @@ import { getLpBalance } from "../../apis/token";
 import { Token } from "../../global";
 import { RootState } from "../../redux/store";
 import { currencyFormat } from "../../utils/common";
-import { getSelectedAccount } from "../../utils/func";
+import { getSelectedAccount } from "../../utils/identity";
 
 interface Props {
   hasToUpdateBal: boolean;

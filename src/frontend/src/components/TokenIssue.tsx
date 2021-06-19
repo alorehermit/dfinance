@@ -7,7 +7,7 @@ import { getTokensByUser } from "../apis/token";
 import Icon from "../icons/Icon";
 import TokenList from "./TokenList/TokenList";
 import "./TokenIssue.css";
-import { getSelectedAccount } from "../utils/func";
+import { getSelectedAccount } from "../utils/identity";
 
 const TokenIssue = () => {
   const [tokens, setTokens] = useState([]);

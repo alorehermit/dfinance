@@ -19,7 +19,7 @@ import {
   swapToken,
 } from "../apis/token";
 import RosettaApi from "../apis/rosetta";
-import { getSelectedAccount } from "../utils/func";
+import { getSelectedAccount } from "../utils/identity";
 
 const Test = () => {
   // componentDidMount() {
@@ -180,7 +180,6 @@ const Test = () => {
   // };
 
   const selected = useSelector((state: RootState) => state.selected);
-  const accounts = useSelector((state: RootState) => state.accounts);
 
   const test = async () => {
     const rosettaAPI = new RosettaApi();

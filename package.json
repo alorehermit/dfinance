@@ -39,6 +39,7 @@
     "classnames": "^2.3.1",
     "crc-32": "^1.2.0",
     "crypto-js": "^4.0.0",
+    "ethereumjs-wallet": "^1.0.1",
     "file-loader": "^6.2.0",
     "js-sha256": "^0.9.0",
     "json-bigint": "^1.0.0",
@@ -53,8 +54,5 @@
   "license": "SEE LICENSE IN LICENSE",
   "scripts": {
     "build": "webpack"
-  },
-  "browser": {
-    "crypto": false
   }
 }

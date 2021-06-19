@@ -4,7 +4,7 @@ import styled from "styled-components";
 import RosettaApi from "../../apis/rosetta";
 import Icon from "../../icons/Icon";
 import { principalToAccountIdentifier } from "../../utils/common";
-import { getSelectedAccount } from "../../utils/func";
+import { getSelectedAccount } from "../../utils/identity";
 import { device, getVW } from "../styles";
 import ActivityList from "./ActivityList";
 import "./ActivityModal.css";

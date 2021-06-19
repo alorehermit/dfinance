@@ -3,21 +3,6 @@ import { DelegationIdentity, Ed25519KeyIdentity } from "@dfinity/identity";
 import { JsonnableEd25519KeyIdentity } from "@dfinity/identity/lib/cjs/identity/ed25519";
 import { Identity } from "@dfinity/identity/node_modules/@dfinity/agent";
 import { mnemonicToSeedSync } from "bip39";
-import { Account } from "../global";
-import store from "../redux/store";
-
-export const getSelectedAccount = (): Account | null => {
-  const state = store.getState();
-  const { selected, dfinityIdentity, accounts } = state;
-  if (!selected) return null;
-  let theOne: Account | null = null;
-  const matched1 = dfinityIdentity.publicKey === selected;
-  const matched2 = accounts.find((i) => i.publicKey === selected);
-  if (matched1) theOne = dfinityIdentity;
-  if (!matched1 && matched2) theOne = matched2;
-  if (!matched1 && !matched2) theOne = null;
-  return theOne;
-};
 
 export const mnemonicToIdentity = (mnemonic: string): Ed25519KeyIdentity => {
   let buffer = mnemonicToSeedSync(mnemonic);

@@ -4,7 +4,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { getICPBalance, parseICP } from "../../apis/icp";
 import { topupCycles } from "../../apis/token";
 import Icon from "../../icons/Icon";
-import { getSelectedAccount } from "../../utils/func";
+import { getSelectedAccount } from "../../utils/identity";
 import { TransferModal } from "../styles";
 
 interface Props {

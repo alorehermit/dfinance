@@ -6,7 +6,7 @@ import AddTokenToListModal from "./WalletRelated/AddTokenToListModal";
 import TokenList from "./TokenList/TokenList";
 import UserPrincipalDisplayer from "./UserPrincipalDisplayer";
 import TransferICP from "./WalletRelated/TransferICP";
-import { getSelectedAccount } from "../utils/func";
+import { getSelectedAccount } from "../utils/identity";
 import NavBar from "./NavBar/NavBar";
 import Icon from "../icons/Icon";
 import styled from "styled-components";
@@ -172,28 +172,36 @@ const Wallet = () => {
         owner: "",
       }));
       // setTokens(res);
-      setTokens([{
-        name: "DFinance Coin",
-        symbol: "DFC",
-        decimals: "8",
-        canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
-        owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
-      }, {
-        name: "Tether",
-        symbol: "USDT",
-        decimals: "8",
-        canisterId: "wt5n4-cyaaa-aaaah-qabaq-cai",
-        owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
-      }]);
+      setTokens([
+        {
+          name: "DFinance Coin",
+          symbol: "DFC",
+          decimals: "8",
+          canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
+          owner:
+            "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+        },
+        {
+          name: "Tether",
+          symbol: "USDT",
+          decimals: "8",
+          canisterId: "wt5n4-cyaaa-aaaah-qabaq-cai",
+          owner:
+            "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+        },
+      ]);
     } else {
       setBalance("");
-      setTokens([{
-        name: "DFinance Coin",
-        symbol: "DFC",
-        decimals: "8",
-        canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
-        owner: "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
-      }]);
+      setTokens([
+        {
+          name: "DFinance Coin",
+          symbol: "DFC",
+          decimals: "8",
+          canisterId: "62ztq-iiaaa-aaaah-qaaxq-cai",
+          owner:
+            "propu-iydlq-r3ksw-6ycvp-bxrvv-2fsvw-eacbc-q7hv6-j6sxr-siila-vqe",
+        },
+      ]);
       setPrincipal("");
       setLoading(false);
     }

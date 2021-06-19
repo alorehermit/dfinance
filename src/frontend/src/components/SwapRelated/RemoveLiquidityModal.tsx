@@ -10,7 +10,7 @@ import {
 import { Token } from "../../global";
 import Icon from "../../icons/Icon";
 import { RootState } from "../../redux/store";
-import { getSelectedAccount } from "../../utils/func";
+import { getSelectedAccount } from "../../utils/identity";
 // import { currencyFormat } from "../../utils/common";
 
 interface Props {
@@ -32,8 +32,7 @@ const RemoveLiquidityModal = (props: Props) => {
   const [error, setError] = useState(false);
   const [theOne, setTheOne] = useState(""); // user's principal
   const dom = useRef<HTMLDivElement>(null);
-  const selected = useSelector((state: RootState) => state.selected);
-  const accounts = useSelector((state: RootState) => state.accounts);
+  const { selected, selectedIndex } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     let _isMounted = true;
@@ -49,7 +48,7 @@ const RemoveLiquidityModal = (props: Props) => {
     } else {
       setTheOne("");
     }
-  }, [selected, accounts]);
+  }, [selected, selectedIndex]);
   useEffect(() => {
     initial();
   }, [props.pair.id]);

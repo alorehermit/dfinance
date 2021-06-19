@@ -127,7 +127,7 @@ const NavBar = () => {
         <Icon name="logo-3" />
       </Brand2>
       <Nav>
-        <NavLink activeClassName="ac" to="/" exact>
+        <NavLink activeClassName="ac" to="/wallet" exact>
           Wallet
         </NavLink>
         <NavLink activeClassName="ac" to="/dtoken">

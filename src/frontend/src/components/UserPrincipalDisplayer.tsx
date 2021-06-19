@@ -1,22 +1,22 @@
-import { enc, MD5 } from "crypto-js";
+import { AES, enc, MD5 } from "crypto-js";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Icon from "../icons/Icon";
 import { RootState } from "../redux/store";
-import { principalToAccountIdentifier } from "../utils/common";
-import { getSelectedAccount } from "../utils/func";
+import { getSelectedAccount } from "../utils/identity";
+import LogoutBtn from "./AuthRelated/LogoutBtn";
 import { device, getVW } from "./styles";
 import "./UserPrincipalDisplayer.css";
 
 const Btns = styled.div`
   & button {
-    width: ${getVW(20)};
+    width: ${getVW(29)};
     height: ${getVW(24)};
     margin-left: ${getVW(20)};
   }
-  & button:last-child {
-    width: ${getVW(29)};
+  & button:first-child {
+    width: ${getVW(20)};
   }
   @media ${device.tablet} {
     & button {
@@ -105,44 +105,61 @@ const Item = styled.div`
 `;
 
 const UserPrincipalDisplayer = () => {
-  const selected = useSelector((state: RootState) => state.selected);
+  const { selected, selectedIndex } = useSelector((state: RootState) => state);
   const [aid, setAid] = useState("");
   const [principal, setPrincipal] = useState("");
-  const [publicKey, setPublicKey] = useState("");
   const [privateKey, setPrivateKey] = useState("");
+  const [mnemonic, setMnemonic] = useState("");
+  const [withMnemonic, setWithMnemonic] = useState(false);
   const [show, setShow] = useState(false);
-  const [isDfinityIdentity, setIsDfinityIdentity] = useState(true);
   const [pwd, setPwd] = useState("");
   const [matched, setMatched] = useState(-1);
 
-  const accountIdDom = useRef<HTMLInputElement>(null);
+  const aidDom = useRef<HTMLInputElement>(null);
   const principalDom = useRef<HTMLInputElement>(null);
-  const publicDom = useRef<HTMLInputElement>(null);
+  const mnemonicDom = useRef<HTMLInputElement>(null);
   const privateDom = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const theOne = getSelectedAccount();
     if (theOne) {
-      setAid(principalToAccountIdentifier(theOne.principal, 0));
+      setAid(theOne.aid);
       setPrincipal(theOne.principal);
-      setPublicKey(theOne.keys[0]);
-      setPrivateKey(theOne.keys[1]);
-      setIsDfinityIdentity(theOne.type === "DelegationIdentity");
+      if (theOne.isImported && theOne.keys) {
+        setPrivateKey(theOne.keys[1]);
+      } else {
+        setPrivateKey("");
+      }
+      if (theOne.type === "Ed25519KeyIdentity" && !theOne.isImported) {
+        setWithMnemonic(true);
+      } else {
+        setMnemonic("");
+        setWithMnemonic(false);
+      }
     } else {
       setAid("");
       setPrincipal("");
-      setPublicKey("");
       setPrivateKey("");
-      setIsDfinityIdentity(true);
+      setMnemonic("");
+      setWithMnemonic(false);
     }
-  }, [selected]);
+  }, [selected, selectedIndex]);
 
-  const accountIdOnCopy = () => {
-    if (accountIdDom.current) {
-      accountIdDom.current.select();
-      accountIdDom.current.setSelectionRange(0, 99999);
+  useEffect(() => {
+    if (withMnemonic && pwd) {
+      const str = localStorage.getItem("mnemonic");
+      setMnemonic(AES.decrypt(str || "", pwd).toString(enc.Utf8));
+    } else {
+      setMnemonic("");
+    }
+  }, [withMnemonic, pwd]);
+
+  const aidOnCopy = () => {
+    if (aidDom.current) {
+      aidDom.current.select();
+      aidDom.current.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      accountIdDom.current.blur();
+      aidDom.current.blur();
     }
   };
   const principalOnCopy = () => {
@@ -153,12 +170,12 @@ const UserPrincipalDisplayer = () => {
       principalDom.current.blur();
     }
   };
-  const publicKeyOnCopy = () => {
-    if (publicDom.current) {
-      publicDom.current.select();
-      publicDom.current.setSelectionRange(0, 99999);
+  const mnemonicOnCopy = () => {
+    if (mnemonicDom.current) {
+      mnemonicDom.current.select();
+      mnemonicDom.current.setSelectionRange(0, 99999);
       document.execCommand("copy");
-      publicDom.current.blur();
+      mnemonicDom.current.blur();
     }
   };
   const privateKeyOnCopy = () => {
@@ -172,13 +189,14 @@ const UserPrincipalDisplayer = () => {
 
   return (
     <div className="UserPrincipalDisplayer">
-      <input ref={accountIdDom} value={aid} readOnly />
-      {publicKey ? (
+      <input ref={aidDom} value={aid} readOnly />
+      {aid ? (
         <Btns className="group">
-          <CopyBtn onCopy={accountIdOnCopy} />
+          <CopyBtn onCopy={aidOnCopy} />
           <button onClick={() => setShow(true)} title="Export">
             <Icon name="export" />
           </button>
+          <LogoutBtn />
         </Btns>
       ) : null}
       {show ? (
@@ -194,25 +212,60 @@ const UserPrincipalDisplayer = () => {
             <Icon name="close" />
           </Close>
           <input ref={principalDom} value={principal} readOnly />
-          <input ref={publicDom} value={publicKey} readOnly />
+          <input ref={mnemonicDom} value={mnemonic} readOnly />
           <input ref={privateDom} value={privateKey} readOnly />
           <Label className="label">Wallet</Label>
           <SubLabel className="sub-label">Account Id :</SubLabel>
           <Item className="input-group">
             <span>{aid}</span>
-            <CopyBtn onCopy={accountIdOnCopy} />
+            <CopyBtn onCopy={aidOnCopy} />
           </Item>
           <SubLabel className="sub-label">Principal :</SubLabel>
           <Item className="input-group">
             <span>{principal}</span>
             <CopyBtn onCopy={principalOnCopy} />
           </Item>
-          <SubLabel className="sub-label">Public Key :</SubLabel>
-          <Item className="input-group">
-            <span>{publicKey}</span>
-            <CopyBtn onCopy={publicKeyOnCopy} />
-          </Item>
-          {isDfinityIdentity ? null : (
+          {!withMnemonic ? null : (
+            <>
+              <SubLabel className="sub-label">Mnemonic :</SubLabel>
+              {matched !== 1 ? (
+                <div className="pwd">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    value={pwd}
+                    onChange={(e) => setPwd(e.target.value)}
+                  />
+                  <button
+                    onClick={() => {
+                      if (
+                        MD5(enc.Utf8.parse(pwd)).toString() ===
+                        localStorage.getItem("password")
+                      ) {
+                        setMatched(1);
+                      } else {
+                        setMatched(0);
+                      }
+                    }}
+                  >
+                    NEXT
+                  </button>
+                </div>
+              ) : null}
+              {matched === 0 ? (
+                <div className="error" style={{ color: "tomato" }}>
+                  wrong password
+                </div>
+              ) : null}
+              {matched === 1 ? (
+                <Item className="input-group">
+                  <span>{mnemonic}</span>
+                  <CopyBtn onCopy={mnemonicOnCopy} />
+                </Item>
+              ) : null}
+            </>
+          )}
+          {!privateKey ? null : (
             <>
               <SubLabel className="sub-label">Private Key :</SubLabel>
               {matched !== 1 ? (

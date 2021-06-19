@@ -1,16 +1,22 @@
 import { configureStore } from "@reduxjs/toolkit";
 import agentReducer from "./features/agent";
 import selectedReducer from "./features/selected";
-import accountsReducer from "./features/accounts";
+import selectedIndexReducer from "./features/selectedIndex";
+import hdWalletsReducer from "./features/hdWallets";
+import importedAccountsReducer from "./features/importedAccounts";
 import dfinityIdentityReducer from "./features/dfinityIdentity";
+import dfinitySubAccountsReducer from "./features/dfinitySubAccounts";
 import passwordReducer from "./features/password";
 
 const store = configureStore({
   reducer: {
     agent: agentReducer,
     selected: selectedReducer,
-    accounts: accountsReducer,
+    selectedIndex: selectedIndexReducer,
+    hdWallets: hdWalletsReducer,
+    importedAccounts: importedAccountsReducer,
     dfinityIdentity: dfinityIdentityReducer,
+    dfinitySubAccounts: dfinitySubAccountsReducer,
     password: passwordReducer,
   },
 });

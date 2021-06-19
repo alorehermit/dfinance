@@ -67,6 +67,7 @@ function generateWebpackConfigForCanister(name, info) {
         events: require.resolve("events/"),
         stream: require.resolve("stream-browserify/"),
         util: require.resolve("util/"),
+        crypto: false,
       },
     },
     output: {

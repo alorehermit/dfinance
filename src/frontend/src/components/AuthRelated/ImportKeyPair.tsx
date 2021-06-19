@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
-import { addNewAccount } from "../../redux/features/accounts";
 import { RootState } from "../../redux/store";
 import PwdForm from "./PwdForm";
-import { mnemonicToIdentity } from "../../utils/func";
 import Icon from "../../icons/Icon";
 import styled from "styled-components";
 import { device, getScaled, getVW } from "../styles";
-import { validateMnemonic } from "bip39";
 import { updateSelected } from "../../redux/features/selected";
+import { createAccountFromPrivateKey } from "../../utils/identity";
+import { addNewImportedAccount } from "../../redux/features/importedAccounts";
+import { updateSelectedIndex } from "../../redux/features/selectedIndex";
 
 const Div = styled.div`
   position: relative;
@@ -143,42 +143,21 @@ const Err = styled.div`
 
 interface Props extends RouteComponentProps {}
 const ImportKeyPair = (props: Props) => {
-  const [mnemonic, setMnemonic] = useState("");
+  const [privateKey, setPrivateKey] = useState("");
   const [error, setError] = useState("");
   const dispatch = useDispatch();
   const password = useSelector((state: RootState) => state.password);
-  const accounts = useSelector((state: RootState) => state.accounts);
 
-  // const importWallet = () => {
-  //   const secretKey = getUint8ArrayFromHex(privateKey);
-  //   const keyIdentity = Ed25519KeyIdentity.fromSecretKey(secretKey);
-  //   const val = keyIdentity.getPrincipal().toString(); // principal
-  //   const str = keyIdentity.toJSON()[0]; // public key hex string
-  //   setPrincipal(val);
-  //   setPublicKey(str);
-  // };
-  const importMnemonicWallet = () => {
-    const isValid = validateMnemonic(mnemonic);
-    if (!isValid) return setError("Invalid mnemonic");
-    const keyIdentity = mnemonicToIdentity(mnemonic);
-    const principal = keyIdentity.getPrincipal().toString();
-    const [str1, str2] = keyIdentity.toJSON(); // public key and private key hex string
-    setTimeout(() => {
-      const matched = accounts.find((i) => i.publicKey === str1);
-      if (matched) {
-        updateSelected(str1);
-      } else {
-        dispatch(
-          addNewAccount({
-            type: "Ed25519KeyIdentity",
-            principal,
-            publicKey: str1,
-            keys: [str1, str2],
-          })
-        );
-      }
-      props.history.push("/");
-    }, 200);
+  const importWallet = () => {
+    try {
+      const account = createAccountFromPrivateKey(privateKey);
+      dispatch(addNewImportedAccount(account));
+      dispatch(updateSelected(account.publicKey));
+      dispatch(updateSelectedIndex(-1));
+      props.history.push("/wallet");
+    } catch (err) {
+      return setError("Invalid private key.");
+    }
   };
 
   if (password) {
@@ -194,16 +173,16 @@ const ImportKeyPair = (props: Props) => {
           <Brand>
             <Icon name="logo-1" />
           </Brand>
-          <Label>Import Idenity from Mnemonic</Label>
+          <Label>Import Idenity from Private Key</Label>
           <Textarea
-            placeholder="Mnemonic"
-            value={mnemonic}
+            placeholder="Private Key"
+            value={privateKey}
             onChange={(e) => {
-              setMnemonic(e.target.value);
+              setPrivateKey(e.target.value);
               setError("");
             }}
           />
-          <Btn onClick={importMnemonicWallet}>
+          <Btn onClick={importWallet}>
             Next Step <Icon name="arrow" />
           </Btn>
           <Err>{error}</Err>

@@ -4,11 +4,14 @@ import { AuthClient } from "@dfinity/auth-client";
 import { DelegationIdentity } from "@dfinity/identity";
 import { RouteComponentProps, withRouter } from "react-router";
 import { updateSelected } from "../../redux/features/selected";
-import { RootState } from "../../redux/store";
 import { updateDfinityIdentity } from "../../redux/features/dfinityIdentity";
 import { JsonnableEd25519KeyIdentity } from "@dfinity/identity/lib/cjs/identity/ed25519";
 import Icon from "../../icons/Icon";
 import styled from "styled-components";
+import { updateSelectedIndex } from "../../redux/features/selectedIndex";
+import { RootState } from "../../redux/store";
+import { updateDfinityMainAccount } from "../../redux/features/dfinitySubAccounts";
+import { principalToAccountIdentifier } from "../../utils/common";
 
 const Button = styled.button`
   display: flex;
@@ -25,7 +28,9 @@ interface Props extends RouteComponentProps {}
 const AuthBtn = (props: Props) => {
   const [authClient, setAuthClient] = useState<AuthClient | null>(null);
   const dispatch = useDispatch();
-  const password = useSelector((state: RootState) => state.password);
+  const dfinitySubAccounts = useSelector(
+    (state: RootState) => state.dfinitySubAccounts
+  );
 
   useEffect(() => {
     let _isMounted = true;
@@ -41,21 +46,33 @@ const AuthBtn = (props: Props) => {
   const update = () => {
     let userIdentity = authClient!.getIdentity();
     if (userIdentity instanceof DelegationIdentity) {
+      const principal = userIdentity.getPrincipal().toString();
       const keys: JsonnableEd25519KeyIdentity = JSON.parse(
         localStorage.getItem("ic-identity") || "[]"
       );
       dispatch(
         updateDfinityIdentity({
-          type: "DelegationIdentity",
-          principal: userIdentity.getPrincipal().toString(),
+          principal,
           publicKey: keys[0],
           keys,
         })
       );
       dispatch(updateSelected(keys[0]));
+      dispatch(updateSelectedIndex(0));
+      dispatch(
+        updateDfinityMainAccount({
+          type: "DfinitySubAccount",
+          name: "Main",
+          aid: principalToAccountIdentifier(principal, 0),
+          index: 0,
+        })
+      );
       setTimeout(() => {
-        props.history.push("/");
-        // window.location.reload();
+        if (localStorage.getItem("password")) {
+          props.history.push("/signin");
+        } else {
+          props.history.push("/wallet");
+        }
       }, 1 * 1000);
     } else {
       alert("Sorry, invalid internet identity.");

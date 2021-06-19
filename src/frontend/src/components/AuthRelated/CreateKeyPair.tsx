@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import { RouteComponentProps, withRouter } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
-import { addNewAccount } from "../../redux/features/accounts";
 import { RootState } from "../../redux/store";
 import PwdForm from "./PwdForm";
 import Icon from "../../icons/Icon";
 import styled from "styled-components";
 import { device, getScaled, getVW } from "../styles";
-import { generateMnemonic } from "bip39";
-import { mnemonicToIdentity } from "../../utils/func";
 import classNames from "classnames";
+import { createNewWallet } from "../../utils/identity";
+import { addNewHdWallet } from "../../redux/features/hdWallets";
+import { updateSelected } from "../../redux/features/selected";
+import { Ed25519Account } from "../../global";
+import { updateSelectedIndex } from "../../redux/features/selectedIndex";
+import { AES } from "crypto-js";
 
 const Wrap1Height = 450;
 const Wrap2Height = 700;
@@ -230,9 +233,7 @@ const Back = styled.button`
 
 interface Props extends RouteComponentProps {}
 const CreateKeyPair = (props: Props) => {
-  const [principal, setPrincipal] = useState("");
-  const [publicKey, setPublicKey] = useState("");
-  const [privateKey, setPrivateKey] = useState("");
+  const [newOne, setNewOne] = useState<Ed25519Account | null>(null);
   const [mnemonic, setMnemonic] = useState<string[]>([]);
   const [sorted, setSorted] = useState<string[]>([]);
   const [step, setStep] = useState(1); // step1 shows the mnemonic, step2 confirms the mnemonic
@@ -241,30 +242,24 @@ const CreateKeyPair = (props: Props) => {
   const dispatch = useDispatch();
   const password = useSelector((state: RootState) => state.password);
 
-  const createWallet = () => {
-    const phases = generateMnemonic();
-    const keyIdentity = mnemonicToIdentity(phases);
-    setMnemonic(phases.split(" "));
-    setPrincipal(keyIdentity.getPrincipal().toString());
-    setPublicKey(keyIdentity.toJSON()[0]);
-    setPrivateKey(keyIdentity.toJSON()[1]);
-  };
   const submit = () => {
     if (mnemonic.join(" ") !== confirmed.join(" "))
       return setError("wrong mnemonic");
-    dispatch(
-      addNewAccount({
-        type: "Ed25519KeyIdentity",
-        principal,
-        publicKey,
-        keys: [publicKey, privateKey],
-      })
+    if (!newOne) return setError("fail to create wallet");
+    localStorage.setItem(
+      "mnemonic",
+      AES.encrypt(mnemonic.join(" "), password).toString()
     );
-    props.history.push("/");
+    dispatch(addNewHdWallet(newOne));
+    dispatch(updateSelected(newOne.publicKey));
+    dispatch(updateSelectedIndex(0));
+    props.history.push("/wallet");
   };
 
   useEffect(() => {
-    createWallet();
+    const res = createNewWallet();
+    setMnemonic(res.mnemonic.split(" "));
+    setNewOne(res.account);
   }, []);
   useEffect(() => {
     let arr = mnemonic.concat();
@@ -332,7 +327,7 @@ const CreateKeyPair = (props: Props) => {
       </Div>
     );
   } else {
-    return <PwdForm label="Create New Identity" next={() => {}} />;
+    return <PwdForm label="Create New Wallet" next={() => {}} />;
   }
 };
 

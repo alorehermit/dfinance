@@ -2,15 +2,16 @@ import classNames from "classnames";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
-import { Account } from "../../global";
 import { RootState } from "../../redux/store";
-import { principalToAccountIdentifier } from "../../utils/common";
-import { getSelectedAccount } from "../../utils/func";
 import { updateSelected } from "../../redux/features/selected";
 import AuthBtn from "./AuthBtn";
 import Icon from "../../icons/Icon";
 import styled from "styled-components";
 import { device, getVW } from "../styles";
+import { getSelectedAccount } from "../../utils/identity";
+import { JsonnableEd25519KeyIdentity } from "@dfinity/identity/lib/cjs/identity/ed25519";
+import { DfinitySubAccount, Ed25519Account } from "../../global";
+import { updateSelectedIndex } from "../../redux/features/selectedIndex";
 
 const Menu = styled.div`
   display: inline-block;
@@ -82,7 +83,7 @@ const Options = styled.div`
     border: none;
     background-color: transparent;
     padding: 0 ${getVW(20)};
-    font-size: ${getVW(20)};
+    font-size: ${getVW(16)};
     color: #838383;
     text-align: left;
     justify-content: flex-start;
@@ -126,15 +127,27 @@ const Options = styled.div`
 
 interface Props extends RouteComponentProps {}
 const AuthMenu = (props: Props) => {
-  const selected = useSelector((state: RootState) => state.selected);
-  const dfinityIdentity = useSelector(
-    (state: RootState) => state.dfinityIdentity
-  );
-  const accounts = useSelector((state: RootState) => state.accounts);
-  const [aid, setAid] = useState("");
+  const [show, setShow] = useState(false);
+  const [theOne, setTheOne] =
+    useState<{
+      type: string;
+      name: string;
+      principal: string;
+      aid: string;
+      index: number;
+      keys?: JsonnableEd25519KeyIdentity;
+      isImported?: boolean;
+    } | null>(null);
+  const {
+    selected,
+    selectedIndex,
+    dfinityIdentity,
+    hdWallets,
+    dfinitySubAccounts,
+    importedAccounts,
+  } = useSelector((state: RootState) => state);
   const dispatch = useDispatch();
   const dom = useRef<HTMLDivElement>(null);
-  const [show, setShow] = useState(false);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -148,50 +161,79 @@ const AuthMenu = (props: Props) => {
     };
   }, []);
   useEffect(() => {
-    const theOne = getSelectedAccount();
-    if (theOne) {
-      setAid(principalToAccountIdentifier(theOne.principal || "", 0));
-    } else {
-      setAid("");
-    }
-  }, [selected]);
+    const val = getSelectedAccount();
+    setTheOne(val ? val : null);
+  }, [selected, selectedIndex, dfinityIdentity, hdWallets, importedAccounts]);
+
+  const switchToDfinitySubAccount = (val: DfinitySubAccount) => {
+    const keys: JsonnableEd25519KeyIdentity = JSON.parse(
+      localStorage.getItem("ic-identity") || "[]"
+    );
+    dispatch(updateSelected(keys[0]));
+    dispatch(updateSelectedIndex(val.index));
+    setShow(false);
+  };
+  const switchToHdWallet = (val: Ed25519Account) => {
+    dispatch(updateSelected(val.publicKey));
+    dispatch(updateSelectedIndex(val.index));
+    setShow(false);
+  };
+  const switchToImportedAccount = (val: Ed25519Account) => {
+    dispatch(updateSelected(val.publicKey));
+    dispatch(updateSelectedIndex(-1));
+    setShow(false);
+  };
 
   return (
     <Menu ref={dom} className="AuthMenu">
-      {selected ? (
+      {theOne ? (
         <Select className="selector">
           <Label
             className={classNames("label", { show })}
             onClick={() => setShow(!show)}
           >
-            {aid.substr(0, 5)}...{aid.substr(length - 5, 5)}{" "}
+            {theOne.isImported
+              ? `${theOne.aid.substr(0, 5)}...${theOne.aid.substr(
+                  length - 5,
+                  5
+                )}`
+              : theOne.name}{" "}
             <Icon name="dart" />
           </Label>
           <Options className={classNames("options", { show })}>
-            {dfinityIdentity.publicKey ? (
-              <Item
-                {...dfinityIdentity}
-                matched={dfinityIdentity.publicKey === selected}
-                onClick={() => {
-                  dispatch(updateSelected(dfinityIdentity.publicKey));
-                  setShow(false);
-                }}
-              />
-            ) : null}
-            {accounts.map((i, index) => (
+            {dfinitySubAccounts.map((i, index) => (
               <Item
                 key={index}
-                {...i}
-                matched={i.publicKey === selected}
-                onClick={() => {
-                  dispatch(updateSelected(i.publicKey));
-                  setShow(false);
-                }}
+                matched={selectedIndex === index}
+                name={i.name}
+                aid={i.aid}
+                type={i.type}
+                onClick={() => switchToDfinitySubAccount(i)}
+              />
+            ))}
+            {hdWallets.map((i, index) => (
+              <Item
+                key={index}
+                matched={selected === i.publicKey}
+                name={i.name}
+                aid={i.aid}
+                type={i.type}
+                onClick={() => switchToHdWallet(i)}
+              />
+            ))}
+            {importedAccounts.map((i, index) => (
+              <Item
+                key={index}
+                matched={selected === i.publicKey}
+                name={i.name}
+                aid={i.aid}
+                type={i.type}
+                onClick={() => switchToImportedAccount(i)}
               />
             ))}
             <button
               onClick={() => {
-                props.history.push("/createkeypair");
+                props.history.push("/createaccount");
                 setShow(false);
               }}
             >
@@ -211,15 +253,7 @@ const AuthMenu = (props: Props) => {
             <AuthBtn />
             <button
               onClick={() => {
-                props.history.push("/importkeypair");
-                setShow(false);
-              }}
-            >
-              Import wallet
-            </button>
-            <button
-              onClick={() => {
-                props.history.push("/createkeypair");
+                props.history.push("/");
                 setShow(false);
               }}
             >
@@ -234,19 +268,14 @@ const AuthMenu = (props: Props) => {
 
 export default withRouter(AuthMenu);
 
-interface ItemProps extends Account {
+interface ItemProps {
   matched: boolean;
+  name: string;
+  aid: string;
+  type: string;
   onClick: () => void;
 }
 const Item = (props: ItemProps) => {
-  const [aid, setAid] = useState("");
-  useEffect(() => {
-    if (props.principal) {
-      setAid(principalToAccountIdentifier(props.principal, 0));
-    } else {
-      setAid("");
-    }
-  }, [props.principal]);
   return (
     <button
       className={classNames({
@@ -254,8 +283,12 @@ const Item = (props: ItemProps) => {
       })}
       onClick={props.onClick}
     >
-      {aid.substr(0, 5)}...
-      {aid.substr(length - 5, 5)}
+      {props.type === "Imported"
+        ? `${props.aid.substr(0, 5)}...${props.aid.substr(
+            length - 5,
+            5
+          )} Imported`
+        : props.name}
     </button>
   );
 };

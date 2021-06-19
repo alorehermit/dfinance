@@ -224,42 +224,6 @@ const PwdForm = (props: Props) => {
         <Err>{error}</Err>
       </Wrap>
     </Div>
-    // <div className="PwdForm">
-    //   <div className="brand"></div>
-    //   {hasPwd ? (
-    //     <div>
-    //       <label>Welcome back</label>
-    //       <InputGroup
-    //         placeholder="Password"
-    //         value={pwd}
-    //         onChange={(e) => {
-    //           setPwd(e.target.value);
-    //           setError("");
-    //         }}
-    //       />
-    //       <button className="submit" onClick={login}>
-    //         Next Step <Icon name="" />
-    //       </button>
-    //       <div className="error">{error}</div>
-    //     </div>
-    //   ) : (
-    //     <div>
-    //       <label>Set your password</label>
-    //       <InputGroup
-    //         placeholder="Password (min 8 chars)"
-    //         value={pwd}
-    //         onChange={(e) => {
-    //           setPwd(e.target.value);
-    //           setError("");
-    //         }}
-    //       />
-    //       <button className="submit" onClick={register}>
-    //         Next Step <Icon name="" />
-    //       </button>
-    //       <div className="error">{error}</div>
-    //     </div>
-    //   )}
-    // </div>
   );
 };
 
