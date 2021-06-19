@@ -475,7 +475,7 @@ export const transferICP = (
       memo: memo ? Number(BigInt(memo)) : 0,
       from_subaccount: [from_sub],
       created_at_time: [],
-      amount,
+      amount: { e8s: Number(amount) },
     };
     (await ledgerActor())
       .send_dfx(args)
@@ -531,7 +531,7 @@ export const topupCycles = async (amount, canisterPrincipalString) => {
         memo: BigInt(0x50555054),
         from_subaccount: [],
         created_at_time: [],
-        amount,
+        amount: { e8s: Number(amount) },
       });
       await ledger.notify_dfx({
         to_canister: minting_id,
@@ -542,10 +542,7 @@ export const topupCycles = async (amount, canisterPrincipalString) => {
       });
       resolve({ status: 1 });
     } catch (err) {
-      reject({
-        status: 0,
-        err,
-      });
+      reject(err);
     }
   });
   return promise;

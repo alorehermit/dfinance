@@ -92138,6 +92138,7 @@ const auth_client_1 = __webpack_require__(/*! @dfinity/auth-client */ "./node_mo
 const dfinityIdentity_1 = __webpack_require__(/*! ./redux/features/dfinityIdentity */ "./src/frontend/src/redux/features/dfinityIdentity.ts");
 const identity_1 = __webpack_require__(/*! @dfinity/identity */ "./node_modules/@dfinity/identity/lib/esm/index.js");
 const AccountModal_1 = __importDefault(__webpack_require__(/*! ./components/AuthRelated/AccountModal */ "./src/frontend/src/components/AuthRelated/AccountModal.tsx"));
+const Test_1 = __importDefault(__webpack_require__(/*! ./components/Test */ "./src/frontend/src/components/Test.tsx"));
 __webpack_require__(/*! ./App.css */ "./src/frontend/src/App.css");
 const App = (props) => {
     const [loading, setLoading] = react_1.useState(true);
@@ -92243,7 +92244,8 @@ const App = (props) => {
                     jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/importkeypair", exact: true, render: () => jsx_runtime_1.jsx(ImportKeyPair_1.default, {}, void 0) }, void 0),
                     jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/createkeypair", exact: true, render: () => jsx_runtime_1.jsx(CreateKeyPair_1.default, {}, void 0) }, void 0),
                     jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/dtoken", exact: true, render: () => jsx_runtime_1.jsx(ComingSoon_1.default, {}, void 0) }, void 0),
-                    jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/swap", render: () => jsx_runtime_1.jsx(ComingSoon_1.default, {}, void 0) }, void 0)] }, void 0)),
+                    jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/swap", render: () => jsx_runtime_1.jsx(ComingSoon_1.default, {}, void 0) }, void 0),
+                    jsx_runtime_1.jsx(react_router_dom_1.Route, { path: "/test", render: () => jsx_runtime_1.jsx(Test_1.default, {}, void 0) }, void 0)] }, void 0)),
             showAccountModal &&
                 ["/connectwallet", "/importkeypair", "/createkeypair"].indexOf(props.history.location.pathname) < 0 ? (jsx_runtime_1.jsx(AccountModal_1.default, {}, void 0)) : null] }), void 0));
 };
@@ -94166,6 +94168,322 @@ const NavBar = () => {
                     jsx_runtime_1.jsx("a", Object.assign({ href: "https://twitter.com/DFinance_AI", target: "_blank" }, { children: jsx_runtime_1.jsx(Icon_1.default, { name: "twitter" }, void 0) }), void 0)] }, void 0)] }, void 0));
 };
 exports.default = NavBar;
+
+
+/***/ }),
+
+/***/ "./src/frontend/src/components/Test.tsx":
+/*!**********************************************!*\
+  !*** ./src/frontend/src/components/Test.tsx ***!
+  \**********************************************/
+/***/ (function(__unused_webpack_module, exports, __webpack_require__) {
+
+"use strict";
+
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+const jsx_runtime_1 = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+const react_redux_1 = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+const token_1 = __webpack_require__(/*! ../apis/token */ "./src/frontend/src/apis/token.js");
+const rosetta_1 = __importDefault(__webpack_require__(/*! ../apis/rosetta */ "./src/frontend/src/apis/rosetta.js"));
+const func_1 = __webpack_require__(/*! ../utils/func */ "./src/frontend/src/utils/func.ts");
+const Test = () => {
+    // componentDidMount() {
+    // const actor = makeActorFactory(candid)({
+    //   canisterId: Principal.fromText("ryjl3-tyaaa-aaaaa-aaaba-cai"),
+    //   agent: window.ic.agent,
+    //   maxAttempts: 100
+    // });
+    // actor.getTokenList()
+    //   .then(res => console.log("res: ", res))
+    //   .catch(err => console.log("err: ", err));
+    // getAllTokens()
+    //   .then(tokens => {
+    //     if (!tokens.length) return console.log("no token");
+    //     const actor = makeActorFactory(test)({
+    //       canisterId: Principal.fromText(tokens[0].canisterId),
+    //       agent: window.ic.agent,
+    //       maxAttempts: 100
+    //     });
+    //     console.log("actor: ", actor);
+    //     actor.balanceOf(Principal.fromText(localStorage.getItem("dfinance_current_user")))
+    //       .then(res => console.log("res: ", res))
+    //       .catch(err => console.log("err: ", err));
+    //   })
+    //   console.log(window.ic.canister);
+    //   getAllTokens().then((res) => {
+    //     if (res.length >= 2) {
+    //       this.setState({
+    //         token0: Principal.fromText(res[0].canisterId),
+    //         token1: Principal.fromText(res[1].canisterId),
+    //       });
+    //     }
+    //   });
+    // }
+    // createToken0 = async () => {
+    //   try {
+    //     const token0 = await createToken("a", "a", "18", "10000000000");
+    //     console.log("token0: ", token0);
+    //     this.setState({ token0 });
+    //   } catch (err) {
+    //     console.log("err: ", err);
+    //   }
+    // };
+    // createToken1 = async () => {
+    //   try {
+    //     const token1 = await createToken("b", "b", "18", "50000000000");
+    //     console.log("token1: ", token1);
+    //     this.setState({ token1 });
+    //   } catch (err) {
+    //     console.log("err: ", err);
+    //   }
+    // };
+    // createPair = async () => {
+    //   try {
+    //     const pair = await createTokenPair(
+    //       this.state.token0.toString(),
+    //       this.state.token1.toString()
+    //     );
+    //     console.log("pair: ", pair);
+    //   } catch (err) {
+    //     console.log("err: ", err);
+    //   }
+    // };
+    // getpair = async () => {
+    //   try {
+    //     const val1 = await getPair(this.state.token0, this.state.token1);
+    //     console.log("val1: ", val1);
+    //     this.setState({ pair: val1[0] });
+    //     const val2 = await getAllTokenPairs();
+    //     console.log("val2: ", val2);
+    //   } catch (err) {
+    //     console.log("err: ", err);
+    //   }
+    // };
+    // approveTokens = async () => {
+    //   try {
+    //     const val1 = await approveToken(
+    //       this.state.token0.toString(),
+    //       "DSWAP_CANISTER_ID",
+    //       Number.MAX_SAFE_INTEGER,
+    //       "18"
+    //     );
+    //     console.log("appr val1: ", val1);
+    //     const val2 = await approveToken(
+    //       this.state.token1.toString(),
+    //       "DSWAP_CANISTER_ID",
+    //       Number.MAX_SAFE_INTEGER,
+    //       "18"
+    //     );
+    //     console.log("appr val2: ", val2);
+    //   } catch (err) {
+    //     console.log("err: ", err);
+    //   }
+    // };
+    // checkallowance = async () => {
+    //   try {
+    //     const val = await getTokenAllowance(
+    //       this.state.token0.toString(),
+    //       "DSWAP_CANISTER_ID",
+    //       "18"
+    //     );
+    //     console.log("allowance: ", val);
+    //   } catch (err) {
+    //     console.log("err: ", err);
+    //   }
+    // };
+    // addliquidity = async () => {
+    //   try {
+    //     const val = await addLiquidity(
+    //       this.state.token0.toString(),
+    //       this.state.token1.toString(),
+    //       "1000",
+    //       "5000",
+    //       "18",
+    //       "18"
+    //     );
+    //     console.log("add liquidity: ", val);
+    //   } catch (err) {
+    //     console.log("err: ", err);
+    //   }
+    // };
+    // getlpbalance = async () => {
+    //   try {
+    //     const val = await getLpBalance(
+    //       this.state.pair.id,
+    //       localStorage.getItem("dfinance_current_user")
+    //     );
+    //     console.log("lp balance: ", val.toString());
+    //   } catch (err) {
+    //     console.log("err: ", err);
+    //   }
+    // };
+    // removeliquidity = async () => {
+    //   try {
+    //     const val = await removeLiquidity(
+    //       this.state.token0.toString(),
+    //       this.state.token1.toString(),
+    //       "1"
+    //     );
+    //     console.log("remove liquidity: ", val);
+    //   } catch (err) {
+    //     console.log("err: ", err);
+    //   }
+    // };
+    // gettokenbyid = () => {
+    //   dtoken
+    //     .getTokenInfoById(new BigNumber("0"))
+    //     .then((res) => {
+    //       console.log("get token by id", res);
+    //     })
+    //     .catch((err) => {
+    //       console.log("get token by id err", err);
+    //     });
+    // };
+    const selected = react_redux_1.useSelector((state) => state.selected);
+    const accounts = react_redux_1.useSelector((state) => state.accounts);
+    const test = async () => {
+        const rosettaAPI = new rosetta_1.default();
+        rosettaAPI
+            .getAccountBalance("96d595f82c7fb7d19b6760be330404b7f2e0c3428523ed7a18d56a389929baae")
+            .then((res) => console.log("res1 : ", (Number(res) / 10 ** 8).toString()))
+            .catch((err) => console.log("err1 : ", err));
+        rosettaAPI
+            .getAccountBalance("dd81336dbfef5c5870e84b48405c7b229c07ad999fdcacb85b9b9850bd60766f")
+            .then((res) => console.log("res2 : ", (Number(res) / 10 ** 8).toString()))
+            .catch((err) => console.log("err2 : ", err));
+        rosettaAPI
+            .getTransactionsByAccount("dd81336dbfef5c5870e84b48405c7b229c07ad999fdcacb85b9b9850bd60766f")
+            .then((res) => console.log("res3 : ", res))
+            .catch((err) => console.log("err3 : ", err));
+        const user = func_1.getSelectedAccount();
+        if (!user)
+            return alert("CONNECT WALLET PLEASE");
+        const token1 = {
+            name: "a",
+            symbol: "a",
+            totalSupply: 100000000,
+            decimals: 4,
+            canisterId: "",
+        };
+        const token2 = {
+            name: "b",
+            symbol: "b",
+            totalSupply: 200000000,
+            decimals: 4,
+            canisterId: "",
+        };
+        try {
+            let t1 = await token_1.createToken(token1.name, token1.symbol, 
+            // token1.decimals.toString(),
+            BigInt(token1.decimals), 
+            // token1.totalSupply.toString()
+            BigInt(token1.totalSupply));
+            token1.canisterId = t1;
+            console.log("t1: ", t1);
+            // let t2 = await createToken(
+            //   token2.name,
+            //   token2.symbol,
+            //   token2.decimals.toString(),
+            //   token2.totalSupply.toString()
+            // );
+            // token2.canisterId = t2;
+            // console.log("t2: ", t2);
+            // console.log("all token list:");
+            // console.log(await getAllTokens());
+            // console.log("user's token list:");
+            // console.log(
+            //   await getTokensByUser(Principal.fromText(selected.principal))
+            // );
+            // console.log("balance:");
+            console.log(await token_1.getDTokenBalance(token1.canisterId, token1.decimals.toString()));
+            // console.log(await getDTokenBalance(token2.canisterId, token2.decimals.toString()));
+            // console.log("transfer");
+            // console.log(
+            //   await transferDToken(
+            //     token1.canisterId,
+            //     selected.principal,
+            //     "100",
+            //     token1.decimals
+            //   )
+            // );
+            // console.log("create token pair");
+            // console.log(await createTokenPair(token1.canisterId, token2.canisterId));
+            // console.log("get pair");
+            // const pair = await getPair(token1.canisterId, token2.canisterId);
+            // console.log(pair);
+            // console.log("get all pair");
+            // console.log(await getAllTokenPairs());
+            // console.log("approve token1 and  token2");
+            // console.log(
+            //   await approveToken(
+            //     token1.canisterId,
+            //     "rrkah-fqaaa-aaaaa-aaaaq-cai",
+            //     "12000",
+            //     token1.decimals
+            //   )
+            // );
+            // console.log(
+            //   await approveToken(
+            //     token2.canisterId,
+            //     "rrkah-fqaaa-aaaaa-aaaaq-cai",
+            //     "12000",
+            //     token2.decimals
+            //   )
+            // );
+            // console.log("token allowance");
+            // console.log(
+            //   await getTokenAllowance(
+            //     token1.canisterId,
+            //     "rrkah-fqaaa-aaaaa-aaaaq-cai",
+            //     token1.decimals
+            //   )
+            // );
+            // console.log(
+            //   await getTokenAllowance(
+            //     token2.canisterId,
+            //     "rrkah-fqaaa-aaaaa-aaaaq-cai",
+            //     token2.decimals
+            //   )
+            // );
+            // console.log("add liquidity");
+            // console.log(
+            //   await addLiquidity(
+            //     token1.canisterId,
+            //     token2.canisterId,
+            //     "1200",
+            //     "1200",
+            //     token1.decimals,
+            //     token2.decimals
+            //   )
+            // );
+            // console.log("swap");
+            // console.log(
+            //   await swapToken(
+            //     token1.canisterId,
+            //     token2.canisterId,
+            //     "100",
+            //     "0",
+            //     token1.decimals,
+            //     token2.decimals
+            //   )
+            // );
+            // console.log("lp balance: ");
+            // console.log(await getLpBalance(pair[0].id, user.principal));
+            // console.log("remove lp");
+            // console.log(
+            //   await removeLiquidity(token1.canisterId, token2.canisterId, "0.01")
+            // );
+        }
+        catch (err) {
+            console.log("test err: ", err);
+        }
+    };
+    return (jsx_runtime_1.jsx("div", { children: jsx_runtime_1.jsx("button", Object.assign({ onClick: test }, { children: "Click to Run" }), void 0) }, void 0));
+};
+exports.default = Test;
 
 
 /***/ }),
@@ -99734,7 +100052,7 @@ const transferICP = (
       memo: memo ? Number(BigInt(memo)) : 0,
       from_subaccount: [from_sub],
       created_at_time: [],
-      amount,
+      amount: { e8s: Number(amount) },
     };
     (await ledgerActor())
       .send_dfx(args)
@@ -99790,7 +100108,7 @@ const topupCycles = async (amount, canisterPrincipalString) => {
         memo: BigInt(0x50555054),
         from_subaccount: [],
         created_at_time: [],
-        amount,
+        amount: { e8s: Number(amount) },
       });
       await ledger.notify_dfx({
         to_canister: minting_id,
@@ -99801,10 +100119,7 @@ const topupCycles = async (amount, canisterPrincipalString) => {
       });
       resolve({ status: 1 });
     } catch (err) {
-      reject({
-        status: 0,
-        err,
-      });
+      reject(err);
     }
   });
   return promise;

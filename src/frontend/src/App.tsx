@@ -17,6 +17,7 @@ import { DelegationIdentity } from "@dfinity/identity";
 import { Identity } from "@dfinity/identity/node_modules/@dfinity/agent";
 import { JsonnableEd25519KeyIdentity } from "@dfinity/identity/lib/cjs/identity/ed25519";
 import AccountModal from "./components/AuthRelated/AccountModal";
+import Test from "./components/Test";
 import "./App.css";
 
 interface Props extends RouteComponentProps {}
@@ -186,6 +187,7 @@ const App = (props: Props) => {
           <Route path="/DLend" exact render={() => <ComingSoon />} /> 
           <Route path="/newtoken" exact render={() => <TokenIssueForm />} /> */}
           <Route path="/swap" render={() => <ComingSoon />} />
+          <Route path="/test" render={() => <Test />} />
         </>
       )}
       {showAccountModal &&
